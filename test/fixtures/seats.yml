@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 1
+  area: "Beach 1"
+
+two:
+  number: 2
+  area: "Beach 2"
