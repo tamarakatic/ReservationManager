@@ -3,7 +3,7 @@ class CreateDrinks < ActiveRecord::Migration[5.0]
     create_table :drinks do |t|
       t.string :name
       t.text :description
-      t.decimal :price
+      t.decimal :price, precision: 8, scale: 2
 
       t.timestamps
     end
