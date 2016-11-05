@@ -2,8 +2,8 @@
 
 one:
   number: 1
-  type: 
+  area: "Beach 1"
 
 two:
-  number: 1
-  type: 
+  number: 2
+  area: "Beach 2"
