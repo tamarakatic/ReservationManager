@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105171714) do
+ActiveRecord::Schema.define(version: 20161105175345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,16 +19,20 @@ ActiveRecord::Schema.define(version: 20161105171714) do
     t.string   "name"
     t.text     "description"
     t.decimal  "price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "restaurant_id"
+    t.index ["restaurant_id"], name: "index_drinks_on_restaurant_id", using: :btree
   end
 
   create_table "foods", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.decimal  "price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "restaurant_id"
+    t.index ["restaurant_id"], name: "index_foods_on_restaurant_id", using: :btree
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -41,8 +45,13 @@ ActiveRecord::Schema.define(version: 20161105171714) do
   create_table "seats", force: :cascade do |t|
     t.integer  "number"
     t.string   "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "restaurant_id"
+    t.index ["restaurant_id"], name: "index_seats_on_restaurant_id", using: :btree
   end
 
+  add_foreign_key "drinks", "restaurants"
+  add_foreign_key "foods", "restaurants"
+  add_foreign_key "seats", "restaurants"
 end
