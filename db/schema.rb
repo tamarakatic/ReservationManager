@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(version: 20161105175345) do
   create_table "foods", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.decimal  "price"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.decimal  "price",         precision: 8, scale: 2
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "restaurant_id"
     t.index ["restaurant_id"], name: "index_foods_on_restaurant_id", using: :btree
   end
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20161105175345) do
 
   create_table "seats", force: :cascade do |t|
     t.integer  "number"
-    t.string   "type"
+    t.string   "area"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "restaurant_id"
