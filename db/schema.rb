@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111201207) do
+ActiveRecord::Schema.define(version: 20161111212921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,8 +72,10 @@ ActiveRecord::Schema.define(version: 20161111201207) do
     t.integer  "clothing_size"
     t.date     "birth_date"
     t.float    "shoe_size"
+    t.integer  "manager_id"
     t.index ["confirmation_token"], name: "index_employees_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_employees_on_email", unique: true, using: :btree
+    t.index ["manager_id"], name: "index_employees_on_manager_id", using: :btree
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true, using: :btree
   end
 
@@ -178,6 +180,7 @@ ActiveRecord::Schema.define(version: 20161111201207) do
   end
 
   add_foreign_key "drinks", "restaurants"
+  add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
   add_foreign_key "providers", "managers"
   add_foreign_key "seats", "restaurants"
