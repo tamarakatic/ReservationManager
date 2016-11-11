@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :system_managers
   resources :seats
   resources :drinks
   resources :foods
