@@ -1,6 +1,6 @@
-class DeviseCreateEmpolyees < ActiveRecord::Migration[5.0]
+class DeviseCreateEmployees < ActiveRecord::Migration[5.0]
   def change
-    create_table :empolyees do |t|
+    create_table :employees do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
@@ -20,10 +20,10 @@ class DeviseCreateEmpolyees < ActiveRecord::Migration[5.0]
       t.inet     :last_sign_in_ip
 
       ## Confirmable
-       t.string   :confirmation_token
-       t.datetime :confirmed_at
-       t.datetime :confirmation_sent_at
-       t.string   :unconfirmed_email # Only if using reconfirmable
+      t.string   :confirmation_token
+      t.datetime :confirmed_at
+      t.datetime :confirmation_sent_at
+      t.string   :unconfirmed_email # Only if using reconfirmable
 
       ## Lockable
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
@@ -34,9 +34,9 @@ class DeviseCreateEmpolyees < ActiveRecord::Migration[5.0]
       t.timestamps null: false
     end
 
-    add_index :empolyees, :email,                unique: true
-    add_index :empolyees, :reset_password_token, unique: true
-    add_index :empolyees, :confirmation_token,   unique: true
-    # add_index :empolyees, :unlock_token,         unique: true
+    add_index :employees, :email,                unique: true
+    add_index :employees, :reset_password_token, unique: true
+    add_index :employees, :confirmation_token,   unique: true
+    # add_index :employees, :unlock_token,         unique: true
   end
 end

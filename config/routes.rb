@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :empolyees
+  devise_for :employees
   devise_for :system_managers
   resources :seats
   resources :drinks
