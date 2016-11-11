@@ -7,7 +7,9 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
-      <th colspan="3"></th>
+      <th>Food</th>
+      <th>Drink</th>
+      <th>Seat</th>
     </tr>
   </thead>
 
@@ -16,6 +18,9 @@
       <tr>
         <td><%= restaurant.title %></td>
         <td><%= restaurant.description %></td>
+        <td><%= restaurant.foods.first.name %></td>
+        <td><%= restaurant.drinks.first.name %></td>
+        <td><%= restaurant.seats.first.number %></td>
         <td><%= link_to 'Show', restaurant %></td>
         <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
         <td><%= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
