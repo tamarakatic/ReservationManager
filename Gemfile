@@ -51,3 +51,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Use devise for user authentication
 gem 'devise'
+
+# Use validates_timeliness for date validations
+gem 'validates_timeliness', '~> 4.0'
+# Use date_validator to validate string valude for the date
+gem 'date_validator'
