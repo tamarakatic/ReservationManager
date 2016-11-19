@@ -54,5 +54,5 @@ gem 'devise'
 
 # Use validates_timeliness for date validations
 gem 'validates_timeliness', '~> 4.0'
-# Use date_validator to validate string valude for the date
+# Use date_validator to validate string value for the date
 gem 'date_validator'
