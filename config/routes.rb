@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   resources :drinks
   resources :foods
   resources :restaurants
+
+  root 'landing_page#index'
 end
