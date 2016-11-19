@@ -85,5 +85,37 @@ RSpec.describe Employee, type: :model do
         expect(employee).to be_valid
       end
     end
+
+    context 'with blank firstname' do
+      it 'is invalid' do
+        employee.firstname = '    '
+        expect(employee).to_not be_valid
+        expect(employee.errors[:firstname]).to include("can't be blank")
+      end
+    end
+
+    context 'with blank lastname' do
+      it 'is invalid' do
+        employee.lastname = '    '
+        expect(employee).to_not be_valid
+        expect(employee.errors[:lastname]).to include("can't be blank")
+      end
+    end
+
+    context 'with blank shoe_size' do
+      it 'is invalid' do
+        employee.shoe_size = '    '
+        expect(employee).to_not be_valid
+        expect(employee.errors[:shoe_size]).to include("can't be blank")
+      end
+    end
+
+    context 'with blank birth_date' do
+      it 'is invalid' do
+        employee.birth_date = '    '
+        expect(employee).to_not be_valid
+        expect(employee.errors[:birth_date]).to include("can't be blank")
+      end
+    end
   end
 end
