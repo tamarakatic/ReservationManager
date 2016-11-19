@@ -34,6 +34,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5'
   gem 'shoulda-matchers', '~> 3.1'
+  gem 'factory_girl_rails'
 end
 
 group :development do
@@ -50,3 +51,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Use devise for user authentication
 gem 'devise'
+
+# Use validates_timeliness for date validations
+gem 'validates_timeliness', '~> 4.0'
+# Use date_validator to validate string value for the date
+gem 'date_validator'
