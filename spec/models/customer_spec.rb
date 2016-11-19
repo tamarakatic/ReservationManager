@@ -59,7 +59,7 @@ RSpec.describe Customer, type: :model do
 
     context 'with blank firstname' do
       it 'is invalid' do
-        customer.firstname = ''
+        customer.firstname = '    '
         expect(customer).to_not be_valid
         expect(customer.errors).to include("Firstname can't be blank")
       end
@@ -67,7 +67,7 @@ RSpec.describe Customer, type: :model do
 
     context 'with blank lastname' do
       it 'is invalid' do
-        customer.lastname = ''
+        customer.lastname = '    '
         expect(customer).to_not be_valid
         expect(customer.errors).to include("Lastname can't be blank")
       end
