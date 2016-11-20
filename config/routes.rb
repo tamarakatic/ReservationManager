@@ -9,4 +9,16 @@ Rails.application.routes.draw do
   resources :drinks
   resources :foods
   resources :restaurants
+
+  devise_scope :manager do
+    authenticated :manager do
+      root 'manager#index', as: :manager_home
+    end
+
+    unauthenticated do
+      root 'landing_page#index'
+    end
+  end
+
+  root 'landing_page#index'
 end
