@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ManagerController, type: :controller do
+RSpec.describe ManagerHomeController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do

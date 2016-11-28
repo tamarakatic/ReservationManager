@@ -1,3 +1,4 @@
+
 Rails.application.routes.draw do
   devise_for :employees
   devise_for :system_managers
@@ -12,7 +13,7 @@ Rails.application.routes.draw do
 
   devise_scope :manager do
     authenticated :manager do
-      root 'manager#index', as: :manager_home
+      root 'home_page/manager_home#index'
     end
 
     unauthenticated do
