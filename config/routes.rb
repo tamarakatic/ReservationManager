@@ -1,5 +1,9 @@
 
 Rails.application.routes.draw do
+  namespace :home_page do
+    get 'customer_home/index'
+  end
+
   devise_for :employees
   devise_for :system_managers
   devise_for :customers
