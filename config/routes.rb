@@ -1,6 +1,8 @@
 
 Rails.application.routes.draw do
-  devise_for :employees
+  devise_for :employees, controllers: { sessions: 'employees/sessions',
+  registrations: 'employees/registrations' }
+
   devise_for :system_managers
   devise_for :customers
   devise_for :managers
@@ -15,6 +17,12 @@ Rails.application.routes.draw do
     authenticated :manager do
       root 'home_page/manager_home#index'
     end
+
+  devise_scope :system_manager do
+    authenticated :system_manager do
+      root 'home_page/system_manager#index'
+    end
+  end
 
     unauthenticated do
       root 'landing_page#index'
