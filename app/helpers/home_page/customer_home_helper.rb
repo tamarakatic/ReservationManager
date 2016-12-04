@@ -1,0 +1,2 @@
+module HomePage::CustomerHomeHelper
+end
