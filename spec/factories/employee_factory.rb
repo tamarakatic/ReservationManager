@@ -9,6 +9,7 @@ FactoryGirl.define do
     email 'pera@gmail.com'
     password 'peraperic'
     password_confirmation 'peraperic'
+    confirmed_at Time.now
     manager
   end
 end

@@ -1,4 +1,2 @@
-module HomePage
-  module EmployeeHomeHelper
-  end
+module HomePage::EmployeeHomeHelper
 end
