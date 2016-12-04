@@ -56,3 +56,5 @@ gem 'devise'
 gem 'validates_timeliness', '~> 4.0'
 # Use date_validator to validate string value for the date
 gem 'date_validator'
+# Friendship model gem
+gem 'has_friendship'

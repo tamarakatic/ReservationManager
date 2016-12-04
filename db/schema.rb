@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111212921) do
+ActiveRecord::Schema.define(version: 20161204183604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,16 @@ ActiveRecord::Schema.define(version: 20161111212921) do
     t.datetime "updated_at",                            null: false
     t.integer  "restaurant_id"
     t.index ["restaurant_id"], name: "index_foods_on_restaurant_id", using: :btree
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.string   "friendable_type"
+    t.integer  "friendable_id"
+    t.integer  "friend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "blocker_id"
+    t.integer  "status"
   end
 
   create_table "managers", force: :cascade do |t|
