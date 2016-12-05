@@ -4,8 +4,27 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.label :firstname %><br />
+    <%= f.text_field :firstname %>
+  </div>
+
+  <div class="field">
+    <%= f.label :lastname %><br />
+    <%= f.text_field :lastname %>
+  </div>
+  <div class="field">
+    <%= f.label :birth_date %><br />
+    <%= f.date_select :birth_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label :shoe_size %><br />
+    <%= select_tag :shoe_size, options_for_select((35..49).to_a.map {|n| n.to_f}, selected: @employee.shoe_size) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :clothing_size %><br />
+    <%= f.select(:clothing_size, Employee.clothing_sizes.keys.map {|size| [size.titleize,size]}) %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
