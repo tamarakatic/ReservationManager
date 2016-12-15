@@ -1,6 +1,7 @@
 class Manager < ApplicationRecord
   has_many :providers, dependent: :destroy
   has_many :employees, dependent: :destroy
+  belongs_to :restaurant
 
   validates :firstname, presence: true,
                         length: { in: 2..30 },
