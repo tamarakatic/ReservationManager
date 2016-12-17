@@ -14,6 +14,11 @@ Rails.application.routes.draw do
     root 'home_page/customer_home#index'
   end
 
+  post 'home_page/customer_home/send_friend_request',    as: 'send_friend_request'
+  post 'home_page/customer_home/accept_friend_request',  as: 'accept_friend_request'
+  post 'home_page/customer_home/decline_friend_request', as: 'decline_friend_request'
+  delete 'home_page/customer_home/remove_friend',        as: 'remove_friend'
+
   authenticated :employee do
     root 'home_page/employee_home#index'
   end
