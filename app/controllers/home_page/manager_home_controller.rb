@@ -1,8 +1,6 @@
-module HomePage
-  class ManagerHomeController < ApplicationController
-    before_filter :authenticate_manager!
+class HomePage::ManagerHomeController < ApplicationController
+  before_action :authenticate_manager!
 
-    def index
-    end
+  def index
   end
 end
