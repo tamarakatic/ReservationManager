@@ -4,5 +4,6 @@ module HomePage
 
     def index
     end
+
   end
 end
