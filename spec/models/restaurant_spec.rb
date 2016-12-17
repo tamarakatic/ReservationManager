@@ -5,6 +5,7 @@ RSpec.describe Restaurant, type: :model do
     it { should have_many(:drinks).dependent(:destroy) }
     it { should have_many(:foods).dependent(:destroy) }
     it { should have_many(:seats).dependent(:destroy) }
+    it { should belong_to(:manager) }
   end
 
   describe 'Validations' do
@@ -32,6 +33,13 @@ RSpec.describe Restaurant, type: :model do
     context 'with missing description' do
       it 'is invalid' do
         restaurant.description = nil
+        expect(restaurant).to_not be_valid
+      end
+    end
+
+    context 'with missing manager' do
+      it 'is invalid' do
+        restaurant.manager = nil
         expect(restaurant).to_not be_valid
       end
     end
@@ -72,5 +80,6 @@ RSpec.describe Restaurant, type: :model do
         expect(restaurant.errors[:description]).to include("can't be blank")
       end
     end
+
   end
 end

@@ -18,9 +18,9 @@
       <tr>
         <td><%= restaurant.title %></td>
         <td><%= restaurant.description %></td>
-        <td><%= restaurant.foods.first.name %></td>
-        <td><%= restaurant.drinks.first.name %></td>
-        <td><%= restaurant.seats.first.number %></td>
+        <td><%= restaurant.foods.first.name unless restaurant.foods.empty? %></td>
+        <td><%= restaurant.drinks.first.name unless restaurant.drinks.empty? %></td>
+        <td><%= restaurant.seats.first.number unless restaurant.seats.empty? %></td>
         <td><%= link_to 'Show', restaurant %></td>
         <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
         <td><%= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' } %></td>

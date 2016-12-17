@@ -8,7 +8,7 @@ Rails.application.routes.draw do
                                         registrations: 'employees/registrations' }
   devise_for :system_managers
   devise_for :customers
-  devise_for :managers
+  devise_for :managers, controllers: { sessions: 'managers/sessions', registrations: 'managers/registrations' }
   devise_for :providers
 
   resources :seats
@@ -16,14 +16,16 @@ Rails.application.routes.draw do
   resources :foods
   resources :restaurants
 
-  devise_scope :manager do
-    authenticated :manager do
-      root 'home_page/manager_home#index'
-    end
+  authenticated :employee do
+    root 'home_page/employee_home#index'
+  end
+  
+  authenticated :manager do
+    root 'home_page/manager_home#index'
+  end
 
-    unauthenticated do
-      root 'landing_page#index'
-    end
+  authenticated :system_manager do
+    root 'home_page/system_manager_home#index'
   end
 
   devise_scope :system_manager do
