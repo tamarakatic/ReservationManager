@@ -1,0 +1,8 @@
+<h1>Employee Profile</h1>
+</br>
+<h3> Welcome <%= current_employee.firstname %> </h1>
+
+<%= link_to 'Edit profile', edit_employee_registration_path %>
+<br>
+<%= link_to 'Log out', destroy_employee_session_path, method: :delete %>
+

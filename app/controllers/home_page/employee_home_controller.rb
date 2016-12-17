@@ -3,4 +3,5 @@ class HomePage::EmployeeHomeController < ApplicationController
 
   def index
   end
+
 end
