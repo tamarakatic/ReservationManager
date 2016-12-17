@@ -10,6 +10,7 @@
           <%= "#{friend.firstname} #{friend.lastname}" %>
           <%= button_to 'Remove', remove_friend_path,
             method: :delete, params: { friend_id: friend.id } %>
+
         </span>
       </li>
     <% end %>
@@ -25,7 +26,6 @@
         <span>
           <%= "#{user.firstname} #{user.lastname}" %>
           <%= button_to 'Add', send_friend_request_path, params: { friend_id: user.id } %>
-          <%= button_to 'Block' %>
         </span>
       </li>
     <% end %>
@@ -42,6 +42,14 @@
           <%= "#{requested_friend.firstname} #{requested_friend.lastname}" %>
           <%= button_to 'Accept', accept_friend_request_path, params: { friend_id: requested_friend.id } %>
           <%= button_to 'Decline', decline_friend_request_path, params: { friend_id: requested_friend.id } %>
+
+          <%# TODO: Friend can block only user which requested frendship %>
+          <% unless blocked_friend?(friend.id) %>
+            <%= button_to 'Block', block_friend_path, params: { friend_id: friend.id } %>
+          <% else %>
+            <%= button_to 'Unblock', unblock_friend_path, params: { friend_id: friend.id } %>
+          <% end %>
+
         </span>
     </li>
   <% end %>

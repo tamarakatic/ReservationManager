@@ -26,4 +26,15 @@ class HomePage::CustomerHomeController < ApplicationController
     requested_friend = Customer.find(params[:friend_id])
     current_customer.remove_friend(requested_friend)
   end
+
+  def block_friend
+    requested_friend = Customer.find(params[:friend_id])
+    current_customer.block_friend(requested_friend)
+  end
+
+  def unblock_friend
+    requested_friend = Customer.find(params[:friend_id])
+    current_customer.unblock_friend(requested_friend)
+  end
+
 end
