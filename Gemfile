@@ -60,3 +60,7 @@ gem 'date_validator'
 gem 'has_friendship'
 # Require Bootstrap 4
 gem 'bootstrap', '~> 4.0.0.alpha5'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
