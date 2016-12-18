@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161217144755) do
+ActiveRecord::Schema.define(version: 20161218190730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,11 +42,9 @@ ActiveRecord::Schema.define(version: 20161217144755) do
   create_table "drinks", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.decimal  "price",         precision: 8, scale: 2
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.integer  "restaurant_id"
-    t.index ["restaurant_id"], name: "index_drinks_on_restaurant_id", using: :btree
+    t.decimal  "price",       precision: 8, scale: 2
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "employees", force: :cascade do |t|
@@ -82,11 +80,9 @@ ActiveRecord::Schema.define(version: 20161217144755) do
   create_table "foods", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.decimal  "price",         precision: 8, scale: 2
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.integer  "restaurant_id"
-    t.index ["restaurant_id"], name: "index_foods_on_restaurant_id", using: :btree
+    t.decimal  "price",       precision: 8, scale: 2
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "managers", force: :cascade do |t|
@@ -145,16 +141,20 @@ ActiveRecord::Schema.define(version: 20161217144755) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "manager_id"
+    t.integer  "food_id"
+    t.integer  "drink_id"
+    t.integer  "seat_id"
+    t.index ["drink_id"], name: "index_restaurants_on_drink_id", using: :btree
+    t.index ["food_id"], name: "index_restaurants_on_food_id", using: :btree
     t.index ["manager_id"], name: "index_restaurants_on_manager_id", using: :btree
+    t.index ["seat_id"], name: "index_restaurants_on_seat_id", using: :btree
   end
 
   create_table "seats", force: :cascade do |t|
     t.integer  "number"
     t.string   "area"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.integer  "restaurant_id"
-    t.index ["restaurant_id"], name: "index_seats_on_restaurant_id", using: :btree
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "system_managers", force: :cascade do |t|
@@ -181,10 +181,10 @@ ActiveRecord::Schema.define(version: 20161217144755) do
     t.index ["reset_password_token"], name: "index_system_managers_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "drinks", "restaurants"
   add_foreign_key "employees", "managers"
-  add_foreign_key "foods", "restaurants"
   add_foreign_key "providers", "managers"
+  add_foreign_key "restaurants", "drinks"
+  add_foreign_key "restaurants", "foods"
   add_foreign_key "restaurants", "managers"
-  add_foreign_key "seats", "restaurants"
+  add_foreign_key "restaurants", "seats"
 end

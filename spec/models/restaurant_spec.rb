@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Restaurant, type: :model do
   describe 'Associations' do
-    it { should have_many(:drinks).dependent(:destroy) }
-    it { should have_many(:foods).dependent(:destroy) }
-    it { should have_many(:seats).dependent(:destroy) }
+    it { should belong_to(:drink) }
+    it { should belong_to(:food) }
+    it { should belong_to(:seat) }
     it { should belong_to(:manager) }
   end
 
@@ -40,6 +40,27 @@ RSpec.describe Restaurant, type: :model do
     context 'with missing manager' do
       it 'is invalid' do
         restaurant.manager = nil
+        expect(restaurant).to_not be_valid
+      end
+    end
+
+    context 'with missing food' do
+      it 'is invalid' do
+        restaurant.food = nil
+        expect(restaurant).to_not be_valid
+      end
+    end
+
+    context 'with missing drink' do
+      it 'is invalid' do
+        restaurant.drink = nil
+        expect(restaurant).to_not be_valid
+      end
+    end
+
+    context 'with missing seat' do
+      it 'is invalid' do
+        restaurant.seat = nil
         expect(restaurant).to_not be_valid
       end
     end

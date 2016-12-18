@@ -1,7 +1,7 @@
 class Restaurant < ApplicationRecord
-  has_many :foods, dependent: :destroy
-  has_many :drinks, dependent: :destroy
-  has_many :seats, dependent: :destroy
+  belongs_to :food
+  belongs_to :drink
+  belongs_to :seat
   belongs_to :manager
 
   validates :title, uniqueness: true,
