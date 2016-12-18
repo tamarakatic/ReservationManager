@@ -89,6 +89,16 @@ ActiveRecord::Schema.define(version: 20161217144755) do
     t.index ["restaurant_id"], name: "index_foods_on_restaurant_id", using: :btree
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.string   "friendable_type"
+    t.integer  "friendable_id"
+    t.integer  "friend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "blocker_id"
+    t.integer  "status"
+  end
+
   create_table "managers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false

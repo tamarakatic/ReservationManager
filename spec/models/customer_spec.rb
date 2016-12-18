@@ -81,4 +81,46 @@ RSpec.describe Customer, type: :model do
       end
     end
   end
+
+  describe 'Friendships' do
+    let!(:user) { create(:customer) }
+    let!(:friend) { create(:customer, email: 'johndoe@gmail.com', firstname: 'John', lastname: 'Doe')}
+
+    it 'can make friend request' do
+      user.friend_request(friend)
+
+      expect(friend.requested_friends.first).to eq user
+    end
+
+    it 'can accept friend request' do
+      user.friend_request(friend)
+      expect(friend.requested_friends.first).to eq user
+
+      friend.accept_request(user)
+      expect(friend.friends_with?(user)).to be_truthy
+      expect(user.friends_with?(friend)).to be_truthy
+    end
+
+    it 'can decline friend request' do
+      user.friend_request(friend)
+      expect(friend.requested_friends.first).to eq user
+
+      friend.decline_request(user)
+      expect(friend.friends_with?(user)).to be_falsy
+    end
+
+    it 'can remove friend' do
+      user.friend_request(friend)
+      friend.accept_request(user)
+
+      expect(friend.friends_with?(user)).to be_truthy
+      expect(user.friends_with?(friend)).to be_truthy
+
+      user.remove_friend(friend)
+
+      expect(friend.friends_with?(user)).to be_falsy
+      expect(user.friends_with?(friend)).to be_falsy
+    end
+
+  end
 end

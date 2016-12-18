@@ -1,4 +1,6 @@
 class Customer < ApplicationRecord
+  has_friendship
+
   validates :firstname, :presence => true,
                         :allow_blank => false,
                         :length => { :in => 2..30 }
