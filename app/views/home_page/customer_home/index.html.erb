@@ -32,23 +32,16 @@
   </ul>
 <% end %>
 
-<% unless @requested_friends.empty? %>
+<% unless @friend_requests.empty? %>
   <h2>Requests:</h2>
 
   <ul>
-    <% @requested_friends.each do |requested_friend| %>
+    <% @friend_requests.each do |requested_friend| %>
       <li>
         <span>
           <%= "#{requested_friend.firstname} #{requested_friend.lastname}" %>
           <%= button_to 'Accept', accept_friend_request_path, params: { friend_id: requested_friend.id } %>
           <%= button_to 'Decline', decline_friend_request_path, params: { friend_id: requested_friend.id } %>
-
-          <%# TODO: Friend can block only user which requested frendship %>
-          <% unless blocked_friend?(friend.id) %>
-            <%= button_to 'Block', block_friend_path, params: { friend_id: friend.id } %>
-          <% else %>
-            <%= button_to 'Unblock', unblock_friend_path, params: { friend_id: friend.id } %>
-          <% end %>
 
         </span>
     </li>
@@ -56,4 +49,3 @@
 <% end %>
 
 <%= link_to 'Log Out', destroy_customer_session_path, method: :delete %>
-
