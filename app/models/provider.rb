@@ -10,5 +10,5 @@ class Provider < ApplicationRecord
                        allow_blank: false
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+    :recoverable, :rememberable, :trackable, :validatable, :confirmable
 end

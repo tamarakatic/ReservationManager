@@ -14,6 +14,7 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants/new
   def new
+    @managers = Manager.all
     @restaurant = Restaurant.new
   end
 
@@ -69,6 +70,6 @@ class RestaurantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def restaurant_params
-      params.require(:restaurant).permit(:title, :description)
+      params.require(:restaurant).permit(:title, :description, :manager_id)
     end
 end
