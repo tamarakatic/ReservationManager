@@ -109,25 +109,6 @@ RSpec.describe Customer, type: :model do
       expect(friend.friends_with?(user)).to be_falsy
     end
 
-    it 'can block friend' do
-      user.friend_request(friend)
-      expect(friend.requested_friends.first).to eq user
-
-      friend.block_friend(user)
-      expect(friend.blocked_friends.first).to eq user
-    end
-
-    it 'can unblock friend' do
-      user.friend_request(friend)
-      expect(friend.requested_friends.first).to eq user
-
-      friend.block_friend(user)
-      expect(friend.blocked_friends.first).to eq user
-
-      friend.unblock_friend(user)
-      expect(friend.blocked_friends).to eq []
-    end
-
     it 'can remove friend' do
       user.friend_request(friend)
       friend.accept_request(user)
