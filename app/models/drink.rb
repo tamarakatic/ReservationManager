@@ -1,5 +1,5 @@
 class Drink < ApplicationRecord
-  belongs_to :restaurant
+  has_one :restaurant
 
   validates :name, presence: true,
                    uniqueness: true,

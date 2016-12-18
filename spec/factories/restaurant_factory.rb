@@ -4,5 +4,8 @@ FactoryGirl.define do
     description "Very famous restaurant,
                 it's in top 5 restaurant in the city"
     manager
+    food
+    drink
+    seat
   end
 end

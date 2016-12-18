@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Drink, type: :model do
   describe 'Associations' do
-    it { should belong_to(:restaurant) }
+    it { should have_one(:restaurant) }
   end
 
   describe 'Validations' do
-    let!(:drink) { build(:drink, name: 'Vodka') }
+    let!(:drink) { create(:drink, name: 'Vodka') }
 
     context 'with valid attributes' do
       it 'is valid' do

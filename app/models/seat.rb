@@ -1,5 +1,5 @@
 class Seat < ApplicationRecord
-  belongs_to :restaurant
+  has_one :restaurant
 
   validates :number, presence: true,
                      uniqueness: true,
