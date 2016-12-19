@@ -1,7 +1,7 @@
 module RestaurantsHelper
 
   def managers_information
-    @managers.collect { |m| ["#{m.firstname} #{m.lastname}", m.id] }
+    @managers.reject { |m| !m.confirmed? }.collect { |m| ["#{m.firstname} #{m.lastname}", m.id] }
   end
-
+  
 end

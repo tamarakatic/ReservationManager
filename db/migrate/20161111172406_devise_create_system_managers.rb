@@ -19,17 +19,11 @@ class DeviseCreateSystemManagers < ActiveRecord::Migration[5.0]
       t.inet     :current_sign_in_ip
       t.inet     :last_sign_in_ip
 
-      ## Confirmable
-      t.string   :confirmation_token
-      t.datetime :confirmed_at
-      t.datetime :confirmation_sent_at
-      t.string   :unconfirmed_email
-
       t.timestamps null: false
     end
 
     add_index :system_managers, :email,                unique: true
     add_index :system_managers, :reset_password_token, unique: true
-    add_index :system_managers, :confirmation_token,   unique: true
+
   end
 end
