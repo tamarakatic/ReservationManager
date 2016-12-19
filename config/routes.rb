@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get 'system_managers/edit' => 'devise/registrations#edit', :as => 'edit_system_manager_registration'
     put 'system_managers' => 'devise/registrations#update', :as => 'system_manager_registration'
   end
-  
+
   devise_for :customers
   devise_for :providers
 
