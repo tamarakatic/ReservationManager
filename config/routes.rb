@@ -5,7 +5,12 @@ Rails.application.routes.draw do
   devise_for :managers, controllers: { sessions: 'managers/sessions',
                                        registrations: 'managers/registrations' }
 
-  devise_for :system_managers
+  devise_for :system_managers, controllers: { sessions: 'managers/sessions'}
+  as :system_manager do
+    get 'system_managers/edit' => 'devise/registrations#edit', :as => 'edit_system_manager_registration'
+    put 'system_managers' => 'devise/registrations#update', :as => 'system_manager_registration'
+  end
+  
   devise_for :customers
   devise_for :providers
 

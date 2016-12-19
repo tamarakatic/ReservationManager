@@ -8,6 +8,6 @@ class SystemManager < ApplicationRecord
                        length: { in: 2..30 },
                        allow_blank: false
 
-  devise :database_authenticatable, :registerable, :confirmable,
+  devise :database_authenticatable,
     :recoverable, :rememberable, :trackable, :validatable
 end
