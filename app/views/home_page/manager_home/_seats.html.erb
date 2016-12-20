@@ -5,6 +5,7 @@
       <b>Number:</b> <%= seat.number %>
       <b>Area:</b> <%= seat.area %>
       <%= link_to 'Edit', edit_seat_path(seat), class: 'btn btn-warning btn-sm', method: :get %>
+      <%= link_to 'Destroy', seat, class: 'btn btn-warning btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
     </li>
     <% end %>
 </ul>

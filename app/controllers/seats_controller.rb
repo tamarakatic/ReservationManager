@@ -56,7 +56,7 @@ class SeatsController < ApplicationController
   def destroy
     @seat.destroy
     respond_to do |format|
-      format.html { redirect_to seats_url, notice: 'Seat was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Seat was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,6 @@ class SeatsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def seat_params
-      params.require(:seat).permit(:number, :type)
+      params.require(:seat).permit(:number, :area, :restaurant_id)
     end
 end

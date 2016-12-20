@@ -56,7 +56,7 @@ class DrinksController < ApplicationController
   def destroy
     @drink.destroy
     respond_to do |format|
-      format.html { redirect_to drinks_url, notice: 'Drink was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Drink was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,6 @@ class DrinksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def drink_params
-      params.require(:drink).permit(:name, :description, :price)
+      params.require(:drink).permit(:name, :description, :price, :restaurant_id)
     end
 end

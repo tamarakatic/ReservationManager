@@ -4,6 +4,7 @@
     <li>
       <%= drink.name %>
       <%= link_to 'Edit', edit_drink_path(drink), class: 'btn btn-warning btn-sm', method: :get %>
+      <%= link_to 'Destroy', drink, class: 'btn btn-warning btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
     </li>
     <% end %>
 </ul>
