@@ -1,0 +1,10 @@
+<h2>Seats configuration    <%= link_to 'Add', new_seat_path, class: "btn btn-danger btn-sm", method: :get %></h2>
+<ul>
+  <% current_manager.restaurant.seats.each do |seat| %>
+    <li>
+      <b>Number:</b> <%= seat.number %>
+      <b>Area:</b> <%= seat.area %>
+      <%= link_to 'Edit', edit_seat_path(seat), class: 'btn btn-warning btn-sm', method: :get %>
+    </li>
+    <% end %>
+</ul>
