@@ -4,6 +4,8 @@
 <%= devise_error_messages! %>
 
 <%= f.text_field :manager_id, hidden: true, value: current_manager.id %>
+<%= f.password_field :password, hidden: true, value: @generated_password %>
+<%= f.password_field :password_confirmation, hidden: true, value: @generated_password %>
 
 <div class="field">
     <%= f.label :firstname %><br/>
@@ -38,20 +40,6 @@
 <div class="field">
     <%= f.label :shoe_size %><br/>
     <%= f.select :shoe_size, options_for_select(35..49) %>
-</div>
-
-<div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %>
-        characters minimum)</em>
-    <% end %><br/>
-    <%= f.password_field :password, autocomplete: "off" %>
-</div>
-
-<div class="field">
-    <%= f.label :password_confirmation %><br/>
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
 </div>
 
 <div class="actions">
