@@ -1,5 +1,5 @@
 class Employees::RegistrationsController < Devise::RegistrationsController
-  before_action :configure_sign_up_params #, only: [:create]
+  before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
   include ApplicationHelper
@@ -41,11 +41,11 @@ class Employees::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-   protected
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-     devise_parameter_sanitizer.permit(:account_update, keys: [:firstname, :lastname, :shoe_size, :birth_date, :clothing_size])
+     devise_parameter_sanitizer.permit(:account_update, keys: [:password_changed, :firstname, :lastname, :shoe_size, :birth_date, :clothing_size])
   end
 
   # The path used after sign up.
@@ -57,8 +57,6 @@ class Employees::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-
-  protected
 
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :shoe_size, :birth_date, :role, :clothing_size, :manager_id])
