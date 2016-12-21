@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Provider, type: :model do
   describe 'Associations' do
-    it { should belong_to(:manager) }
+    it { should have_many(:restaurants) }
+    it { should have_many(:offers) }
   end
 
   describe 'Validations' do
