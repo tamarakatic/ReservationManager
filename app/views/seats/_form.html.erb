@@ -11,14 +11,16 @@
     </div>
   <% end %>
 
+  <%= f.text_field :restaurant_id, hidden: true, value: current_manager.restaurant.id %>
+
   <div class="field">
     <%= f.label :number %>
     <%= f.number_field :number %>
   </div>
 
   <div class="field">
-    <%= f.label :type %>
-    <%= f.text_field :type %>
+    <%= f.label :area %>
+    <%= f.text_field :area %>
   </div>
 
   <div class="actions">

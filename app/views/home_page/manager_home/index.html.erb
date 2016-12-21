@@ -4,10 +4,17 @@
     <%= current_manager.firstname %></h1>
 </br>
 
-<%= button_to 'New Employee', new_employee_registration_path, method: :get %>
-
+<br /><br />
+<%= button_to 'New Employee', new_employee_registration_path, class: "btn btn-danger btn-lg", method: :get %>
+<br />
+<h2>Employees</h2>
 <ul>
 <% current_manager.employees.each do |employee| %>
 <li><%= employee.firstname %></li>
 <% end %>
 </ul>
+
+<%= render partial: 'restaurant' %>
+<%= render partial: 'foods' %>
+<%= render partial: 'drinks' %>
+<%= render partial: 'seats' %>
