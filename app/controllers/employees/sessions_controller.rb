@@ -7,9 +7,15 @@ class Employees::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    employee = super
+
+    unless resource.type.nil?
+      sign_in(resource.type.underscore, resource.type.constantize.send(:find, resource.id))
+    end
+
+    employee
+  end
 
   # DELETE /resource/sign_out
   # def destroy

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :employees, controllers: { sessions: 'employees/sessions',
-                                        registrations: 'employees/registrations' }
+  devise_for :employees, controllers: { sessions: 'employees/sessions' },
+                         skip: :registrations
+
+  devise_for :cooks, controllers: { registrations: 'cooks/registrations' },
+                     skip: :sessions
 
   devise_for :managers, controllers: { sessions: 'managers/sessions',
                                        registrations: 'managers/registrations' }
