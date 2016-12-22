@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221134636) do
+ActiveRecord::Schema.define(version: 20161222004047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,15 +124,6 @@ ActiveRecord::Schema.define(version: 20161221134636) do
     t.index ["reset_password_token"], name: "index_managers_on_reset_password_token", unique: true, using: :btree
   end
 
-  create_table "offers", force: :cascade do |t|
-    t.integer  "provider_id"
-    t.integer  "restaurant_id"
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
   create_table "providers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -152,15 +143,12 @@ ActiveRecord::Schema.define(version: 20161221134636) do
     t.datetime "updated_at",                          null: false
     t.string   "firstname"
     t.string   "lastname"
+    t.integer  "restaurant_id"
+    t.boolean  "password_changed"
     t.index ["confirmation_token"], name: "index_providers_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_providers_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_providers_on_reset_password_token", unique: true, using: :btree
-  end
-
-  create_table "providers_restaurants", id: false, force: :cascade do |t|
-    t.integer "restaurant_id", null: false
-    t.integer "provider_id",   null: false
-    t.index ["restaurant_id", "provider_id"], name: "index_providers_restaurants_on_restaurant_id_and_provider_id", using: :btree
+    t.index ["restaurant_id"], name: "index_providers_on_restaurant_id", using: :btree
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -169,7 +157,9 @@ ActiveRecord::Schema.define(version: 20161221134636) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "manager_id"
+    t.integer  "provider_id"
     t.index ["manager_id"], name: "index_restaurants_on_manager_id", using: :btree
+    t.index ["provider_id"], name: "index_restaurants_on_provider_id", using: :btree
   end
 
   create_table "seats", force: :cascade do |t|
@@ -203,6 +193,8 @@ ActiveRecord::Schema.define(version: 20161221134636) do
   add_foreign_key "drinks", "restaurants"
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
+  add_foreign_key "providers", "restaurants"
   add_foreign_key "restaurants", "managers"
+  add_foreign_key "restaurants", "providers"
   add_foreign_key "seats", "restaurants"
 end
