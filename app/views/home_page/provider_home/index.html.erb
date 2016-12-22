@@ -1,0 +1,7 @@
+<h1>Provider Profile</h1>
+</br>
+<h3> Welcome <%= current_provider.firstname %> </h1>
+
+<%= link_to 'Edit profile', edit_provider_registration_path %>
+<br>
+<%= link_to 'Log out', destroy_provider_session_path, method: :delete %>

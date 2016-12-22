@@ -1,5 +1,4 @@
 class Manager < ApplicationRecord
-  has_many :providers, dependent: :destroy
   has_many :employees, dependent: :destroy
   has_one :restaurant
 

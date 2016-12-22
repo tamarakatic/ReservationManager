@@ -4,13 +4,23 @@
     <%= current_manager.firstname %></h1>
 </br>
 
-<br /><br />
+<br/><br/>
 <%= button_to 'New Employee', new_employee_registration_path, class: "btn btn-danger btn-lg", method: :get %>
-<br />
+<br/>
 <h2>Employees</h2>
 <ul>
 <% current_manager.employees.each do |employee| %>
 <li><%= employee.firstname %></li>
+<% end %>
+</ul>
+
+<br/><br/>
+<%= button_to 'New Provider', new_provider_registration_path, class: "btn btn-danger btn-lg", method: :get %>
+<br/>
+<h2>Providers</h2>
+<ul>
+<% current_manager.restaurant.providers.each do |provider| %>
+<li><%= provider.firstname %></li>
 <% end %>
 </ul>
 

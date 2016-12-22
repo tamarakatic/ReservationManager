@@ -1,6 +1,6 @@
 class Provider < ApplicationRecord
-  belongs_to :manager
-
+  has_many :restaurants
+  
   validates :firstname, presence: true,
                         length: { in: 2..30 },
                         allow_blank: false

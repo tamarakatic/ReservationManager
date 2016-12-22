@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   end
 
   devise_for :customers
-  devise_for :providers
+  devise_for :providers, controllers: { sessions: 'providers/sessions',
+                                        registrations: 'providers/registrations' }
 
   resources :seats
   resources :drinks
@@ -38,6 +39,10 @@ Rails.application.routes.draw do
 
   authenticated :employee do
     root 'home_page/employee_home#index'
+  end
+
+  authenticated :provider do
+    root 'home_page/provider_home#index'
   end
 
   root 'landing_page#index'

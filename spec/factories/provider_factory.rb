@@ -6,6 +6,5 @@ FactoryGirl.define do
     password 'providerDoe'
     password_confirmation 'providerDoe'
     confirmed_at Time.now
-    manager
   end
 end
