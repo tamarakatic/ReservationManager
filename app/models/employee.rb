@@ -1,7 +1,6 @@
 class Employee < ApplicationRecord
   belongs_to :manager
 
-  enum role: %w(bartender waiter cook)
   enum clothing_size: %w(XS S M L XL XXL)
 
   validates :firstname, length: { in: 3..30 },
@@ -24,4 +23,8 @@ class Employee < ApplicationRecord
 
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  def self.types
+    %w(Bartender Cook Waiter)
+  end
 end
