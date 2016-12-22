@@ -1,0 +1,2 @@
+class Cook < Employee
+end
