@@ -3,6 +3,7 @@ class Restaurant < ApplicationRecord
   has_many :drinks, dependent: :destroy
   has_many :seats, dependent: :destroy
   has_many :providers
+  has_many :orders
   belongs_to :manager
 
   validates :title, uniqueness: true,
