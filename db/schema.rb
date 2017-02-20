@@ -165,6 +165,14 @@ ActiveRecord::Schema.define(version: 20170222215607) do
     t.index ["reset_password_token"], name: "index_managers_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "offer_items", force: :cascade do |t|
+    t.decimal  "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "offer_id"
+    t.index ["offer_id"], name: "index_offer_items_on_offer_id", using: :btree
+  end
+
   create_table "offers", force: :cascade do |t|
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -181,6 +189,8 @@ ActiveRecord::Schema.define(version: 20170222215607) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "order_id"
+    t.integer  "offer_item_id"
+    t.index ["offer_item_id"], name: "index_order_items_on_offer_item_id", using: :btree
     t.index ["order_id"], name: "index_order_items_on_order_id", using: :btree
   end
 
@@ -271,8 +281,10 @@ ActiveRecord::Schema.define(version: 20170222215607) do
   add_foreign_key "drinks", "restaurants"
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
+  add_foreign_key "offer_items", "offers"
   add_foreign_key "offers", "orders"
   add_foreign_key "offers", "providers"
+  add_foreign_key "order_items", "offer_items"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "restaurants"
   add_foreign_key "providers", "restaurants"

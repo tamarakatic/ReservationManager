@@ -12,7 +12,7 @@ RSpec.describe OrderItem, type: :model do
       it 'is valid' do
         expect(order_item).to be_valid
       end
-  end
+    end
 
     context 'with missing item' do
       it 'is invalid' do
