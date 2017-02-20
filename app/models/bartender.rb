@@ -1,0 +1,2 @@
+class Bartender < Employee
+end

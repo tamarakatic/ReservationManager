@@ -5,7 +5,14 @@
 </br>
 
 <br/><br/>
-<%= button_to 'New Employee', new_employee_registration_path, class: "btn btn-danger btn-lg", method: :get %>
+<%= button_to 'New Cook', new_employee_registration_path, :params => { :type => "Cook" },
+  class: "btn btn-danger btn-lg", method: :get %>
+<br/>
+<%= button_to 'New Bartender', new_employee_registration_path, :params => { :type => "Bartender" },
+  class: "btn btn-danger btn-lg", method: :get %>
+<br/>
+<%= button_to 'New Waiter', new_employee_registration_path, :params => { :type => "Waiter" },
+  class: "btn btn-danger btn-lg", method: :get %>
 <br/>
 <h2>Employees</h2>
 <ul>
@@ -17,7 +24,9 @@
 <br/><br/>
 <%= button_to 'New Provider', new_provider_registration_path, class: "btn btn-danger btn-lg", method: :get %>
 <br/>
+<% unless current_manager.restaurant.nil? %>
 <h2>Providers</h2>
+
 <ul>
 <% current_manager.restaurant.providers.each do |provider| %>
 <li><%= provider.firstname %></li>
@@ -28,3 +37,6 @@
 <%= render partial: 'foods' %>
 <%= render partial: 'drinks' %>
 <%= render partial: 'seats' %>
+
+<% end %>
+

@@ -6,14 +6,19 @@ class Employees::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    @employee = Employee.new(manager_id: params[:manager_id])
-    @generated_password = generate_password
+    @employee = Employee.new(:manager_id => params[:manager_id],
+                             :type => params[:type])
+    @type = params[:type]
 
     super
   end
 
   # POST /resource
   def create
+    password = generate_password
+    params[:employee][:password] = password
+    params[:employee][:password_confirmation] = password
+
     super
   end
 
@@ -45,13 +50,20 @@ class Employees::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-     devise_parameter_sanitizer.permit(:account_update, keys: [:password_changed, :firstname, :lastname, :shoe_size, :birth_date, :clothing_size])
+     devise_parameter_sanitizer.permit(:account_update, keys: [
+      :password_changed,
+      :firstname,
+      :lastname,
+      :shoe_size,
+      :birth_date,
+      :clothing_size,
+      :speciality])
   end
 
   # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_sign_up_path_for(resource)
+    root_path
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
@@ -59,6 +71,13 @@ class Employees::RegistrationsController < Devise::RegistrationsController
   # end
 
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :shoe_size, :birth_date, :role, :clothing_size, :manager_id])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [
+      :firstname,
+      :lastname,
+      :shoe_size,
+      :birth_date,
+      :clothing_size,
+      :manager_id,
+      :speciality])
   end
 end

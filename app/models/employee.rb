@@ -21,10 +21,22 @@ class Employee < ApplicationRecord
                          allow_blank: false,
                          presence: true
 
+  validate :speciality_validator
+
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
   def self.types
     %w(Bartender Cook Waiter)
+  end
+
+  private
+
+  def speciality_validator
+    unless type == "Cook"
+      errors.add(:speciality, "Can be assign only to cooks.") unless speciality.nil?
+    else
+      errors.add(:speciality, "can't be blank.") if speciality.blank?
+    end
   end
 end

@@ -118,4 +118,44 @@ RSpec.describe Employee, type: :model do
       end
     end
   end
+
+  describe '.speciality' do
+    let!(:employee) { build(:employee) }
+
+    context 'when bartender have speciality' do
+      it 'is invalid' do
+        employee.speciality = 'Testenine'
+        employee.type = "Bartender"
+        expect(employee).to_not be_valid
+        expect(employee.errors[:speciality]).to include("Only cooks can have speciality.")
+      end
+    end
+
+    context 'with waiter speciality' do
+      it 'is invalid' do
+        employee.speciality = 'Slana jela'
+        employee.type = "Waiter"
+        expect(employee).to_not be_valid
+        expect(employee.errors[:speciality]).to include("Only cooks can have speciality.")
+      end
+    end
+
+    context 'with blank cook speciality' do
+      it 'is invalid' do
+        employee.speciality = ' '
+        employee.type = "Cook"
+        expect(employee).to_not be_valid
+        expect(employee.errors[:speciality]).to include("can't be blank.")
+      end
+    end
+
+    context 'with empty cook speciality' do
+      it 'is valid' do
+        employee.speciality = nil
+        employee.type = "Cook"
+        expect(employee).to_not be_valid
+      end
+    end
+  end
+
 end

@@ -4,8 +4,6 @@
 <%= devise_error_messages! %>
 
 <%= f.text_field :manager_id, hidden: true, value: current_manager.id %>
-<%= f.password_field :password, hidden: true, value: @generated_password %>
-<%= f.password_field :password_confirmation, hidden: true, value: @generated_password %>
 
 <div class="field">
     <%= f.label :firstname %><br/>
@@ -15,11 +13,6 @@
 <div class="field">
     <%= f.label :lastname %><br/>
     <%= f.text_field :lastname, autofocus: true %>
-</div>
-
-<div class="field">
-    <%= f.label :role %><br/>
-    <%= f.select(:role, Employee.roles.keys.map {|role| [role.titleize,role]}) %>
 </div>
 
 <div class="field">
@@ -42,9 +35,16 @@
     <%= f.select :shoe_size, options_for_select(35..49) %>
 </div>
 
-<div class="actions">
-    <%= f.submit "Sign up" %>
-</div>
+<% if @type == "Cook" %>
+    <div class="field">
+      <%= f.label :speciality %> <br/>
+      <%= f.text_field :speciality, :autofocus => true %>
+    </div>
+<br/>
 <% end %>
 
-<%= render "employees/shared/links" %>
+<div class="actions">
+  <%= f.submit "Sign up" %>
+</div>
+
+<% end %>

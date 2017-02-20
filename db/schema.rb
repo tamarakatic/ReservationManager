@@ -10,16 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161222080307) do
+ActiveRecord::Schema.define(version: 20170220200939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "bartenders", force: :cascade do |t|
+  end
+
   create_table "cooks", force: :cascade do |t|
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "employee_id"
-    t.index ["employee_id"], name: "index_cooks_on_employee_id", using: :btree
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "customers", force: :cascade do |t|
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 20161222080307) do
     t.float    "shoe_size"
     t.integer  "manager_id"
     t.boolean  "password_changed",       default: false
+    t.string   "speciality"
     t.index ["confirmation_token"], name: "index_employees_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_employees_on_email", unique: true, using: :btree
     t.index ["manager_id"], name: "index_employees_on_manager_id", using: :btree
@@ -197,7 +199,9 @@ ActiveRecord::Schema.define(version: 20161222080307) do
     t.index ["reset_password_token"], name: "index_system_managers_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "cooks", "employees"
+  create_table "waiters", force: :cascade do |t|
+  end
+
   add_foreign_key "drinks", "restaurants"
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
