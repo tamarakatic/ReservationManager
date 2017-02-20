@@ -19,8 +19,6 @@ ActiveRecord::Schema.define(version: 20170220200939) do
   end
 
   create_table "cooks", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "customers", force: :cascade do |t|

@@ -34,7 +34,7 @@ class Employee < ApplicationRecord
 
   def speciality_validator
     unless type == "Cook"
-      errors.add(:speciality, "Can be assign only to cooks.") unless speciality.nil?
+      errors.add(:speciality, "can be assign only to cooks.") unless speciality.nil?
     else
       errors.add(:speciality, "can't be blank.") if speciality.blank?
     end
