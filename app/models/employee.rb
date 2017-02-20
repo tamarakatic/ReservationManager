@@ -1,7 +1,6 @@
 class Employee < ApplicationRecord
   belongs_to :manager
 
-  enum role: %w(bartender waiter cook)
   enum clothing_size: %w(XS S M L XL XXL)
 
   validates :firstname, length: { in: 3..30 },
@@ -22,6 +21,22 @@ class Employee < ApplicationRecord
                          allow_blank: false,
                          presence: true
 
+  validate :speciality_validator
+
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  def self.types
+    %w(Bartender Cook Waiter)
+  end
+
+  private
+
+  def speciality_validator
+    unless type == "Cook"
+      errors.add(:speciality, "can be assign only to cooks.") unless speciality.nil?
+    else
+      errors.add(:speciality, "can't be blank.") if speciality.blank?
+    end
+  end
 end

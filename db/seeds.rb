@@ -13,7 +13,6 @@ manager.employees.create!(firstname: 'Ana',
                          password: 'anaspasic',
                          password_confirmation: 'anaspasic',
                          confirmed_at: Time.now,
-                         role: 'waiter',
                          clothing_size: 'S',
                          birth_date: Date.new(1994, 5, 5),
                          shoe_size: 42)
