@@ -18,18 +18,29 @@
 
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item active">
-					<%= link_to root_path, :class => "btn btn-default" do %>
-						<%= fa_icon "home inverse", :class => "fa-lg fa-fw" %>
+					<%= link_to root_path, :class => "nav-link" do %>
+						<%= fa_icon "home inverse", :text => "Home", :class => "fa-lg fa-fw" %>
+					<% end %>
+				</li>
+
+				<li class="nav-item active">
+					<%= link_to root_path, :class => "nav-link" do %>
+						<%= fa_icon "group inverse", :text => "Friends", :class => "fa-lg fa-fw" %>
 					<% end %>
 				</li>
 				<li class="nav-item active">
-					<%= link_to root_path, :class => "btn btn-default" do %>
-						<%= fa_icon "bell inverse", :class => "fa-lg fa-fw" %>
+					<%= link_to root_path, :class => "nav-link" do %>
+            <%= fa_icon "bell inverse", :text => "Notifications", :class => "fa-lg fa-fw" %>
 					<% end %>
 				</li>
 				<li class="nav-item active">
-					<%= link_to destroy_customer_session_path, :method => :delete, :class => "btn btn-default"  do %>
-						<%= fa_icon "user-circle inverse", :class => "fa-lg fa-fw" %>
+					<%= link_to edit_customer_registration_path, :class => "nav-link" do %>
+            <%= fa_icon "user-circle inverse", :text => "Profile", :class => "fa-lg fa-fw" %>
+					<% end %>
+				</li>
+				<li class="nav-item active">
+					<%= link_to current_user_logout_path, :method => :delete, :class => "nav-link" do %>
+            <%= fa_icon "sign-out inverse", :text => "Sign out", :class => "fa-lg fa-fw" %>
 					<% end %>
 				</li>
 		</div>

@@ -2,6 +2,8 @@ class HomePage::ProviderHomeController < ApplicationController
   before_action :authenticate_provider!
   before_action :check_if_password_changed
 
+  layout "home_page"
+
   def index
   end
 
