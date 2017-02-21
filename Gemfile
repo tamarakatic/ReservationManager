@@ -54,12 +54,17 @@ gem 'devise'
 
 # Use validates_timeliness for date validations
 gem 'validates_timeliness', '~> 4.0'
+
 # Use date_validator to validate string value for the date
 gem 'date_validator'
+
 # Friendship model gem
 gem 'has_friendship'
+
 # Require Bootstrap 4
-gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'bootstrap', '~> 4.0.0.alpha6'
+
+gem "font-awesome-rails"
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'

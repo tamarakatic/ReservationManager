@@ -1,6 +1,8 @@
 class HomePage::CustomerHomeController < ApplicationController
   before_action :authenticate_customer!
 
+  layout "home_page"
+
   def index
     @friends         = current_customer.friends
     @friend_requests = current_customer.requested_friends
