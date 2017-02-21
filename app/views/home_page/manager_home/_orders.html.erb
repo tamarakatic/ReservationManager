@@ -1,0 +1,11 @@
+<h2>New Order   <%= link_to 'Add', new_order_path(current_manager.restaurant), class: "btn btn-danger btn-sm", method: :get %></h2>
+<ul>
+  <% current_manager.restaurant.orders.each do |order| %>
+    <li>
+        <%= order.active_from %>
+        <%= order.active_till %>
+        <%= link_to 'Edit', edit_order_path(order), class: 'btn btn-warning btn-sm', method: :get %>
+        <%= link_to 'Destroy', order, class: 'btn btn-warning btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+    <% end %>
+</ul>
