@@ -4,6 +4,13 @@
     <li>
         <%= order.active_from %>
         <%= order.active_till %>
+          <% order.order_items.each do |item| %>
+            <li>
+              <%= item.item %>
+              <%= item.quantity %>
+              <%= item.unit_of_measure %>
+            </li>
+            <% end %>
         <%= link_to 'Edit', edit_order_path(order), class: 'btn btn-warning btn-sm', method: :get %>
         <%= link_to 'Destroy', order, class: 'btn btn-warning btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
     </li>

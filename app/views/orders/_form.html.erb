@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-<%= f.text_field :restaurant_id, hidden: true, value: current_manager.restaurant.id %>
+  <%= f.text_field :restaurant_id, hidden: true, value: current_manager.restaurant.id %>
 
   <div class="field">
     <%= f.label :active_from %>
@@ -26,4 +26,14 @@
   <div class="actions">
     <%= f.submit %>
   </div>
+<% end %>
+
+<%= form_tag("/create_order_item", :method => "post") do %>
+  <%= label_tag(:item, "Item") %>
+  <%= text_field_tag(:item) %>
+  <%= label_tag(:quantity, "Quantity") %>
+  <%= text_field_tag(:quantity) %>
+  <%= label_tag(:unit_of_measure, "Unit") %>
+  <%= text_field_tag(:unit_of_measure) %>
+  <%= submit_tag("Add") %>
 <% end %>
