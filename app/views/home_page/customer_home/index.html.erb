@@ -1,4 +1,9 @@
-<h1>Wellcome, <%= current_customer.firstname %> </h1>
+<div class="jumbotron">
+  <h1 class="display-3 text-center">Wellcome, <%= current_customer.firstname %>! </h1>
+  <hr class="my-4">
+  <p class="lead text-center">Ooops! Looks like we don't have any registered restaurants yet. Come by later</p>
+  <a class="btn btn-lg btn-success" href="#" role="button">More</a>
+</div>
 
 <% unless @friends.empty? %>
   <h2>Friends:</h2>
@@ -47,5 +52,3 @@
     </li>
   <% end %>
 <% end %>
-
-<%= link_to 'Log Out', destroy_customer_session_path, method: :delete %>

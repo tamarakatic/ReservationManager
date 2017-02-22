@@ -2,6 +2,8 @@ class HomePage::EmployeeHomeController < ApplicationController
   before_action :authenticate_employee!
   before_action :check_whether_password_changed
 
+  layout "home_page"
+
   def index
   end
 
