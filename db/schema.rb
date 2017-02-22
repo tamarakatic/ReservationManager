@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220200939) do
+ActiveRecord::Schema.define(version: 20170222215607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,40 @@ ActiveRecord::Schema.define(version: 20170220200939) do
   end
 
   create_table "cooks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "customer_order_drinks", force: :cascade do |t|
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "drink_id"
+    t.integer  "customer_order_id"
+    t.index ["customer_order_id"], name: "index_customer_order_drinks_on_customer_order_id", using: :btree
+    t.index ["drink_id"], name: "index_customer_order_drinks_on_drink_id", using: :btree
+  end
+
+  create_table "customer_order_foods", force: :cascade do |t|
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "food_id"
+    t.integer  "customer_order_id"
+    t.index ["customer_order_id"], name: "index_customer_order_foods_on_customer_order_id", using: :btree
+    t.index ["food_id"], name: "index_customer_order_foods_on_food_id", using: :btree
+  end
+
+  create_table "customer_order_seats", force: :cascade do |t|
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "seat_id"
+    t.integer  "customer_order_id"
+    t.index ["customer_order_id"], name: "index_customer_order_seats_on_customer_order_id", using: :btree
+    t.index ["seat_id"], name: "index_customer_order_seats_on_seat_id", using: :btree
+  end
+
+  create_table "customer_orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "customers", force: :cascade do |t|
@@ -200,6 +234,12 @@ ActiveRecord::Schema.define(version: 20170220200939) do
   create_table "waiters", force: :cascade do |t|
   end
 
+  add_foreign_key "customer_order_drinks", "customer_orders"
+  add_foreign_key "customer_order_drinks", "drinks"
+  add_foreign_key "customer_order_foods", "customer_orders"
+  add_foreign_key "customer_order_foods", "foods"
+  add_foreign_key "customer_order_seats", "customer_orders"
+  add_foreign_key "customer_order_seats", "seats"
   add_foreign_key "drinks", "restaurants"
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"

@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Seat, type: :model do
   describe 'Associations' do
     it { should belong_to(:restaurant) }
+    it { should have_many(:customer_order_seats).dependent(:destroy) }
+    it { should have_many(:customer_orders).through(:customer_order_seats) }
   end
 
   describe 'Validations' do
