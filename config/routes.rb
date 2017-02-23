@@ -17,7 +17,8 @@ Rails.application.routes.draw do
 
   devise_for :customers
   as :customer do
-    get "friends" => "customers/friends#index", :as => "friends"
+    get    "friends" => "customers/friends#index", :as => "friends"
+    delete "remove_friend" => "customers/friends#remove"
   end
 
   devise_for :providers, controllers: { sessions: 'providers/sessions',
@@ -34,7 +35,6 @@ Rails.application.routes.draw do
   post 'home_page/customer_home/send_friend_request',    as: 'send_friend_request'
   post 'home_page/customer_home/accept_friend_request',  as: 'accept_friend_request'
   post 'home_page/customer_home/decline_friend_request', as: 'decline_friend_request'
-  delete 'home_page/customer_home/remove_friend',        as: 'remove_friend'
 
   authenticated :customer do
     root 'home_page/customer_home#index'
