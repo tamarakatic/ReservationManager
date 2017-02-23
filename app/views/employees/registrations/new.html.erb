@@ -4,6 +4,7 @@
 <%= devise_error_messages! %>
 
 <%= f.text_field :manager_id, hidden: true, value: current_manager.id %>
+<%= f.text_field :type, hidden: true, value: params[:type] %>
 
 <div class="field">
     <%= f.label :firstname %><br/>
@@ -35,7 +36,7 @@
     <%= f.select :shoe_size, options_for_select(35..49) %>
 </div>
 
-<% if @type == "Cook" %>
+<% if params[:type] == "Cook" %>
     <div class="field">
       <%= f.label :speciality %> <br/>
       <%= f.text_field :speciality, :autofocus => true %>

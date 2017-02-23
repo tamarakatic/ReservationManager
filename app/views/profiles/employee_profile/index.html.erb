@@ -1,1 +1,73 @@
-<h1> Usao sam, radiii </h1>
+<div class='container'>
+  <nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse mb-4">
+  <div class="container">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <% if @type == 'Cook' %>
+      <a class="navbar-brand" href="#"><%= fa_icon "cutlery inverse", :text => "Cooks Profile", :class => "fa-lg fa-fw" %></a>
+    <% elsif @type == 'Bartender' %>
+      <a class="navbar-brand" href="#"><%= fa_icon "cutlery inverse", :text => "Bartender Profile", :class => "fa-lg fa-fw" %></a>
+    <% elsif @type == "Waiter" %>
+      <a class="navbar-brand" href="#"><%= fa_icon "cutlery inverse", :text => "Waiter Profile", :class => "fa-lg fa-fw" %></a>
+    <% end %>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        </li>
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+      </ul>
+
+      <ul class="navbar-nav mr-right">
+        <li class="nav-item active">
+          <%= link_to root_path, :class => "nav-link" do %>
+            <%= fa_icon "home inverse", :text => "Home", :class => "fa-lg fa-fw" %>
+          <% end %>
+        </li>
+
+        <li class="nav-item active">
+          <%= link_to root_path, :class => "nav-link" do %>
+            <%= fa_icon "group inverse", :text => "Friends", :class => "fa-lg fa-fw" %>
+          <% end %>
+        </li>
+        <li class="nav-item active">
+          <%= link_to root_path, :class => "nav-link" do %>
+            <%= fa_icon "history", :text => "History of orders", :class => "fa-lg fa-fw" %>
+          <% end %>
+        </li>
+        <li class="nav-item active">
+            <%= link_to employee_profile_path, :class => "nav-link" do %>
+              <%= fa_icon "calendar", :text => "Calendar schedule", :class => "fa-lg fa-fw" %>
+            <% end %>
+        </li>
+        <li class="nav-item active">
+          <%= link_to current_user_logout_path, :method => :delete, :class => "nav-link" do %>
+            <%= fa_icon "cutlery", :text => "Reons of work", :class => "fa-lg fa-fw" %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  </nav>
+  <h2> <%= current_employee.firstname %> <%= current_employee.lastname %> </h2>
+  <span style="float:left;"> <i>My average stars:</i> </span> <br/>
+  <div class='rating'>
+   <span>&#9734</span><span>&#9734</span><span>&#9734</span><span>&#9734</span><span>&#9734</span>
+  </div>
+  <br/>
+  <div>
+    <p style="font-family: Century Gothic"> Basic informations: </p>
+    <span style="font-family: Century Gothic">Birth date: </span > <%= current_employee.birth_date %> <br/>
+    <span style="font-family: Century Gothic">Clothing size: </span> <%= current_employee.clothing_size %> <br/>
+    <span style="font-family: Century Gothic">Shoe size: </span> <%= current_employee.shoe_size %> <br/>
+    <span>
+  </div>
+  <div>
+  <% if @type == "Cook" %>
+    <span>Speciality:</span> <p><%= current_employee.speciality %> </p>
+  <% end %>
+  </div>
+</div>

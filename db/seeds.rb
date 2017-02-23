@@ -15,6 +15,7 @@ manager.employees.create!(firstname: 'Ana',
                          confirmed_at: Time.now,
                          clothing_size: 'S',
                          birth_date: Date.new(1994, 5, 5),
+                         type: 'Bartender',
                          shoe_size: 42)
 
 manager.restaurant = Restaurant.create!(manager_id: manager.id,
