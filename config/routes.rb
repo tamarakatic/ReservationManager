@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :customers do
+    get 'friends/index'
+  end
+
   devise_for :employees, controllers: { sessions: 'employees/sessions',
                                         registrations: 'employees/registrations' }
 
@@ -12,6 +16,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :customers
+  as :customer do
+    get "friends" => "customers/friends#index", :as => "friends"
+  end
+
   devise_for :providers, controllers: { sessions: 'providers/sessions',
                                         registrations: 'providers/registrations' }
 
