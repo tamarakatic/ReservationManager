@@ -34,8 +34,14 @@
 					<% end %>
 				</li>
 				<li class="nav-item active">
-					<%= link_to edit_customer_registration_path, :class => "nav-link" do %>
-            <%= fa_icon "user-circle inverse", :text => "Profile", :class => "fa-lg fa-fw" %>
+					<% if cont == "employee_home" %>
+						<%= link_to employee_profile_path, :class => "nav-link" do %>
+            	<%= fa_icon "user-circle inverse", :text => "Profile", :class => "fa-lg fa-fw" %>
+						<% end %>
+					<% elsif cont == "manager_home" %>
+						<%= link_to manager_profile_path, :class => "nav-link" do %>
+            	<%= fa_icon "user-circle inverse", :text => "Profile", :class => "fa-lg fa-fw" %>
+						<% end %>
 					<% end %>
 				</li>
 				<li class="nav-item active">
@@ -44,6 +50,5 @@
 					<% end %>
 				</li>
 		</div>
-
   </div>
 </nav>

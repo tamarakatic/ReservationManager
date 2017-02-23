@@ -1,0 +1,2 @@
+module Profiles::EmployeeProfileHelper
+end
