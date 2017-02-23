@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Drink, type: :model do
   describe 'Associations' do
     it { should belong_to(:restaurant) }
+    it { should have_many(:customer_order_drinks).dependent(:destroy) }
+    it { should have_many(:customer_orders).through(:customer_order_drinks) }
   end
 
   describe 'Validations' do

@@ -1,5 +1,7 @@
 class Food < ApplicationRecord
   belongs_to :restaurant
+  has_many :customer_order_foods, :dependent => :destroy
+  has_many :customer_orders, :through => :customer_order_foods
 
   validates :price, presence: true,
                     numericality: { greater_than_or_equal_to: 0.01 }

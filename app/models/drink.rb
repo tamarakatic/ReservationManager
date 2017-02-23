@@ -1,5 +1,7 @@
 class Drink < ApplicationRecord
   belongs_to :restaurant
+  has_many :customer_order_drinks, :dependent => :destroy
+  has_many :customer_orders, :through => :customer_order_drinks
 
   validates :name, presence: true,
                    uniqueness: true,

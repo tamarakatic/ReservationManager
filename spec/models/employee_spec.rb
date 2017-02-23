@@ -127,7 +127,7 @@ RSpec.describe Employee, type: :model do
         employee.speciality = 'Testenine'
         employee.type = "Bartender"
         expect(employee).to_not be_valid
-        expect(employee.errors[:speciality]).to include("Only cooks can have speciality.")
+        expect(employee.errors[:speciality]).to include("can be assign only to cooks.")
       end
     end
 
@@ -136,7 +136,7 @@ RSpec.describe Employee, type: :model do
         employee.speciality = 'Slana jela'
         employee.type = "Waiter"
         expect(employee).to_not be_valid
-        expect(employee.errors[:speciality]).to include("Only cooks can have speciality.")
+        expect(employee.errors[:speciality]).to include("can be assign only to cooks.")
       end
     end
 
