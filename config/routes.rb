@@ -34,9 +34,8 @@ Rails.application.routes.draw do
   resources :offers
   resources :number_of_seats
 
-  post 'home_page/customer_home/send_friend_request',    as: 'send_friend_request'
-  post 'home_page/customer_home/accept_friend_request',  as: 'accept_friend_request'
-  post 'home_page/customer_home/decline_friend_request', as: 'decline_friend_request'
+  get 'profiles/employee_profile' => 'profiles/employee_profile#index', :as => 'employee_profile'
+  get 'profiles/manager_profile' => 'profiles/manager_profile#index', :as => 'manager_profile'
 
   authenticated :customer do
     root 'home_page/customer_home#index'
