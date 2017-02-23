@@ -1,5 +1,5 @@
 class OrderItem < ApplicationRecord
-  belongs_to :order
+  belongs_to :order, optional: true
 
   validates :item, length: { in: 2..40 },
                    presence: true,

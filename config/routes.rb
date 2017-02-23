@@ -4,9 +4,6 @@ Rails.application.routes.draw do
 
   devise_for :managers, controllers: { sessions: 'managers/sessions',
                                        registrations: 'managers/registrations' }
-  as :manager do
-    post "create_order_item" => "orders#create_order_item"
-  end
 
   devise_for :system_managers, controllers: { sessions: 'managers/sessions'}
   as :system_manager do

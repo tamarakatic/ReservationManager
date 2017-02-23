@@ -15,13 +15,7 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
-  end
-
-  def create_order_item
-    @order_item = OrderItem.new
-    @order_item.item = params[:item]
-    @order_item.unit_of_measure = params[:unit_of_measure]
-    @order_item.quantity = params[:quantity]
+    @order.order_items.build
   end
 
   # GET /orders/1/edit
@@ -32,6 +26,7 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
+    p @order.order_items
 
     respond_to do |format|
       if @order.save
@@ -78,6 +73,7 @@ class OrdersController < ApplicationController
     def order_params
       params.require(:order).permit(:active_from,
                                     :active_till,
-                                    :restaurant_id)
+                                    :restaurant_id,
+                                    :order_items_attributes => [:id, :item, :quantity, :unit_of_measure, :_destroy])
     end
 end
