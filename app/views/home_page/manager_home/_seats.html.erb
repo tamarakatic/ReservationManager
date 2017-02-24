@@ -1,11 +1,21 @@
 <h2>Seats configuration    <%= link_to 'Add', new_seat_path, class: "btn btn-danger btn-sm", method: :get %></h2>
 <ul>
   <% current_manager.restaurant.seats.each do |seat| %>
+  <div class="container">
     <li>
-      <b>Number:</b> <%= seat.number %>
-      <b>Area:</b> <%= seat.area %>
+      <div class="row">
+        <div class="col col-lg-2">
+          <b>Area:</b> <%= seat.area %>
+        </div>
+        <% for i in 1..seat.number %>
+          <div class="col col-lg-2">
+            <b>Number:</b> <%= i %>
+          </div>
+        <% end %>
       <%= link_to 'Edit', edit_seat_path(seat), class: 'btn btn-warning btn-sm', method: :get %>
       <%= link_to 'Destroy', seat, class: 'btn btn-warning btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
     </li>
-    <% end %>
+  </div>
+  <% end %>
 </ul>
