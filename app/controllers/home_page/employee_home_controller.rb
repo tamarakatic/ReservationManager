@@ -6,7 +6,6 @@ class HomePage::EmployeeHomeController < ApplicationController
 
   def index
     @restauran = Restaurant.where(manager_id: current_employee.manager_id).first
-    @employee = Employee.where(:id => current_employee.id).first
   end
 
   private

@@ -6,7 +6,6 @@ class Employees::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    @employee = Cook.new(:manager_id => params[:manager_id])
     super
   end
 
@@ -18,7 +17,6 @@ class Employees::RegistrationsController < Devise::RegistrationsController
     super do |employee|
       employee.save!
     end
-    byebug
   end
 
   # GET /resource/edit
