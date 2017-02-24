@@ -1,0 +1,13 @@
+<% if @pending.empty? %>
+  <div class="card">
+    <div class="jumbotron">
+      <h1 class="display-3 text-center">Ooops! Looks like you don't have any friends yet.</h1>
+      <hr class="my-4">
+      <%= link_to root_path, :class => "btn btn-success pull-right" do %>
+        <%= fa_icon "user-plus", :text => "Find friends", :class => "fa-sm" %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <%= render "show", :collection => @pending, :as => :friend, :layout => false %>
+<% end %>

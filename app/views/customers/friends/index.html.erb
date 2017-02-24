@@ -8,14 +8,22 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Active</a>
+          <button class="nav-link text-success active" id="all-friends">
+            <b>All friends</b>
+          </button
         </li>
         <li class="nav-item">
+          <button class="nav-link text-success" id="pending-requests">
+            <b>Pending requests</b>
+            <% if pending_requests > 0 %>
+              <span class="badge badge-danger"><%= pending_requests %></span>
+            <% end %>
+          </button >
         </li>
       </ul>
     </div>
-    <div class="card-block">
-      <div class="container-fluid">
+    <div class="card-block" id="friends-block">
+      <div class="container-fluid" id="search-box">
         <%= form_tag "/search_friends", :remote => true, :method => :get, :class => "form-inline my-2 my-lg-0" do %>
 
           <%= search_field_tag "search", params[:search], :class => "form-control mr-sm-2", :placeholder => "Search" %>

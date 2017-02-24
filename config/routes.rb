@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   as :customer do
     get    "friends" => "customers/friends#index"
     get    "search_friends" => "customers/friends#search"
+    get    "pending_requests" => "customers/friends#pending"
     delete "remove_friend" => "customers/friends#remove"
   end
 

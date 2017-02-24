@@ -4,7 +4,13 @@ class Customers::FriendsController < ApplicationController
   layout "home_page"
 
   def index
-    @friends ||= current_customer.friends.order(:firstname, :lastname)
+    @friends = current_customer.friends.order(:firstname, :lastname)
+
+    unless params[:layout] == "true"
+      render :index
+    else
+      render :partial => "show", :collection => @friends, :as => :friend, :layout => false
+    end
   end
 
   # DELETE / remove_friend
@@ -25,6 +31,14 @@ class Customers::FriendsController < ApplicationController
     respond_to do |format|
       format.html { render :index }
       format.js
+    end
+  end
+
+  def pending
+    @pending = current_customer.requested_friends
+
+    respond_to do |format|
+      format.html { render :partial => "pending" }
     end
   end
 
