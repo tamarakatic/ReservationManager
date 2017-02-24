@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   post 'home_page/customer_home/accept_friend_request',  as: 'accept_friend_request'
   post 'home_page/customer_home/decline_friend_request', as: 'decline_friend_request'
   delete 'home_page/customer_home/remove_friend',        as: 'remove_friend'
+  get 'profiles/employee_profile' => 'profiles/employee_profile#index', :as => 'employee_profile'
+  get 'profiles/manager_profile' => 'profiles/manager_profile#index', :as => 'manager_profile'
+  get 'profiles/employee_calendar' => 'profiles/employee_calendar#index', :as => 'employee_calendar'
 
   authenticated :customer do
     root 'home_page/customer_home#index'

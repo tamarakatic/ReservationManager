@@ -6,10 +6,7 @@ class Employees::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    @employee = Employee.new(:manager_id => params[:manager_id],
-                             :type => params[:type])
-    @type = params[:type]
-
+    @employee = Cook.new(:manager_id => params[:manager_id])
     super
   end
 
@@ -18,8 +15,10 @@ class Employees::RegistrationsController < Devise::RegistrationsController
     password = generate_password
     params[:employee][:password] = password
     params[:employee][:password_confirmation] = password
-
-    super
+    super do |employee|
+      employee.save!
+    end
+    byebug
   end
 
   # GET /resource/edit
@@ -78,6 +77,7 @@ class Employees::RegistrationsController < Devise::RegistrationsController
       :birth_date,
       :clothing_size,
       :manager_id,
-      :speciality])
+      :speciality,
+      :type])
   end
 end

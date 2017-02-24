@@ -1,0 +1,2 @@
+module Profiles::ManagerProfileHelper
+end

@@ -1,8 +1,11 @@
-<h1>Employee Profile</h1>
+<% if @restauran.nil? %>
+<h2> <i> No restaurant yet </i></h2>
+<% else %>
+<div class='jumbotron'>
+<h1 style="font-family: Corbert Condensed Italic"> Welcome to <%= @restauran.title %> restaurant </h1>
+<% end %>
+</div>
 </br>
-<h3> Welcome <%= current_employee.firstname %> </h1>
+<h3> Hi <%= current_employee.firstname %> </h3>
 
-<%= link_to 'Edit profile', edit_employee_registration_path %>
-<br>
-<%= link_to 'Log out', destroy_employee_session_path, method: :delete %>
 
