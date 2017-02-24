@@ -11,4 +11,12 @@ class Customer < ApplicationRecord
 
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  def search_friends(params)
+    unless params.empty?
+      self.friends.where("firstname ILIKE ? or lastname ILIKE ?", "%#{params}%", "%#{params}%")
+    else
+      self.friends
+    end
+  end
 end

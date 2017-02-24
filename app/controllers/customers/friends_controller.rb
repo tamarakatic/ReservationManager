@@ -4,7 +4,7 @@ class Customers::FriendsController < ApplicationController
   layout "home_page"
 
   def index
-    @friends = current_customer.friends.order(:firstname, :lastname)
+    @friends ||= current_customer.friends.order(:firstname, :lastname)
   end
 
   # DELETE / remove_friend
@@ -14,6 +14,16 @@ class Customers::FriendsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to friends_path }
+      format.js
+    end
+  end
+
+  # GET /search
+  def search
+    @friends = current_customer.search_friends(params[:search]).order(:firstname, :lastname)
+
+    respond_to do |format|
+      format.html { render :index }
       format.js
     end
   end

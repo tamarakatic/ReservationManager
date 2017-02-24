@@ -17,7 +17,8 @@ Rails.application.routes.draw do
 
   devise_for :customers
   as :customer do
-    get    "friends" => "customers/friends#index", :as => "friends"
+    get    "friends" => "customers/friends#index"
+    get    "search_friends" => "customers/friends#search"
     delete "remove_friend" => "customers/friends#remove"
   end
 

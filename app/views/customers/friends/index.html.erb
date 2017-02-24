@@ -1,7 +1,8 @@
 <div class="column container-fluid">
   <div class="alert alert-success">
-    <h1 class="text-center"><%= fa_icon "users", :text => "Friends", :class => "fa-fw" %>
-  </h1>
+    <h1 class="text-center">
+      <%= fa_icon "users", :text => "Friends", :class => "fa-fw" %>
+    </h1>
   </div>
   <div class="card">
     <div class="card-header">
@@ -15,35 +16,30 @@
     </div>
     <div class="card-block">
       <div class="container-fluid">
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-success my-2 my-sm-0" type="submit"><%= fa_icon "search" %></button>
+        <%= form_tag "/search_friends", :remote => true, :method => :get, :class => "form-inline my-2 my-lg-0" do %>
 
-          <div style="width: 1rem">
+          <%= search_field_tag "search", params[:search], :class => "form-control mr-sm-2", :placeholder => "Search" %>
+          <%= button_tag :class => "btn btn-success my-2 my-sm-0" do %>
+            <%= fa_icon "search", :class => "fa-sm fa-fw" %>
+          <% end %>
+
+          <div class="container-fluid">
             &nbsp
           </div>
 
-            <%= link_to root_path, :class => "btn btn-success pull-right" do %>
-              <%= fa_icon "user-plus", :text => "Find friends", :class => "fa-sm" %>
-            <% end %>
-        </form>
+          <%= link_to root_path, :class => "btn btn-success pull-right" do %>
+            <%= fa_icon "user-plus", :text => "Find friends", :class => "fa-sm" %>
+          <% end %>
+        <% end %>
 
-        &nbsp
+        <hr>
       </div>
 
-      <div class="card-deck">
+      <div class="card-deck" id="friends-deck">
         <% @friends.each do |friend| %>
-          <div class="card" id="<%= friend.id %>">
-              <div class="card-block">
-                <h4 class="text-center"><%= "#{friend.firstname} #{friend.lastname}" %></h4>
-                <p class="text-primary"><%= "#{friend.email}" %></p>
-                <%= link_to remove_friend_path(:friend_id => friend.id), :remote => true, :method => :delete, :class => "btn btn-danger pull-right" do %>
-                  <%= fa_icon "user-times red", :text => "Remove", :class => "fa-sm fa-fw" %>
-                <% end %>
-              </div>
-            </div>
+          <%= render "show", :friend => friend %>
         <% end %>
       </div>
     </div>
   </div>
-
+</div>
