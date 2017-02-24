@@ -1,9 +1,11 @@
 <% if @restauran.nil? %>
 <h2> <i> No restaurant yet </i></h2>
 <% else %>
-<h1> Welcome to <%= @restauran.title %> restaurant </h1>
+<div class='jumbotron'>
+<h1 style="font-family: Corbert Condensed Italic"> Welcome to <%= @restauran.title %> restaurant </h1>
 <% end %>
+</div>
 </br>
-<h3> Welcome <%= current_employee.firstname %> </h3>
+<h3> Hi <%= current_employee.firstname %> </h3>
 
 

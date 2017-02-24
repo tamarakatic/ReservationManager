@@ -71,3 +71,11 @@ gem 'bootstrap', '~> 4.0.0.alpha6'
 gem "font-awesome-rails"
 
 gem 'cocoon'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
+
+# FullCalendar support
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
