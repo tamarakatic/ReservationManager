@@ -1,0 +1,29 @@
+<%= form_for(number_of_seat) do |f| %>
+  <% if number_of_seat.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(number_of_seat.errors.count, "error") %> prohibited this number_of_seat from being saved:</h2>
+
+      <ul>
+      <% number_of_seat.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.text_field :seat_id, hidden: true, value: params[:seat_id] %>
+
+  <div class="field">
+    <%= f.label :table %>
+    <%= f.number_field :number %>
+  </div>
+
+  <div class="field">
+    <%= f.label :number_of_seats %>
+    <%= f.number_field :seatstable %>
+  </div>
+
+  <div class="actions">
+    <%= button_tag "Create", :name => "seat_id", :value => params[:seat_id] %>
+  </div>
+<% end %>

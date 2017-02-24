@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :restaurants
   resources :orders
   resources :offers
+  resources :number_of_seats
 
   post 'home_page/customer_home/send_friend_request',    as: 'send_friend_request'
   post 'home_page/customer_home/accept_friend_request',  as: 'accept_friend_request'

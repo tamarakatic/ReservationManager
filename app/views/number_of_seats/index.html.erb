@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Number Of Seats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Table</th>
+      <th>Number of seats</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @number_of_seats.each do |number_of_seat| %>
+      <tr>
+        <td><%= number_of_seat.number %></td>
+        <td><%= number_of_seat.seatstable %></td>
+        <td><%= link_to 'Show', number_of_seat %></td>
+        <td><%= link_to 'Edit', edit_number_of_seat_path(number_of_seat) %></td>
+        <td><%= link_to 'Destroy', number_of_seat, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Number Of Seat', new_number_of_seat_path %>
