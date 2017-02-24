@@ -29,8 +29,7 @@ manager.restaurant.drinks.create!(name: 'Rakija',
                                  description: 'Strong drink',
                                  price: 10.0)
 
-manager.restaurant.seats.create!(number: 3,
-                                area: 'Garden I')
+manager.restaurant.seats.create!(area: 'Garden I')
 
 manager.restaurant.providers.create!(firstname: 'Misa',
                                      lastname: 'Misic',

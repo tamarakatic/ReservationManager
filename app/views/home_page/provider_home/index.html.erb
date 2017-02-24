@@ -1,7 +1,26 @@
 <h1>Provider Profile</h1>
 </br>
-<h3> Welcome <%= current_provider.firstname %> </h1>
+<h2> Welcome <%= current_provider.firstname %> </h2>
 
 <%= link_to 'Edit profile', edit_provider_registration_path %>
 <br>
 <%= link_to 'Log out', destroy_provider_session_path, method: :delete %>
+<br />
+
+<h3>Restaurant</h3>
+<ul>
+  <% @restaurants.each do |restaurant| %>
+    <li>
+      <%= restaurant.title %>
+
+      <ul>
+        <% restaurant.orders.each do |order| %>
+          <li>
+            <%= "#{order.active_from} - #{order.active_till}" %>
+            <%= link_to 'Show', new_offer_path(:order_id => order.id), class: "btn btn-danger btn-sm" %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+<ul>

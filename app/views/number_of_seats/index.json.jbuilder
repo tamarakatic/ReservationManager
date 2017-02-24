@@ -1,0 +1,1 @@
+json.array! @number_of_seats, partial: 'number_of_seats/number_of_seat', as: :number_of_seat

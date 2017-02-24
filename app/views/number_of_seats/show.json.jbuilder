@@ -1,0 +1,1 @@
+json.partial! "number_of_seats/number_of_seat", number_of_seat: @number_of_seat

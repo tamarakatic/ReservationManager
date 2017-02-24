@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222215607) do
+ActiveRecord::Schema.define(version: 20170224155417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,44 @@ ActiveRecord::Schema.define(version: 20170222215607) do
     t.index ["reset_password_token"], name: "index_managers_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "number_of_seats", force: :cascade do |t|
+    t.integer  "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "seat_id"
+    t.integer  "seatstable"
+    t.index ["seat_id"], name: "index_number_of_seats_on_seat_id", using: :btree
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "provider_id"
+    t.integer  "order_item_id"
+    t.decimal  "price"
+    t.index ["order_item_id"], name: "index_offers_on_order_item_id", using: :btree
+    t.index ["provider_id"], name: "index_offers_on_provider_id", using: :btree
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.string   "item"
+    t.decimal  "quantity"
+    t.string   "unit_of_measure"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "order_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id", using: :btree
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "restaurant_id"
+    t.datetime "active_from"
+    t.datetime "active_till"
+    t.index ["restaurant_id"], name: "index_orders_on_restaurant_id", using: :btree
+  end
+
   create_table "providers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -204,7 +242,6 @@ ActiveRecord::Schema.define(version: 20170222215607) do
   end
 
   create_table "seats", force: :cascade do |t|
-    t.integer  "number"
     t.string   "area"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -243,6 +280,11 @@ ActiveRecord::Schema.define(version: 20170222215607) do
   add_foreign_key "drinks", "restaurants"
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
+  add_foreign_key "number_of_seats", "seats"
+  add_foreign_key "offers", "order_items"
+  add_foreign_key "offers", "providers"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "restaurants"
   add_foreign_key "providers", "restaurants"
   add_foreign_key "restaurants", "managers"
   add_foreign_key "restaurants", "providers"

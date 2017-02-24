@@ -5,6 +5,7 @@ class HomePage::ProviderHomeController < ApplicationController
   layout "home_page"
 
   def index
+    @restaurants = Restaurant.where(:id => current_provider.restaurant_id )
   end
 
   private
