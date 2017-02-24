@@ -14,8 +14,8 @@
   <tbody>
     <% @seats.each do |seat| %>
       <tr>
-        <td><%= seat.number %></td>
         <td><%= seat.area %></td>
+        <td><%= seat.number %></td>
         <td><%= link_to 'Show', seat %></td>
         <td><%= link_to 'Edit', edit_seat_path(seat) %></td>
         <td><%= link_to 'Destroy', seat, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223195425) do
+ActiveRecord::Schema.define(version: 20170224150701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,14 @@ ActiveRecord::Schema.define(version: 20170223195425) do
     t.index ["reset_password_token"], name: "index_managers_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "number_of_seats", force: :cascade do |t|
+    t.integer  "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "seat_id"
+    t.index ["seat_id"], name: "index_number_of_seats_on_seat_id", using: :btree
+  end
+
   create_table "offers", force: :cascade do |t|
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -272,6 +280,7 @@ ActiveRecord::Schema.define(version: 20170223195425) do
   add_foreign_key "drinks", "restaurants"
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
+  add_foreign_key "number_of_seats", "seats"
   add_foreign_key "offers", "order_items"
   add_foreign_key "offers", "providers"
   add_foreign_key "order_items", "orders"
