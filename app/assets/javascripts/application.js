@@ -14,4 +14,7 @@
 //= require tether
 //= require bootstrap
 //= require jquery_ujs
+//= require moment
+//= require fullcalendar
+//= require profiles/employee_calendar
 //= require turbolinks
