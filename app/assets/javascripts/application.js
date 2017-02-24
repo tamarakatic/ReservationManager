@@ -17,6 +17,7 @@
 //= require bootstrap
 //= require moment
 //= require fullcalendar
+//= require jquery.timepicker.js
 //= require turbolinks
 //
 //= require profiles/employee_calendar
