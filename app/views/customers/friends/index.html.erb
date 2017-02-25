@@ -4,17 +4,20 @@
       <%= fa_icon "users", :text => "Friends", :class => "fa-fw" %>
     </h1>
   </div>
+
+  <hr>
+
   <div class="card">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
           <button class="nav-link text-success active" id="all-friends">
             <b>All friends</b>
-          </button
+          </button>
         </li>
         <li class="nav-item">
           <button class="nav-link text-success" id="pending-requests">
-            <b>Pending requests</b>
+            <b>Friend requests</b>
             <% if pending_requests > 0 %>
               <span class="badge badge-danger"><%= pending_requests %></span>
             <% end %>
@@ -24,7 +27,7 @@
     </div>
     <div class="card-block" id="friends-block">
       <div class="container-fluid" id="search-box">
-        <%= form_tag "/search_friends", :remote => true, :method => :get, :class => "form-inline my-2 my-lg-0" do %>
+        <%= form_tag search_friends_path(:page => :index), :remote => true, :method => :get, :class => "form-inline my-2 my-lg-0" do %>
 
           <%= search_field_tag "search", params[:search], :class => "form-control mr-sm-2", :placeholder => "Search" %>
           <%= button_tag :class => "btn btn-success my-2 my-sm-0" do %>
@@ -35,7 +38,7 @@
             &nbsp
           </div>
 
-          <%= link_to root_path, :class => "btn btn-success pull-right" do %>
+          <%= link_to find_friends_path, :class => "btn btn-success pull-right" do %>
             <%= fa_icon "user-plus", :text => "Find friends", :class => "fa-sm" %>
           <% end %>
         <% end %>
@@ -44,10 +47,9 @@
       </div>
 
       <div class="card-deck" id="friends-deck">
-        <% @friends.each do |friend| %>
-          <%= render "show", :friend => friend %>
-        <% end %>
+        <%= render :partial => "friends" %>
       </div>
+
     </div>
   </div>
 </div>

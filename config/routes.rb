@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  namespace :customers do
-    get 'friends/index'
-  end
-
   devise_for :employees, controllers: { sessions: 'employees/sessions',
                                         registrations: 'employees/registrations' }
 
@@ -17,10 +13,14 @@ Rails.application.routes.draw do
 
   devise_for :customers
   as :customer do
-    get    "friends" => "customers/friends#index"
-    get    "search_friends" => "customers/friends#search"
+    get    "friends"          => "customers/friends#index"
+    get    "search_friends"   => "customers/friends#search"
     get    "pending_requests" => "customers/friends#pending"
-    delete "remove_friend" => "customers/friends#remove"
+    get    "find_friends"     => "customers/friends#find"
+    post   "send_request"     => "customers/friends#send_request"
+    post   "accept_request"   => "customers/friends#accept_request"
+    post   "decline_request"  => "customers/friends#decline_request"
+    delete "remove_friend"    => "customers/friends#remove"
   end
 
   devise_for :providers, controllers: { sessions: 'providers/sessions',

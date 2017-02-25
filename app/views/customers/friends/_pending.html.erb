@@ -1,13 +1,7 @@
 <% if @pending.empty? %>
-  <div class="card">
-    <div class="jumbotron">
-      <h1 class="display-3 text-center">Ooops! Looks like you don't have any friends yet.</h1>
-      <hr class="my-4">
-      <%= link_to root_path, :class => "btn btn-success pull-right" do %>
-        <%= fa_icon "user-plus", :text => "Find friends", :class => "fa-sm" %>
-      <% end %>
-    </div>
+  <div class="alert alert-info text-center w-100" role="alert">
+    <strong>Hey!</strong> You do not have any pending friend requests.
   </div>
 <% else %>
-  <%= render "show", :collection => @pending, :as => :friend, :layout => false %>
+  <%= render :partial => "friend", :collection => @pending, :as => :friend, :layout => false, :locals => { :buttons => "pending" } %>
 <% end %>

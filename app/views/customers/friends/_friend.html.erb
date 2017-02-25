@@ -1,0 +1,32 @@
+<div class="card" id="<%= friend.id %>">
+  <div class="card-block">
+    <h4 class="text-center"><%= "#{friend.firstname} #{friend.lastname}" %></h4>
+    <p class="text-primary"><%= "#{friend.email}" %></p>
+
+    <% case buttons %>
+    <% when "remove" %>
+
+      <%= button_to remove_friend_path(:friend_id => friend.id), :remote => true, :method => :delete, :class => "btn btn-danger btn-sm pull-right" do %>
+        <%= fa_icon "user-times", :class => "fa-sm fa-fw" %>
+      <% end %>
+
+    <% when "pending" %>
+      <div class="btn-group pull-right" >
+        <%= button_to accept_request_path(:friend_id => friend.id), :remote => true, :class => "btn btn-success btn-sm " do %>
+          <%= fa_icon "user-plus", :text => "Accept", :class => "fa-sm fa-fw" %>
+        <% end %>
+
+        &nbsp
+
+        <%= button_to "Decline", decline_request_path(:friend_id => friend.id), :remote => true, :class => "btn btn-danger btn-sm" %>
+      </div>
+
+    <% when "request" %>
+
+      <%= button_to send_request_path(:friend_id => friend.id), :remote => true, :class => "btn btn-success btn-sm pull-right" do %>
+        <%= fa_icon "user-plus", :class => "fa-sm fa-fw" %>
+      <% end %>
+
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="column container-fluid">
+  <div class="alert alert-success">
+    <h1 class="text-center">
+      <%= fa_icon "search", :text => "Find Friends", :class => "fa-fw" %>
+    </h1>
+  </div>
+
+  <hr>
+
+  <% unless @friends.empty? %>
+    <div class="container-fluid" id="search-box">
+      <%= form_tag search_friends_path(:page => :find), :remote => true, :method => :get, :class => "form-inline my-2 my-lg-0" do %>
+
+        <%= search_field_tag "search", params[:search], :class => "form-control mr-sm-2", :placeholder => "Search" %>
+        <%= button_tag :class => "btn btn-success my-2 my-sm-0" do %>
+          <%= fa_icon "search", :class => "fa-sm fa-fw" %>
+        <% end %>
+      <% end %>
+
+      <hr>
+    </div>
+  <% end %>
+
+  <div class="card-deck" id="friends-deck">
+    <%= render :partial => "friend", :collection => @friends, :as => :friend, :locals => { :buttons => "request" } %>
+
+    <% if @friends.empty? %>
+      <div class="alert alert-info text-center w-100" role="alert">
+        <h3><strong>Looks like you sent friend request to everyone!</strong></h3>
+      </div>
+    <% end %>
+
+  </div>
+
+  <hr>
+
+  <%= link_to "Back", friends_path, :class => "btn btn-primary" %>
+
+</div>
