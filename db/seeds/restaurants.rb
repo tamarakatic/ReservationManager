@@ -1,6 +1,5 @@
 Restaurant.delete_all
 
-
 pera = Manager.create!(:firstname             => "Pera",
                        :lastname              => "Peric",
                        :email                 => "peric@gmail.com",
@@ -10,9 +9,9 @@ pera = Manager.create!(:firstname             => "Pera",
 
 pera.create_restaurant!(:title       => "Black Swan",
                         :description => "Our impressive menu of nationally renowned dry aged " +
-                                         "steaks and the freshest of seafood will ignite your " +
-                                         "culinary imagination as our award-winning wine list " +
-                                         "of more than 5,000 bottles awakens your inner sommelier")
+                                        "steaks and the freshest of seafood will ignite your " +
+                                        "culinary imagination as our award-winning wine list " +
+                                        "of more than 5,000 bottles awakens your inner sommelier")
 
 pera.restaurant.foods.create!(:name        => "Steak Tartare",
                               :description => "Dry aged steak with avocado.",
@@ -35,6 +34,12 @@ pera.employees.create!(:firstname             => "Ana",
 pera.restaurant.seats.create!(:area => "Garden I")
 pera.restaurant.seats.create!(:area => "Garden II")
 pera.restaurant.seats.create!(:area => "Garden III")
+
+pera.restaurant.seats.each.with_index(1) do |seat, iteration|
+  Array.new(5) { rand(1...8) }.each.with_index(1) do |seats, number|
+    seat.number_of_seats.create!(:number => number + iteration * 5, :seatstable => seats)
+  end
+end
 
 pera.restaurant.providers.create!(:firstname             => "Misa",
                                   :lastname              => "Misic",

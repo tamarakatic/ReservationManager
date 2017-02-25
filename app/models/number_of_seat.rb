@@ -8,7 +8,7 @@ class NumberOfSeat < ApplicationRecord
                                      only_integer: true }
 
   validates :seatstable, presence: true,
-                        numericality: { greater_than_or_equal_to: 1,
-                                        less_than_or_equal_to: 20,
-                                        only_integer: true }
+                         numericality: { greater_than_or_equal_to: 1,
+                                         less_than_or_equal_to: 20,
+                                         only_integer: true }
 end
