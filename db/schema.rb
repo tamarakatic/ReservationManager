@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170224155417) do
-
+ActiveRecord::Schema.define(version: 20170225221434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -85,6 +84,17 @@ ActiveRecord::Schema.define(version: 20170224155417) do
     t.datetime "updated_at",                            null: false
     t.integer  "restaurant_id"
     t.index ["restaurant_id"], name: "index_drinks_on_restaurant_id", using: :btree
+  end
+
+  create_table "employee_shifts", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "employee_id"
+    t.integer  "shift_id"
+    t.integer  "seat_id"
+    t.index ["employee_id"], name: "index_employee_shifts_on_employee_id", using: :btree
+    t.index ["seat_id"], name: "index_employee_shifts_on_seat_id", using: :btree
+    t.index ["shift_id"], name: "index_employee_shifts_on_shift_id", using: :btree
   end
 
   create_table "employees", force: :cascade do |t|
@@ -247,6 +257,14 @@ ActiveRecord::Schema.define(version: 20170224155417) do
     t.index ["restaurant_id"], name: "index_seats_on_restaurant_id", using: :btree
   end
 
+  create_table "shifts", force: :cascade do |t|
+    t.date     "work_day"
+    t.time     "start_at"
+    t.time     "end_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "system_managers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -276,6 +294,9 @@ ActiveRecord::Schema.define(version: 20170224155417) do
   add_foreign_key "customer_order_seats", "customer_orders"
   add_foreign_key "customer_order_seats", "seats"
   add_foreign_key "drinks", "restaurants"
+  add_foreign_key "employee_shifts", "employees"
+  add_foreign_key "employee_shifts", "seats"
+  add_foreign_key "employee_shifts", "shifts"
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
   add_foreign_key "number_of_seats", "seats"

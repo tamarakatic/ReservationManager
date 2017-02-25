@@ -1,5 +1,6 @@
 class Employee < ApplicationRecord
   belongs_to :manager
+  has_many :employee_shifts
 
   enum clothing_size: %w(XS S M L XL XXL)
 

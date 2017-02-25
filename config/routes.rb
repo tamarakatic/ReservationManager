@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'employee_shift/index'
+
   devise_for :employees, controllers: { sessions: 'employees/sessions',
                                         registrations: 'employees/registrations' }
 
