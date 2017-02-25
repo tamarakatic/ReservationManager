@@ -1,0 +1,7 @@
+<% if @pending.empty? %>
+  <div class="alert alert-info text-center w-100" role="alert">
+    <strong>Hey!</strong> You do not have any pending friend requests.
+  </div>
+<% else %>
+  <%= render :partial => "friend", :collection => @pending, :as => :friend, :layout => false, :locals => { :buttons => "pending" } %>
+<% end %>

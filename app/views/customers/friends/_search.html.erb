@@ -1,0 +1,11 @@
+<% if @friends.empty? %>
+  <div class="alert alert-info text-center w-100" role="alert">
+    <strong>Sorry!</strong> No results match your search criteria.
+  </div>
+<% else %>
+  <%= render :partial => "friend",
+    :collection => @friends,
+    :as => :friend,
+    :layout => false,
+    :locals => { :buttons => @type == :old_friends ? "remove" : "request" } %>
+<% end %>

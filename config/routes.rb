@@ -12,6 +12,17 @@ Rails.application.routes.draw do
   end
 
   devise_for :customers
+  as :customer do
+    get    "friends"          => "customers/friends#index"
+    get    "search_friends"   => "customers/friends#search"
+    get    "pending_requests" => "customers/friends#pending"
+    get    "find_friends"     => "customers/friends#find"
+    post   "send_request"     => "customers/friends#send_request"
+    post   "accept_request"   => "customers/friends#accept_request"
+    post   "decline_request"  => "customers/friends#decline_request"
+    delete "remove_friend"    => "customers/friends#remove"
+  end
+
   devise_for :providers, controllers: { sessions: 'providers/sessions',
                                         registrations: 'providers/registrations' }
 
@@ -26,7 +37,6 @@ Rails.application.routes.draw do
   post 'home_page/customer_home/send_friend_request',    as: 'send_friend_request'
   post 'home_page/customer_home/accept_friend_request',  as: 'accept_friend_request'
   post 'home_page/customer_home/decline_friend_request', as: 'decline_friend_request'
-  delete 'home_page/customer_home/remove_friend',        as: 'remove_friend'
 
   authenticated :customer do
     root 'home_page/customer_home#index'

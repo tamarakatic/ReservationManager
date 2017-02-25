@@ -1,5 +1,7 @@
 # Use rails db:reset
 
+Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].sort.each { |seed| load seed }
+
 manager = Manager.create!(firstname: 'Pera',
                          lastname: 'Peric',
                          email: 'peric@gmail.com',
@@ -43,10 +45,3 @@ SystemManager.create!(firstname: 'Admin',
                      email: 'admin@gmail.com',
                      password: 'sistem',
                      password_confirmation: 'sistem')
-
-Customer.create!(:firstname => "John",
-                 :lastname => "Doe",
-                 :email => "johndoe@gmail.com",
-                 :password => "johndoe",
-                 :password_confirmation => "johndoe",
-                 :confirmed_at => Time.now)
