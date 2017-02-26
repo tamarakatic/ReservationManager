@@ -32,6 +32,18 @@ pera.employees.create!(:firstname             => "Ana",
                        :birth_date            => Date.new(1994, 5, 5),
                        :shoe_size             => 42)
 
+pera.employees.create!(:firstname             => "Djole",
+                       :lastname              => "Djokic",
+                       :email                 => "djole@gmail.com",
+                       :password              => "djoledjokic",
+                       :password_confirmation => "djoledjokic",
+                       :confirmed_at          => Time.now,
+                       :clothing_size         => "S",
+                       :birth_date            => Date.new(1989, 3, 7),
+                       :shoe_size             => 43,
+                       :speciality            => "Testenine",
+                       :type                  => 'Cook')
+
 pera.restaurant.seats.create!(:area => "Garden I")
 pera.restaurant.seats.create!(:area => "Garden II")
 pera.restaurant.seats.create!(:area => "Garden III")
