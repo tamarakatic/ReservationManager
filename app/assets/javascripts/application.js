@@ -22,3 +22,4 @@
 //
 //= require profiles/employee_calendar
 //= require customers/friends
+//=require home_page/provider_home

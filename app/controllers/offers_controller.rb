@@ -2,6 +2,8 @@ class OffersController < ApplicationController
   before_action :set_offer, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_provider!
 
+  layout "home_page"
+
   # GET /offers
   # GET /offers.json
   def index
@@ -20,17 +22,29 @@ class OffersController < ApplicationController
 
   # GET /offers/1/edit
   def edit
+    @order_items = OrderItem.where(:order_id => params[:order_id])
+    @offer = Offer.find(params[:id])
   end
 
   # POST /offers
   # POST /offers.json
   def create
-    @offer = Offer.new(:price => params[params[:item_id]],
-                       :provider_id => current_provider.id,
-                       :order_item_id => params[:item_id])
+    @offer = Offer.new(:order_id => params[:order_id],
+                       :provider_id => current_provider.id)
+
 
     respond_to do |format|
-      if @offer.save
+      if @offer.save!
+        @offer.offer_items.build
+
+        params[:offer_items].each do |order_item_id, price|
+          if price == ""
+            @offer.offer_items.create!(:price => 0, :order_item_id => order_item_id)
+          else
+            @offer.offer_items.create!(:price => price, :order_item_id => order_item_id)
+          end
+        end
+
         format.html { redirect_to root_path, notice: 'Offer was successfully created.' }
         format.json { render :show, status: :created, location: @offer }
       else
@@ -43,14 +57,21 @@ class OffersController < ApplicationController
   # PATCH/PUT /offers/1
   # PATCH/PUT /offers/1.json
   def update
+    @offer = Offer.where(:order_id => params[:order_id],
+                         :provider_id => current_provider.id).first
+
     respond_to do |format|
-      if @offer.update(:price => params[params[:item_id]])
-        format.html { redirect_to @offer, notice: 'Offer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @offer }
-      else
-        format.html { render :edit }
-        format.json { render json: @offer.errors, status: :unprocessable_entity }
+      params[:offer_items].each do |order_item_id, price|
+        if @offer.offer_items.where(:order_item_id => order_item_id).first.price != price
+          unless @offer.offer_items.where(:order_item_id => order_item_id).first.update(:price => price)
+            format.html { redirect_to edit_offer_path(@offer.id, :order_id => params[:order_id]), notice: 'Warnning!!! Price is invalid.' }
+          end
+        end
       end
+
+      format.html { redirect_to root_path, notice: 'Offer was successfully updated.' }
+      format.json { render :show, status: :ok, location: @offer }
+
     end
   end
 

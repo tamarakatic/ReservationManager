@@ -1,36 +1,52 @@
-<%= form_tag "/offers", :id => 'form' do %>
-<h3>Item offers</h3>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Unit</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @order_items.each do |item| %>
-          <tr>
-            <td>
-              <%= item.item %>
-            </td>
-            <td>
-              <%= item.quantity%>
-            </td>
-            <td>
-              <%= item.unit_of_measure %>
-            </td>
-            <td>
-              <%= text_field_tag item.id, offer_price(item.id) %>
-            </td>
-            <td>
-              <div class="actions">
-                <%= button_tag button_change(item.id), :name => "item_id", :value => item.id %>
-              </div>
-            </td>
-          </tr>
-      <% end %>
-    </tbody>
-  </table>
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
 <% end %>
+
+<h3>Item offers</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Unit</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order_items.each do |item| %>
+    <tr id="<%= item.id %>">
+      <td>
+        <%= item.item %>
+      </td>
+      <td>
+        <%= item.quantity %>
+      </td>
+      <td>
+        <%= item.unit_of_measure %>
+      </td>
+      <td>
+        <%= number_field_tag :price, offer_price(item.id) %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= hidden_field_tag :order_id, @order_items.first.order_id %>
+
+<div class="form-group row col-sm-10">
+  <label for="example-datetime-local-input" class="col-2 col-form-label">Date and time</label>
+  <div>
+    <input class="form-control" type="datetime-local" value="<%= Time.now.utc.iso8601.gsub("Z", "") %>" id="example-datetime-local-input">
+  </div>
+</div>
+
+<div class="field">
+  <% if params[:action] == "new" %>
+    <%= link_to "Create", '#', :id => "create_offer", :class => "btn btn-success" %>
+  <% else %>
+    <%= hidden_field_tag :offer_id, @offer.id %>
+    <%= link_to "Edit", '#', :id => "edit_offer", :class => "btn btn-warning" %>
+  <% end %>
+  <%= link_to "Back", root_path, :class => "btn btn-info" %>
+</div>
