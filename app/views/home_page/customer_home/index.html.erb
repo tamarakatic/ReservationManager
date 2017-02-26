@@ -1,6 +1,26 @@
-<div class="jumbotron">
-  <h1 class="display-3 text-center">Welcome, <%= current_customer.firstname %>! </h1>
-  <hr class="my-4">
-  <p class="lead text-center">Ooops! Looks like we don't have any registered restaurants yet. Come by later</p>
-  <a class="btn btn-lg btn-success" href="#" role="button">More</a>
-</div>
+<% if @restaurants.empty? %>
+  <div class="jumbotron">
+    <h1 class="display-3 text-center">Welcome, <%= current_customer.firstname %>! </h1>
+    <hr class="my-4">
+    <p class="lead text-center">Ooops! Looks like we don't have any registered restaurants yet. Come by later</p>
+    <a class="btn btn-lg btn-success" href="#" role="button">More</a>
+  </div>
+<% else %>
+  <div class="jumbotron w-100 text-white restaurant-search">
+    <h1 class="display-3 text-center text-weight-bold">Find your perfect restaurant!</h1>
+    <hr class="my-5 w-50">
+
+    <div class="input-group w-50 container">
+      <%= search_field_tag "search", params[:search], :class => "form-control", :placeholder => "Restaurant name or type..." %>
+      <%= button_tag :class => "btn btn-success my-2 my-sm-0" do %>
+        <%= fa_icon "search", :class => "fa-sm fa-fw" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card-columns">
+      <%= render :partial => "restaurant", :collection => @restaurants, :as => :restaurant %>
+    </div>
+  </div>
+<% end %>
