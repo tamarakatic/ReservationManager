@@ -5,6 +5,8 @@
 </br>
 
 <br/><br/>
+<%= button_to 'Schedule', employee_shifts_path, :id => "schedule_button", class: "btn btn-danger btn-lg", method: :get %>
+<br />
 <%= button_to 'New Cook', new_employee_registration_path, :params => { :type => "Cook" },
   class: "btn btn-danger btn-lg", method: :get %>
 <br/>
@@ -40,4 +42,3 @@
 <%= render partial: 'seats' %>
 
 <% end %>
-

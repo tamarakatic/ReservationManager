@@ -27,6 +27,7 @@ pera.employees.create!(:firstname             => "Ana",
                        :password              => "anaspasic",
                        :password_confirmation => "anaspasic",
                        :confirmed_at          => Time.now,
+                       :type                  => "Bartender",
                        :clothing_size         => "S",
                        :birth_date            => Date.new(1994, 5, 5),
                        :shoe_size             => 42)

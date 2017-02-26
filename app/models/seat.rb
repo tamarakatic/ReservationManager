@@ -6,12 +6,6 @@ class Seat < ApplicationRecord
   has_many :number_of_seats
   has_many :employee_shifts
 
-  validates :number, presence: true,
-                     uniqueness: true,
-                     numericality: { greater_than_or_equal_to: 1,
-                                     less_than_or_equal_to: 100,
-                                     only_integer: true }
-
   validates :area, presence: true,
                    allow_blank: false,
                    length: { in: 2..30 }

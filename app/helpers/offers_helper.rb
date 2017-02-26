@@ -11,12 +11,4 @@ module OffersHelper
   def datepicker_time(time)
     time.utc.iso8601.gsub("Z", "")
   end
-  #
-  # def button_change(item_id)
-  #   offer = Offer.where(:order_item_id => item_id).first
-  #
-  #   return "Add" if offer.nil?
-  #
-  #   "Edit"
-  # end
 end

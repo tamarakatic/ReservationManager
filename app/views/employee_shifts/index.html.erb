@@ -1,0 +1,78 @@
+<div class='container'>
+
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Employee shift</h4>
+      </div>
+      <div class="modal-body">
+        <span>First name and Last name:</span>
+        <select class="form-control col-sm-6" id="employee">
+          <option disabled selected value></option>
+          <% @employee_all.each do |employee| %>
+            <option value="<%= employee.id %>"><%= "#{employee.firstname} #{employee.lastname} #{employee.type}" %></option>
+          <% end %>
+        </select> <br/><br/>
+        <!-- <span>Last name:&nbsp;</span> <input type="text" id="lastname" /> <br/><br/> -->
+        <span>Start time:&nbsp;&nbsp;</span> <input type="text" id="startTime" /> <br/><br/>
+        <span>End time:&nbsp;&nbsp;&nbsp;</span> <input type="text" id="endTime"> <br/> <br/>
+        <span id="area">Area:</span>
+        <select class="form-control col-sm-6" id="role">
+          <option disabled selected value></option>
+          <% @area.each do |type| %>
+            <option value="<%= type.id %>"><%= type.area %></option>
+          <% end %>
+        </select><br /><br />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="SaveShift" class="btn btn-primary">Enter shift</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="eventModalUpdate" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Employee shift</h4>
+      </div>
+      <div class="modal-body">
+        <span>First name and Last name:</span>
+        <select class="form-control col-sm-6" id="employeeUpdate">
+          <% @employee_all.each do |employee| %>
+            <option value="<%= employee.id %>"><%= "#{employee.firstname} #{employee.lastname} #{employee.type}" %></option>
+          <% end %>
+        </select>
+       <br/><br />
+        <span>Start time:&nbsp;&nbsp;</span><input type="text" id="startTimeUpdate" /> <br/> <br />
+        <span>End time:&nbsp;&nbsp;&nbsp;</span> <input type="text" id="endTimeUpdate"> <br/><br />
+        <span id="areaUpdate">Area:</span>
+        <select class="form-control col-sm-6" id="roleUpdate">
+          <% @area.each do |type| %>
+            <option value="<%= type.id %>"><%= type.area %></option>
+          <% end %>
+        </select><br /><br />
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="updateShift" class="btn btn-primary">Update shift</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+  <div style="background: transparent !important; " class='jumbotron'>
+    <h2 style="font-family: Gentona;text-align: center;"> Working schedule </h2>
+  </div>
+  <div id="calendarContainer">
+    <div id='calendar_employee'>
+    </div>
+  </div>
+</div>
