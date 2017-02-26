@@ -323,6 +323,13 @@ ActiveRecord::Schema.define(version: 20170301222753) do
     t.index ["review_id"], name: "index_restaurant_reviews_on_review_id", using: :btree
   end
 
+  create_table "reservations", force: :cascade do |t|
+    t.datetime "reserved_from"
+    t.datetime "reserved_to"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "restaurants", force: :cascade do |t|
     t.string   "title"
     t.text     "description"

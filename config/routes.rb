@@ -31,6 +31,12 @@ Rails.application.routes.draw do
     delete "remove_friend"    => "customers/friends#remove"
   end
 
+  namespace :customers do
+    get    "reservations/new"
+    post   "reservations/create"
+    delete "reservations/cancel"
+  end
+
   devise_for :providers, controllers: { sessions: 'providers/sessions',
                                         registrations: 'providers/registrations' }
 
