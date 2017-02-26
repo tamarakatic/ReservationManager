@@ -1,6 +1,6 @@
 class OrderItem < ApplicationRecord
   belongs_to :order, optional: true
-  has_one :offer
+  has_one :offer_item
 
   validates :item, length: { in: 2..40 },
                    presence: true,

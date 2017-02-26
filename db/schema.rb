@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20170225221434) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -182,13 +183,23 @@ ActiveRecord::Schema.define(version: 20170225221434) do
     t.index ["seat_id"], name: "index_number_of_seats_on_seat_id", using: :btree
   end
 
+  create_table "offer_items", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "offer_id"
+    t.decimal  "price"
+    t.integer  "order_item_id"
+    t.index ["offer_id"], name: "index_offer_items_on_offer_id", using: :btree
+    t.index ["order_item_id"], name: "index_offer_items_on_order_item_id", using: :btree
+  end
+
   create_table "offers", force: :cascade do |t|
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "provider_id"
-    t.integer  "order_item_id"
-    t.decimal  "price"
-    t.index ["order_item_id"], name: "index_offers_on_order_item_id", using: :btree
+    t.integer  "order_id"
+    t.datetime "delivery_time"
+    t.index ["order_id"], name: "index_offers_on_order_id", using: :btree
     t.index ["provider_id"], name: "index_offers_on_provider_id", using: :btree
   end
 
@@ -300,7 +311,9 @@ ActiveRecord::Schema.define(version: 20170225221434) do
   add_foreign_key "employees", "managers"
   add_foreign_key "foods", "restaurants"
   add_foreign_key "number_of_seats", "seats"
-  add_foreign_key "offers", "order_items"
+  add_foreign_key "offer_items", "offers"
+  add_foreign_key "offer_items", "order_items"
+  add_foreign_key "offers", "orders"
   add_foreign_key "offers", "providers"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "restaurants"
