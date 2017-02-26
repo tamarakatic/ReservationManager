@@ -1,5 +1,6 @@
 class Employee < ApplicationRecord
   belongs_to :manager
+  has_many :employee_shifts
 
   enum clothing_size: %w(XS S M L XL XXL)
 
@@ -33,7 +34,8 @@ class Employee < ApplicationRecord
   private
 
   def speciality_validator
-    unless type == "Cook"
+    return if type.nil?
+    unless type == 'Cook'
       errors.add(:speciality, "can be assign only to cooks.") unless speciality.nil?
     else
       errors.add(:speciality, "can't be blank.") if speciality.blank?

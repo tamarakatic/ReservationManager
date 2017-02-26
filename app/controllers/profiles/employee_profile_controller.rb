@@ -1,11 +1,9 @@
-class HomePage::EmployeeHomeController < ApplicationController
+class Profiles::EmployeeProfileController < ApplicationController
   before_action :authenticate_employee!
   before_action :check_whether_password_changed
 
-  layout "home_page"
-
   def index
-    @restauran = Restaurant.where(manager_id: current_employee.manager_id).first
+    @type = current_employee.type
   end
 
   private
@@ -16,5 +14,6 @@ class HomePage::EmployeeHomeController < ApplicationController
       redirect_to edit_employee_registration_path(current_employee)
     end
   end
+
 
 end

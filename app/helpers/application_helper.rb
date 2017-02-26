@@ -12,4 +12,17 @@ module ApplicationHelper
     destroy_system_manager_session_path
   end
 
+  def user_profile_path(controller)
+    case controller
+    when "employee_home"
+      employee_profile_path
+    when "manager_home"
+      manager_profile_path
+    when "customer_home"
+      edit_customer_registration_path
+    else
+      root_path
+    end
+  end
+
 end
