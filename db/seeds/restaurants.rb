@@ -30,7 +30,8 @@ pera.employees.create!(:firstname             => "Ana",
                        :type                  => "Bartender",
                        :clothing_size         => "S",
                        :birth_date            => Date.new(1994, 5, 5),
-                       :shoe_size             => 42)
+                       :shoe_size             => 42,
+                       :type                  => 'Waiter')
 
 pera.employees.create!(:firstname             => "Djole",
                        :lastname              => "Djokic",
