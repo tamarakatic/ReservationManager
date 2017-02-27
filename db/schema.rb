@@ -328,6 +328,10 @@ ActiveRecord::Schema.define(version: 20170301222753) do
     t.datetime "reserved_to"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "restaurant_id"
+    t.integer  "customer_id"
+    t.index ["customer_id"], name: "index_reservations_on_customer_id", using: :btree
+    t.index ["restaurant_id"], name: "index_reservations_on_restaurant_id", using: :btree
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -428,6 +432,9 @@ ActiveRecord::Schema.define(version: 20170301222753) do
   add_foreign_key "restaurant_providers", "restaurants"
   add_foreign_key "restaurant_reviews", "restaurants"
   add_foreign_key "restaurant_reviews", "reviews"
+  add_foreign_key "providers", "restaurants"
+  add_foreign_key "reservations", "customers"
+  add_foreign_key "reservations", "restaurants"
   add_foreign_key "restaurants", "managers"
   add_foreign_key "seats", "restaurants"
   add_foreign_key "serving_times", "customer_orders"

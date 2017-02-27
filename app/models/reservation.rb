@@ -1,4 +1,8 @@
 class Reservation < ApplicationRecord
+  belongs_to :restaurant
+  belongs_to :customer
+
+  alias_attribute :owner, :customer
 
   validates :reserved_from, :presence => true,
                             :timeliness => { :on_or_after => lambda { Date.current }, :type => :date }

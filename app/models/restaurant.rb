@@ -7,6 +7,7 @@ class Restaurant < ApplicationRecord
   has_many :orders
   has_many :restaurant_reviews
   has_many :reviews, :through => :restaurant_reviews
+  has_many :reservations
   belongs_to :manager
 
   validates :title, uniqueness: true,

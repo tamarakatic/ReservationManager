@@ -1,6 +1,8 @@
 class Customer < ApplicationRecord
   has_friendship
 
+  has_many :reservations
+
   validates :firstname, :presence => true,
                         :allow_blank => false,
                         :length => { :in => 2..30 }

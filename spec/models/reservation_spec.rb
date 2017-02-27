@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Reservation, type: :model do
+  describe "Associations" do
+    it { should belong_to(:restaurant) }
+    it { should belong_to(:customer) }
+  end
 
   describe "validations" do
     let!(:reservation) { build(:reservation) }

@@ -5,6 +5,6 @@
     <p class="card-text"><%= restaurant.description %></p>
   </div>
   <div class="card-footer">
-    <%= link_to "Reserve", root_path, :class => "btn btn-success btn-sm" %>
-    </div>
+    <%= link_to "Reserve", customers_reservations_new_path(:restaurant_id => restaurant.id), :class => "btn btn-success btn-sm" %>
+  </div>
 </div>
