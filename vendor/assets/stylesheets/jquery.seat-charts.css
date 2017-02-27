@@ -14,9 +14,6 @@ div.seatCharts-cell {
 	font-size: 13px;
 	line-height: 16px;
 	color: blue;
-  justify-content: center;
-  align-items: center;
-   display:block;
 }
 
 div.seatCharts-seat {
@@ -66,6 +63,6 @@ ul.seatCharts-legendList {
 }
 
 li.seatCharts-legendItem {
-	margin-top: 10px;
-	line-height: 2;
+	margin-top: 5px;
+	line-height: 3rem;
 }

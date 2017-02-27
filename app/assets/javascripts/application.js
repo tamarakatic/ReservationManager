@@ -20,6 +20,7 @@
 //= require moment
 //= require fullcalendar
 //= require jquery.timepicker.js
+//= require underscore
 //= require turbolinks
 //
 //= require persist.js

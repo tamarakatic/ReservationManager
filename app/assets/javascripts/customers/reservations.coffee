@@ -3,10 +3,25 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $(document).ready(ready)
-  $(document).on("turbolinks:load", ready)
+  $(document).on("ready turbolinks:load", ready)
 
 ready = ->
+  initializeSeatMap()
+  bindHandlers()
+
+  # Set correct button for invited friends
+  invited = loadData("invited")
+  $("a[name='invite']").each (index) ->
+    if _.contains(invited, $(this).attr("id"))
+      $(this).removeClass("btn-success")
+      $(this).addClass("btn-danger")
+      $(this).text("Cancel")
+    else
+      $(this).removeClass("btn-danger")
+      $(this).addClass("btn-success")
+      $(this).text("Invite")
+
+initializeSeatMap = ->
   $('#seat-map').seatCharts {
     animate: true,
     naming: {
@@ -45,3 +60,30 @@ ready = ->
       else
           return this.style()
   }
+
+bindHandlers = ->
+  $("a[name='invite']").unbind("click").click (event) ->
+    invited = []
+    unless loadData("invited")
+      storeData("invited", [])
+    else
+      invited = loadData("invited")
+
+    if $(this).text() == "Cancel"
+      invited = _.without(invited, $(this).attr("id"))
+      $(this).text("Invite")
+      $(this).switchClass("btn-danger", "btn-success", 1000)
+    else
+      invited.push($(this).attr("id"))
+      $(this).text("Cancel")
+      $(this).switchClass("btn-success", "btn-danger", 1000)
+
+    event.preventDefault()
+    storeData("invited", invited)
+
+storeData = (key, value) ->
+  sessionStorage.setItem(key, JSON.stringify(value))
+
+loadData = (key) ->
+  JSON.parse(sessionStorage.getItem(key))
+

@@ -46,7 +46,7 @@
       <% @friends.each do |friend| %>
         <li class="list-group-item justify-content-between">
           <%= "#{friend.firstname} #{friend.lastname}" %>
-          <%= button_to "Invite", root_path(:friend_id => friend.id), :class => "btn btn-success btn-sm" %>
+          <%= link_to "Invite", "", :id => friend.id, :name => "invite", :class => "btn btn-success btn-sm active" %>
         </li>
       <% end %>
     </ul>
