@@ -2,8 +2,16 @@
   <div style="background: transparent !important;" class='jumbotron'>
     <h2 style="font-family: Gentona;text-align: center;">Restaurant seat schedule</h2>
     <br/><br/>
-    <h5 style="font-family: Ayres Serif;text-align: left;"><i>Today's reon of work</i></h5>
+    <h5 style="font-family: Ayres Serif;text-align: left;"><i>Reon of work for day: </i>
+      <select class="form-control col-sm-6" id="dates">
+            <option selected="selected">Choose date</option>
+          <% @arrDates.each do |date| %>
+            <option value="<%= date.id %>"><%= date.work_day %></option>
+          <% end %>
+      </select><br /><br />
+    </h5>
     <h5 style="font-family: Ayres Serif;text-align: left;"><span><i><%=current_employee.firstname%></i></span><span style="margin-left:0.5%; "><i><%=current_employee.lastname%></i></span></h5>
+    <span style="font-family: Ayres Serif;font-size: 15px;"><i>Reon of green color is under jurisdiction</i></span>
   </div>
 
   <div id="reons">

@@ -20,6 +20,10 @@ module ApplicationHelper
       manager_profile_path
     when "customer_home"
       edit_customer_registration_path
+    when "employee_reon"
+      employee_profile_path
+    when "employee_calendar"
+      employee_profile_path
     else
       root_path
     end

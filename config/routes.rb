@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'profiles/manager_profile'   => 'profiles/manager_profile#index',   :as => 'manager_profile'
   get 'profiles/employee_calendar' => 'profiles/employee_calendar#index', :as => 'employee_calendar'
   get 'profiles/employee_reon'     => 'profiles/employee_reon#index',     :as => 'employee_reon'
+  get 'profiles/employee_reon/seats' => 'profiles/employee_reon#seats'
 
   authenticated :customer do
     root 'home_page/customer_home#index'
