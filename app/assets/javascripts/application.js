@@ -24,3 +24,4 @@
 //= require customers/friends
 //= require home_page/provider_home
 //= require employee_shift
+//= require profiles/employee_reon

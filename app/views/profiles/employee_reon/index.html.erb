@@ -1,0 +1,45 @@
+<div class='container'>
+  <div style="background: transparent !important;" class='jumbotron'>
+    <h2 style="font-family: Gentona;text-align: center;">Restaurant seat schedule</h2>
+    <br/><br/>
+    <h5 style="font-family: Ayres Serif;text-align: left;"><i>Reon of work for day: </i>
+      <select class="form-control col-sm-6" id="dates">
+            <option selected="selected">Choose date</option>
+          <% @arrDates.each do |date| %>
+            <option value="<%= date.id %>"><%= date.work_day %></option>
+          <% end %>
+      </select><br /><br />
+    </h5>
+    <h5 style="font-family: Ayres Serif;text-align: left;"><span><i><%=current_employee.firstname%></i></span><span style="margin-left:0.5%; "><i><%=current_employee.lastname%></i></span></h5>
+    <span style="font-family: Ayres Serif;font-size: 15px;"><i>Reon of green color is under jurisdiction</i></span>
+  </div>
+
+  <div id="reons">
+    <ul>
+      <% @restaurant.seats.each do |seat| %>
+      <div class="container">
+        <li>
+          <div class="row">
+            <div class="col-sm-12">
+              <span style="font-family: Droid Serif"><%= seat.area %></span>
+              <div class="row">
+              <% seat.number_of_seats.sort{ |a,b| a.number<=>b.number }.each do |num_seat| %>
+                <div class="col-xs-2 col-xs-2">
+                  <button style="margin-right: 5%;margin-left: 2%;margin-bottom:2%;margin-top: 2%;" type="button" id="ts" class="btn btn-primary"><span style="margin-right: 2%">Table:<%= "#{num_seat.number}" %></span>Seats:<%= "#{num_seat.seatstable}" %></button>
+                </div>
+              <% end %>
+              </div>
+            </div>
+          </div>
+        </li>
+        <br/>
+      </div>
+      <% end %>
+    </ul>
+  </div>
+  <div id="footer">
+   <div class="navbar navbar-inner  navbar-fixed-bottom" style="background-color: lightgray; opacity: 0.6;">
+    <h5 style="font-family: Ayres Serif;text-align: left;margin-left: 4%;"><i><%= @restaurant.title %> restaurant</i></h5>
+   </div>
+  </div>
+</div>

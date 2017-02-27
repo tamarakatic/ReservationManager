@@ -2,6 +2,8 @@ class Profiles::EmployeeProfileController < ApplicationController
   before_action :authenticate_employee!
   before_action :check_whether_password_changed
 
+  layout "employee_profile"
+
   def index
     @type = current_employee.type
   end

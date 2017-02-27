@@ -5,7 +5,7 @@ class HomePage::EmployeeHomeController < ApplicationController
   layout "home_page"
 
   def index
-    @restauran = Restaurant.where(manager_id: current_employee.manager_id).first
+    @restaurant = Restaurant.find(current_employee.manager_id)
   end
 
   private
