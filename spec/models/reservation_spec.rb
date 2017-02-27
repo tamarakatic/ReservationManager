@@ -4,6 +4,7 @@ RSpec.describe Reservation, type: :model do
   describe "Associations" do
     it { should belong_to(:restaurant) }
     it { should belong_to(:customer) }
+    it { should have_many(:reservation_invitations) }
   end
 
   describe "validations" do

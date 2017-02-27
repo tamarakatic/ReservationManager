@@ -2,6 +2,9 @@ class Customer < ApplicationRecord
   has_friendship
 
   has_many :reservations
+  has_many :reservation_invitations
+
+  alias_attribute :invitations, :reservation_invitations
 
   validates :firstname, :presence => true,
                         :allow_blank => false,

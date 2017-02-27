@@ -2,7 +2,10 @@ class Reservation < ApplicationRecord
   belongs_to :restaurant
   belongs_to :customer
 
+  has_many :reservation_invitations
+
   alias_attribute :owner, :customer
+  alias_attribute :invitations, :reservation_invitations
 
   validates :reserved_from, :presence => true,
                             :timeliness => { :on_or_after => lambda { Date.current }, :type => :date }

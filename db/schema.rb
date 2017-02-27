@@ -323,6 +323,16 @@ ActiveRecord::Schema.define(version: 20170301222753) do
     t.index ["review_id"], name: "index_restaurant_reviews_on_review_id", using: :btree
   end
 
+  create_table "reservation_invitations", force: :cascade do |t|
+    t.integer  "status",         default: 0, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "reservation_id"
+    t.integer  "customer_id"
+    t.index ["customer_id"], name: "index_reservation_invitations_on_customer_id", using: :btree
+    t.index ["reservation_id"], name: "index_reservation_invitations_on_reservation_id", using: :btree
+  end
+
   create_table "reservations", force: :cascade do |t|
     t.datetime "reserved_from"
     t.datetime "reserved_to"
@@ -433,6 +443,8 @@ ActiveRecord::Schema.define(version: 20170301222753) do
   add_foreign_key "restaurant_reviews", "restaurants"
   add_foreign_key "restaurant_reviews", "reviews"
   add_foreign_key "providers", "restaurants"
+  add_foreign_key "reservation_invitations", "customers"
+  add_foreign_key "reservation_invitations", "reservations"
   add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "restaurants"
   add_foreign_key "restaurants", "managers"
