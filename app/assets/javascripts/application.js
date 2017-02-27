@@ -20,6 +20,7 @@
 //= require jquery.timepicker.js
 //= require turbolinks
 //
+//= require_tree ./channels
 //= require profiles/employee_calendar
 //= require customers/friends
 //= require home_page/provider_home

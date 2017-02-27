@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'employee_shift/index'
 
+  mount ActionCable.server => '/cable'
+
   devise_for :employees, controllers: { sessions: 'employees/sessions',
                                         registrations: 'employees/registrations' }
 
