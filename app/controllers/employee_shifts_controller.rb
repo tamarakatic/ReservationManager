@@ -55,7 +55,22 @@ class EmployeeShiftsController < ApplicationController
 
 
   def update
+    @employee = Employee.find(params[:employee_id])
+    @employee_shift = EmployeeShift.where(:employee_id => @employee.id).first
 
+    @shift = Shift.find(@employee_shift.shift_id)
+
+    @shift.update(:work_day => Date.parse(params[:current_date]), :start_at => Time.parse(params[:start_at]), :end_at => Time.parse(params[:end_at]))
+
+    respond_to do |format|
+      if @employee_shift.update(:employee_id => @employee.id, :shift_id => @shift.id, :seat_id => params[:role])
+        format.html { redirect_to @employee_shift, notice: 'Food was successfully updated.' }
+        format.json {render :json =>{ :employee => @employee,
+                                      :shift => @shift}}
+      else
+        format.html { render_to root_path }
+      end
+    end
   end
 
 
