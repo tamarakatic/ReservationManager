@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   namespace :customers do
     get    "reservations/new"
     post   "reservations/create"
+    post   "reservations/invite"
     delete "reservations/cancel"
   end
 

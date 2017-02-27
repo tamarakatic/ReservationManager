@@ -3,14 +3,19 @@ class Customers::ReservationsController < ApplicationController
 
   layout "customer_home"
 
-  # GET /customers_reservations_new
+  # GET /customers/reservations/new
   def new
-    @friends = current_customer.friends
-    @restaurant = Restaurant.find(params[:restaurant_id])
+    @friends     = current_customer.friends
+    @restaurant  = Restaurant.find(params[:restaurant_id])
     @reservation = Reservation.new
   end
 
   def create
+  end
+
+  # POST /customers/reservations/inite
+  def invite
+
   end
 
   def cancel
