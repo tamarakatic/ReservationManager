@@ -11,8 +11,10 @@
 // about supported directives.
 //
 //= require jquery
-//= require cocoon
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require jquery.seat-charts
+//= require cocoon
 //= require tether
 //= require bootstrap
 //= require moment
@@ -32,3 +34,4 @@
 //= require profiles/cook_orders
 //= require profiles/bartender_orders
 //= require profiles/waiter_orders
+//= require customers/reservations

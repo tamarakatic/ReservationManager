@@ -1,9 +1,17 @@
-<div class="container mt-3">
-  <div class="w-100 alert alert-danger">
-    <h2 class="display-4 text-center"><%= @restaurant.title %> | Reservation</h2>
+<div class="container mt-3 rounded reservation-form">
+  <div class="mt-5 mb-5 w-100">
+    &nbsp;
+    <h2 class="display-4 text-center">
+      <strong>Reservation</strong>
+      <strong class="text-danger">@<%= @restaurant.title %></strong>
+    </h2>
+    <hr>
   </div>
 
-  <div class="w-100">
+  <h1 class="ml-5 display-4">Pick a date</h1>
+  <hr>
+
+  <div class="mb-5 w-100 d-flex justify-content-center">
     <div class="column w-50">
       <div class="form-group row">
         <label class="col-4 col-form-label">Date and time</label>
@@ -18,8 +26,37 @@
         </div>
       </div>
     </div>
-    <div class="column w-50">
-      &nbsp;
+  </div>
+
+  <h1 class="ml-5 display-4">Select table</h1>
+  <hr>
+
+  <div class="mb-5 container d-flex justify-content-center">
+    <div id="seat-map">
+      <div id="legend" class="d-flex justify-content-center">
+      </div>
     </div>
   </div>
+
+  <h1 class="ml-5 display-4">Invite friends</h1>
+  <hr>
+
+  <div class="mb-5">
+    <ul class="list-group w-50 container">
+      <% @friends.each do |friend| %>
+        <li class="list-group-item justify-content-between">
+          <%= "#{friend.firstname} #{friend.lastname}" %>
+          <%= button_to "Invite", root_path(:friend_id => friend.id), :class => "btn btn-success btn-sm" %>
+        </li>
+      <% end %>
+      <li class="list-group-item justify-content-between">
+        Chuck Norris
+        <%= button_to "Pending", root_path, :class => "btn btn-warning btn-sm" %>
+      </li>
+    </ul>
+  </div>
+
+  <h1 class="ml-5 display-4">Menu</h1>
+  <hr>
+
 </div>

@@ -13,11 +13,14 @@
  */
 
 @import "fullcalendar";
+@import "jquery.ui.all";
 @import "bootstrap";
 @import "font-awesome";
+@import "jquery.seat-charts";
 @import "home_page/manager_home";
 @import "profiles/employee_profile";
 @import "profiles/employee_calendar";
 @import "jquery.timepicker";
 
 @import "home_page/customer_home";
+@import "customers/reservations";
