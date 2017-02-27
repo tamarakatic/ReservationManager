@@ -43,11 +43,12 @@
       </div>
       <div class="modal-body">
         <span>First name and Last name:</span>
-        <select class="form-control col-sm-6" id="employeeUpdate">
+        <input type="text" readonly id="employeeUpdate" />
+        <!-- <select class="form-control col-sm-6" id="employeeUpdate">
           <% @employee_all.each do |employee| %>
             <option value="<%= employee.id %>"><%= "#{employee.firstname} #{employee.lastname} #{employee.type}" %></option>
           <% end %>
-        </select>
+        </select> -->
        <br/><br />
         <span>Start time:&nbsp;&nbsp;</span><input type="text" id="startTimeUpdate" /> <br/> <br />
         <span>End time:&nbsp;&nbsp;&nbsp;</span> <input type="text" id="endTimeUpdate"> <br/><br />

@@ -20,8 +20,8 @@ class EmployeeShiftsController < ApplicationController
     end
 
     if request.xhr?
-      render :json =>{ :employee => all_employee,
-                       :shift => all_shift}
+      render :json => { :employee => all_employee,
+                        :shift => all_shift }
     end
 
   end
@@ -37,7 +37,6 @@ class EmployeeShiftsController < ApplicationController
     @shift.save!
 
     @employee_shift = EmployeeShift.new(:employee_id => @employee.id, :shift_id => @shift.id, :seat_id => params[:role])
-
     respond_to do |format|
       if @employee_shift.save!
         # format.html { redirect_to employee_shifts_path(@employee_shift), notice: 'Offer was successfully created.' }
