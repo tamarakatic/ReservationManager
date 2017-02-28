@@ -18,20 +18,24 @@ class OffersController < ApplicationController
   # GET /offers/new
   def new
     @order_items = OrderItem.where(:order_id => params[:order_id])
+    @active_from = @order_items.first.order.active_from
+    @active_till = @order_items.first.order.active_till
   end
 
   # GET /offers/1/edit
   def edit
     @order_items = OrderItem.where(:order_id => params[:order_id])
     @offer = Offer.find(params[:id])
+    @active_from = @order_items.first.order.active_from
+    @active_till = @order_items.first.order.active_till
   end
 
   # POST /offers
   # POST /offers.json
   def create
     @offer = Offer.new(:order_id => params[:order_id],
-                       :provider_id => current_provider.id)
-
+                       :provider_id => current_provider.id,
+                       :delivery_time => params[:delivery_time])
 
     respond_to do |format|
       if @offer.save!
@@ -46,7 +50,7 @@ class OffersController < ApplicationController
         end
 
         format.html { redirect_to root_path, notice: 'Offer was successfully created.' }
-        format.json { render :show, status: :created, location: @offer }
+        format.json { render :json => { :offer => @offer} }
       else
         format.html { render :new }
         format.json { render json: @offer.errors, status: :unprocessable_entity }
@@ -69,9 +73,9 @@ class OffersController < ApplicationController
         end
       end
 
+      @offer.update(:delivery_time => params[:delivery_time])
       format.html { redirect_to root_path, notice: 'Offer was successfully updated.' }
-      format.json { render :show, status: :ok, location: @offer }
-
+      format.json { render :json => { :offer => @offer} }
     end
   end
 
@@ -101,6 +105,7 @@ class OffersController < ApplicationController
     def offer_params
       params.require(:offer).permit(:provider_id,
                                     :restaurant_id,
+                                    :delivery_time,
                                     :order_id,
                                     :price)
     end

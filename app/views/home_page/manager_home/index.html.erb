@@ -1,9 +1,10 @@
-<%= link_to 'Log Out', destroy_manager_session_path, method: :delete %>
 
-<h1>Welcome
-    <%= current_manager.firstname %></h1>
+<h1>Welcome <%= current_manager.firstname %></h1>
 </br>
+<br/>
+<div class="panel-body hidden" id="manager-notifications">
 
+</div>
 <br/><br/>
 <%= button_to 'Schedule', employee_shifts_path, :id => "schedule_button", class: "btn btn-danger btn-lg", method: :get %>
 <br />

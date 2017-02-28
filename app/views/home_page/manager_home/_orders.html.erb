@@ -1,18 +1,14 @@
 <h2>New Order   <%= link_to 'Add', new_order_path(current_manager.restaurant), class: "btn btn-danger btn-sm", method: :get %></h2>
 <ul>
   <% current_manager.restaurant.orders.each do |order| %>
-    <li>
-        <%= order.active_from %>
-        <%= order.active_till %>
+        <p><b>Activate:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %></p>
           <% order.order_items.each do |item| %>
-            <li>
-              <%= item.item %>
+            <ol>
+              <li><%= item.item %>
               <%= item.quantity %>
-              <%= item.unit_of_measure %>
-            </li>
-            <% end %>
-        <%= link_to 'Edit', edit_order_path(order), class: 'btn btn-warning btn-sm', method: :get %>
-        <%= link_to 'Destroy', order, class: 'btn btn-warning btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
-    </li>
-    <% end %>
+              <%= item.unit_of_measure %></li>
+            </ol>
+          <% end %>
+      <br />
+  <% end %>
 </ul>
