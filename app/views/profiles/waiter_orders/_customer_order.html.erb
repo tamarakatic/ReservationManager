@@ -1,7 +1,7 @@
 <div class="w-100 card card-inverse card-primary">
   <div class="card-block">
     <h4 style="text-align: left; font-family: Wildera Regular;"class="card-title">Order</h4>
-    <h6><i>Status:</i></h6>
+    <h6><i>Status: <%= order.status %></i></h6>
     <hr>
     <% if current_employee.type == 'Waiter' %>
       <% order.number_of_seats.each do |table| %>
@@ -31,6 +31,13 @@
     <% end %>
   </div>
   <div class="card-footer">
-   <%= link_to "Details", table_orders_path(:customer_order => order.id) , :class => "btn btn-success btn-sm" %>
+   <% if order.status == 'Ready' and current_employee.type == 'Waiter' %>
+    <%= link_to "Serve and create bill", table_orders_path(:customer_order => order.id) , :class => "btn btn-success btn-sm" %>
+   <%elsif order.status == 'Finished' %>
+   <%elsif current_employee.type == 'Cook' or current_employee.type == 'Bartender' %>
+    <button id ="preparing" class="btn btn-success btn-sm">Prepare</button>
+   <%elsif current_employee.type == 'Waiter' %>
+    <%= link_to "Details", table_orders_path(:customer_order => order.id) , :class => "btn btn-success btn-sm" %>
+   <% end %>
   </div>
 </div>

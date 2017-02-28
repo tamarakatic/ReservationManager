@@ -59,13 +59,21 @@
   </div>
   <div id="foodDiv" style="width: 100%; overflow: hidden;">
     <div style="float:left;margin-left:3%; ">
-      <span style="font-size: 20px;">Foods in order:</span> <br/>
+      <span style="font-size: 20px;">Foods in order:</span> <br/> <br/>
       <ul id="foodList">
         <% @customer_order.foods.each do |food| %>
           <li> <%= food.name %>
           <input type="hidden" value=<%= food.id %> />
           <button type="button" id="deleteFood" class="btn btn-danger btn-sm">Delete</button>
-          <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange</button>
+          <% if @customer_order.status == 'Active' or @customer_order.status == 'ProgressDrinks' %>
+            <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange</button>
+            <select class="form-control col-sm-6" id="cookSelect">
+              <option disabled selected value></option>
+                <% @cooks.each do |cook| %>
+              <option value="<%= cook.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+                <% end %>
+            </select>
+          <% end %>
             <ul>
              <li><i> <%= food.description %></i></li>
             </ul>
@@ -74,15 +82,24 @@
       </ul>
       <hr>
       <button id="callModal" type="button" class="btn btn-info btn-sm">Add food</button>
+      <button id="sendCooks" style="float:right;" type="button" class="btn btn-info btn-sm">Notify cooks</button>
     </div>
     <div id='drinkDiv' style="margin-left: 60%;">
-      <span style="font-size: 20px;">Drinks in order:</span> <br/>
+      <span style="font-size: 20px;">Drinks in order:</span> <br/> <br/>
       <ul id="drinkList">
         <% @customer_order.drinks.each do |drink| %>
           <li> <%= drink.name %>
           <input type="hidden" value=<%= drink.id %> />
           <button type="button" id="deleteDrink" class="btn btn-danger btn-sm">Delete</button>
-          <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange</button>
+          <% if @customer_order.status == 'Active' or @customer_order.status == 'ProgressFoods' %>
+            <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange</button>
+            <select class="form-control col-sm-6" id="barSelect">
+              <option disabled selected value></option>
+                <% @bartenders.each do |bar| %>
+              <option value="<%= bartender.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+                <% end %>
+            </select>
+          <% end %>
             <ul>
              <li><i> <%= drink.description %></i></li>
             </ul>
@@ -91,6 +108,14 @@
       </ul>
       <hr>
       <button id="drinkModal" type="button" class="btn btn-info btn-sm">Add drinks</button>
+      <button id="sendBartenders" style="float:right;" type="button" class="btn btn-info btn-sm">Notify bartenders</button>
+    </div>
+    <br/>
+    <br/>
+    <div id="footer">
+      <div class="navbar navbar-inner  navbar-fixed-bottom" style="background-color: lightgray; opacity: 0.6;">
+      <h5 style="font-family: Ayres Serif;text-align: left;margin-left: 4%;"><i><%= @restaurant.title %> restaurant</i></h5>
+      </div>
     </div>
   </div>
 </div>

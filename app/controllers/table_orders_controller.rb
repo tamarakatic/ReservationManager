@@ -7,6 +7,9 @@ class TableOrdersController < ApplicationController
     @customer_order = CustomerOrder.find(params[:customer_order])
     @foods = Food.all
     @drinks = Drink.all
+    @cooks = Employee.where(:type => "Cook")
+    @bartenders = Employee.where(:type => "Bartender")
+    @restaurant = Restaurant.find(current_employee.manager_id)
   end
 
   def add_foods

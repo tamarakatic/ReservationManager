@@ -27,3 +27,4 @@
 //= require employee_shift
 //= require profiles/employee_reon
 //= require table_orders
+//= require profiles/cook_orders

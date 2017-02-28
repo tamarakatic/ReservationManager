@@ -83,10 +83,10 @@ pera.restaurant.providers.create!(:firstname             => "Slade",
                                   :password_changed      => true,
                                   :confirmed_at          => Time.now)
 
-customer_order = CustomerOrder.create!()
+customer_order = CustomerOrder.create!(:status           => "Active",
+                                       :order_time       => DateTime.new(2017, 2, 2, 10, 10, 0, Rational(-0,24)))
 customer_order.foods << steak
 customer_order.foods << becka
 customer_order.drinks << rakija
 customer_order.drinks << viski
 customer_order.number_of_seats << garden.number_of_seats[0]
-

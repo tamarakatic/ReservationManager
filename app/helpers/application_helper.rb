@@ -28,6 +28,8 @@ module ApplicationHelper
       employee_profile_path
     when "waiter_orders"
       employee_profile_path
+    when "cook_orders"
+      employee_profile_path
     else
       root_path
     end
