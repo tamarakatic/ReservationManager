@@ -2,6 +2,8 @@ class Providers::RegistrationsController < Devise::RegistrationsController
  before_action :configure_sign_up_params, only: [:create]
  before_action :configure_account_update_params, only: [:update]
 
+ before_action :authenticate_manager!
+
  include ApplicationHelper
 
   # GET /resource/sign_up
@@ -12,7 +14,10 @@ class Providers::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super
+    super do |provider|
+      provider.restaurants << current_manager.restaurant
+      provider.save!
+    end
   end
 
   # GET /resource/edit

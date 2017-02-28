@@ -39,8 +39,13 @@ Rails.application.routes.draw do
   resources :number_of_seats
   resources :employee_shifts
 
+
   get 'profiles/employee_profile'  => 'profiles/employee_profile#index',  :as => 'employee_profile'
   get 'profiles/manager_profile'   => 'profiles/manager_profile#index',   :as => 'manager_profile'
+
+
+  get "accept_offer" => "orders#accept_offer"
+
   get 'profiles/employee_calendar' => 'profiles/employee_calendar#index', :as => 'employee_calendar'
   get 'profiles/employee_reon'     => 'profiles/employee_reon#index',     :as => 'employee_reon'
   get 'profiles/employee_reon/seats' => 'profiles/employee_reon#seats'

@@ -11,7 +11,24 @@ class OrdersController < ApplicationController
   # GET /orders/1
   # GET /orders/1.json
   def show
-    byebug
+  end
+
+  def accept_offer
+    provider = Provider.find(params[:id])
+    @restaurant = Restaurant.where(:manager_id => current_manager.id).first
+    provider_reject = RestaurantProvider.where(:restaurant_id => @restaurant.id).map { |e| e.provider_id }
+    @provider_all = Provider.find(provider_reject)
+    reject_providers = @provider_all.reject { |e| e.id == provider.id }.map { |p| p.id }
+
+    ActionCable.server.broadcast 'accept_offers',
+      :confirmed_provider => provider.id,
+      :message_confirmed => 'Your offer is confirmed!!!',
+      :rejected_providers => reject_providers,
+      :message_rejected => 'Your offer is rejected!!!'
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+    end
   end
 
   # GET /orders/new

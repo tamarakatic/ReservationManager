@@ -1,5 +1,6 @@
 class Provider < ApplicationRecord
-  has_many :restaurants
+  has_many :restaurant_providers
+  has_many :restaurants, :through => :restaurant_providers
   has_many :offers
 
   validates :firstname, presence: true,

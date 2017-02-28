@@ -26,14 +26,15 @@
 
 <br/><br/>
 <%= button_to 'New Provider', new_provider_registration_path, class: "btn btn-danger btn-lg", method: :get %>
+<%= hidden_field_tag :restaurant_id, current_manager.restaurant.id %>
 <br/>
 <% unless current_manager.restaurant.nil? %>
 <h2>Providers</h2>
 
 <ul>
-<% current_manager.restaurant.providers.each do |provider| %>
-<li><%= provider.firstname %></li>
-<% end %>
+  <% current_manager.restaurant.providers.each do |provider| %>
+    <li><%= provider.firstname %></li>
+  <% end %>
 </ul>
 
 <%= render partial: 'orders' %>

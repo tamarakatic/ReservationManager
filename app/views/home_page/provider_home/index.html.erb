@@ -1,3 +1,6 @@
+<%= content_tag :div, :id => :current_user, :data => { :provider => current_provider.id } do %>
+<% end %>
+
 <h1>Provider Profile</h1>
 </br>
 <h2> Welcome <%= current_provider.firstname %> </h2>
@@ -14,7 +17,7 @@
         <% restaurant.orders.each do |order| %>
           <li>
             <b>Activate:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %>
-            <% if offer_exists?(order.id) %>
+            <% if offer_exists?(order.id, current_provider.id) %>
               <%= hidden_field_tag :active_from, order.active_from.strftime("%m/%d/%Y") %>
               <%= hidden_field_tag :active_till, order.active_till.strftime("%m/%d/%Y") %>
               <%= link_to 'Edit', edit_offer_path(offer_id(order.id), :order_id => order.id), :name => "edit", class: "btn btn-warning btn-sm active" %>

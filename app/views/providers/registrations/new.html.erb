@@ -3,7 +3,6 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <%= f.text_field :restaurant_id, hidden: true, value: current_manager.restaurant.id %>
   <%= f.password_field :password, hidden: true, value: @generated_password %>
   <%= f.password_field :password_confirmation, hidden: true, value: @generated_password %>
 

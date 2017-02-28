@@ -24,7 +24,7 @@ class OffersController < ApplicationController
 
   # GET /offers/1/edit
   def edit
-    @order_items = OrderItem.where(:order_id => params[:order_id])
+    @order_items = OrderItem.where(:order_id => params[:id])
     @offer = Offer.find(params[:id])
     @active_from = @order_items.first.order.active_from
     @active_till = @order_items.first.order.active_till
@@ -50,7 +50,7 @@ class OffersController < ApplicationController
         end
 
         format.html { redirect_to root_path, notice: 'Offer was successfully created.' }
-        format.json { render :json => { :offer => @offer} }
+        format.json { render :show, status: :created, location: @offer }
       else
         format.html { render :new }
         format.json { render json: @offer.errors, status: :unprocessable_entity }
