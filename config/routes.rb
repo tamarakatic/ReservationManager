@@ -53,9 +53,14 @@ Rails.application.routes.draw do
   get 'profiles/cook_orders'       => 'profiles/cook_orders#index',       :as => 'cook_orders'
 
   get 'table_orders'               => 'table_orders#index'
-  put 'table_orders'               => 'table_orders#add_foods'
+
+  put 'table_orders/foods'         => 'table_orders#add_foods'
   delete 'table_orders'            => 'table_orders#delete_food'
   put 'table_orders/exchange'      => 'table_orders#exchange_food'
+
+  put 'table_orders/drinks'        => 'table_orders#add_drinks'
+  delete 'table_orders/remove_drinks'    => 'table_orders#delete_drink'
+  put 'table_orders/exchange_drink'     => 'table_orders#exchange_drink'
 
   authenticated :customer do
     root 'home_page/customer_home#index'

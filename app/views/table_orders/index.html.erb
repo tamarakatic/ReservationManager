@@ -35,7 +35,7 @@
       </div>
       <div class="modal-body">
         <span>Drink:</span>
-        <span id="orderDrink" class="hidden"><%= @customer_order.id %></span>
+        <input type="hidden" id="orderDrink" value=<%= @customer_order.id %>> </input>
         <select class="form-control col-sm-6" id="drinkSelect">
           <option disabled selected value></option>
           <% @drinks.each do |d| %>
@@ -46,6 +46,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" id="drink" class="btn btn-primary">Add in order</button>
+        <button type="button" id="exdrink" class="btn btn-primary">Exchange in order</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -56,14 +57,15 @@
     <h3>Order for table: <%= @customer_order.number_of_seats[0].number %></h3>
     <hr>
   </div>
-  <div style="width: 100%; overflow: hidden;">
+  <div id="foodDiv" style="width: 100%; overflow: hidden;">
     <div style="float:left;margin-left:3%; ">
       <span style="font-size: 20px;">Foods in order:</span> <br/>
       <ul id="foodList">
         <% @customer_order.foods.each do |food| %>
-          <li> <%= food.name %> <input type="hidden" value=<%= food.id %> />
+          <li> <%= food.name %>
+          <input type="hidden" value=<%= food.id %> />
           <button type="button" id="deleteFood" class="btn btn-danger btn-sm">Delete</button>
-          <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange this</button>
+          <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange</button>
             <ul>
              <li><i> <%= food.description %></i></li>
             </ul>
@@ -73,13 +75,14 @@
       <hr>
       <button id="callModal" type="button" class="btn btn-info btn-sm">Add food</button>
     </div>
-    <div style="margin-left: 60%;">
+    <div id='drinkDiv' style="margin-left: 60%;">
       <span style="font-size: 20px;">Drinks in order:</span> <br/>
-      <ul>
+      <ul id="drinkList">
         <% @customer_order.drinks.each do |drink| %>
           <li> <%= drink.name %>
-          <button type="button" class="btn btn-danger btn-sm">Delete</button>
-          <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange this</button>
+          <input type="hidden" value=<%= drink.id %> />
+          <button type="button" id="deleteDrink" class="btn btn-danger btn-sm">Delete</button>
+          <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange</button>
             <ul>
              <li><i> <%= drink.description %></i></li>
             </ul>

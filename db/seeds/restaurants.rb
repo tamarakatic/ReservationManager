@@ -29,6 +29,10 @@ rakija = pera.restaurant.drinks.create!(:name        => "Rakija",
                                :description => "Strong alcholic beverage",
                                :price       => 10.0)
 
+viski = pera.restaurant.drinks.create!(:name        => "Jack Daniels",
+                               :description => "Top notch scocht",
+                               :price       => 50.0)
+
 pera.employees.create!(:firstname             => "Ana",
                        :lastname              => "Spasic",
                        :email                 => "ana@gmail.com",
@@ -83,5 +87,6 @@ customer_order = CustomerOrder.create!()
 customer_order.foods << steak
 customer_order.foods << becka
 customer_order.drinks << rakija
+customer_order.drinks << viski
 customer_order.number_of_seats << garden.number_of_seats[0]
 

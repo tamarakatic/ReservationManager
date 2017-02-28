@@ -24,6 +24,10 @@ module ApplicationHelper
       employee_profile_path
     when "employee_calendar"
       employee_profile_path
+    when "table_orders"
+      employee_profile_path
+    when "waiter_orders"
+      employee_profile_path
     else
       root_path
     end
