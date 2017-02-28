@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require jquery.seat-charts
+//= require moment
 //= require cocoon
 //= require tether
 //= require bootstrap
@@ -21,6 +22,9 @@
 //= require fullcalendar
 //= require jquery.timepicker.js
 //= require underscore
+//= require pickadate/picker
+//= require pickadate/picker.date
+//= require pickadate/picker.time
 //= require turbolinks
 //
 //= require persist.js

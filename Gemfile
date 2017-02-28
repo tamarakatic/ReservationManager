@@ -69,7 +69,7 @@ gem 'has_friendship'
 # Require Bootstrap 4
 gem 'bootstrap', '~> 4.0.0.alpha6'
 
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 
 gem 'cocoon'
 
@@ -79,3 +79,6 @@ gem 'momentjs-rails'
 
 gem 'jquery-timepicker-rails', '~> 1.11', '>= 1.11.4'
 gem 'underscore-rails'
+
+gem 'momentjs-rails'
+gem 'pickadate-rails'

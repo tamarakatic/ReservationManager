@@ -6,23 +6,9 @@ $ ->
   $(document).on("turbolinks:load", ready)
 
 ready = ->
-  # Restaurant tabel data
-  restaurantSeats = $("#restaurant-seats").data("temp")
-  createSeatsMap(restaurantSeats)
-
+  initializeDatetimePicker()
+  createSeatsMap($("#restaurant-seats").data("temp"))
   bindHandlers()
-
-  # Set correct button for invited friends
-  invited = loadData("invited")
-  $("a[name='invite']").each (index) ->
-    if _.contains(invited, $(this).attr("id"))
-      $(this).removeClass("btn-success")
-      $(this).addClass("btn-danger")
-      $(this).text("Cancel")
-    else
-      $(this).removeClass("btn-danger")
-      $(this).addClass("btn-success")
-      $(this).text("Invite")
 
 initializeSeatMap = (map, rowLabels) ->
   $("#seat-map").seatCharts {
@@ -35,8 +21,8 @@ initializeSeatMap = (map, rowLabels) ->
     legend: {
       node: $('#legend'),
       items: [
-          [ "a", "available",   "Available tables" ],
-          [ "a", "unavailable", "Reserved tables" ]
+        [ "a", "available",   "Available tables" ],
+        [ "a", "unavailable", "Reserved tables" ]
       ]
     },
     click: ->
@@ -91,6 +77,80 @@ bindHandlers = ->
 
     event.preventDefault()
     storeData("invited", invited)
+
+  # Set correct button for invited friends
+  invited = loadData("invited")
+  $("a[name='invite']").each (index) ->
+    if _.contains(invited, $(this).attr("id"))
+      $(this).removeClass("btn-success")
+      $(this).addClass("btn-danger")
+      $(this).text("Cancel")
+    else
+      $(this).removeClass("btn-danger")
+      $(this).addClass("btn-success")
+      $(this).text("Invite")
+
+initializeDatetimePicker = ->
+  savedDate = []
+  if loadData("reservation-date")
+    savedDate = moment(new Date(loadData("reservation-date"))).format("D MMMM, YYYY")
+  else
+    savedDate = moment(new Date()).format("D MMMM, YYYY")
+
+  $("#reservation-date").val(savedDate).pickadate({
+    min:       new Date(),      # Current date is minimal
+    firstDay:  1,               # Monday as first day
+    onSet: (context) ->
+      storeData("reservation-date", context.select)
+  })
+
+  $("#reservation-time").pickatime({
+    format:    "HH:i",
+    interval:  30,
+    min:       [8, 0],
+    max:       [22, 0],
+    onSet: (context) ->
+      storeData("reservation-time", context.select)
+  }).val( () ->
+    time = loadData("reservation-time") || 8 * 60
+
+    hours   = Math.floor(time / 60)
+    minutes = time % 60
+    hours   = if hours < 10 then '0' + hours else hours
+    minutes = if minutes < 10 then '0' + minutes else minutes
+
+    "#{hours}:#{minutes}"
+  )
+
+  storeData("reservation-duration", $("#reservation-duration").val())
+  $("#reservation-duration").on "input", (e) ->
+    storeData("reservation-duration", $(this).val())
+
+  $("#date-step").unbind("click").bind "click", (e) ->
+    if loadData("reservation-duration") > 0 and loadData("reservation-duration") <= 3
+      $("#select-table").removeAttr("hidden")
+      $("#date-hr").removeAttr("hidden")
+      $(this).text("Refresh")
+      $(this).switchClass("btn-success", "btn-warning")
+      $(this).unbind("click").bind("click", updateAvailableSeats)
+    else
+      alert("Reservation duration must be more thatn 0 and less than 3 hours!")
+      $("#reservation-duration").val(0.5)
+      return false
+    e.preventDefault()
+
+updateAvailableSeats = (event) ->
+  date     = loadData("reservation-date")
+  time     = loadData("reservation-time")
+  duration = loadData("reservation-duration")
+
+  $.ajax "/customers/reservations/available_tables",
+    type: "GET",
+    data: { restaurant_id: $("#restaurant-seats").data("restaurant") }
+    success: () ->
+      console.log "hello"
+
+  event.preventDefault()
 
 storeData = (key, value) ->
   sessionStorage.setItem(key, JSON.stringify(value))
