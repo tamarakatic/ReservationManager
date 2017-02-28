@@ -3,10 +3,13 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $(document).on("ready turbolinks:load", ready)
+  $(document).on("turbolinks:load", ready)
 
 ready = ->
-  initializeSeatMap()
+  # Restaurant tabel data
+  restaurantSeats = $("#restaurant-seats").data("temp")
+  createSeatsMap(restaurantSeats)
+
   bindHandlers()
 
   # Set correct button for invited friends
@@ -21,21 +24,14 @@ ready = ->
       $(this).addClass("btn-success")
       $(this).text("Invite")
 
-initializeSeatMap = ->
-  $('#seat-map').seatCharts {
+initializeSeatMap = (map, rowLabels) ->
+  $("#seat-map").seatCharts {
     animate: true,
     naming: {
-      left: false,
-      top: false,
+      top: false
+      rows: rowLabels
     },
-    map: [
-        'aaa_aaa_aaa',
-        'aaa_aaa_aaa',
-        'aaa_aaa_aaa',
-        'aaa_aaa_aaa',
-        'aaa_aaa_aaa',
-        'aaa_aaa_aaa',
-    ],
+    map: map,
     legend: {
       node: $('#legend'),
       items: [
@@ -43,23 +39,38 @@ initializeSeatMap = ->
           [ "a", "unavailable", "Reserved tables" ]
       ]
     },
-    seats: {
-        a: {
-            classes : 'front-seat'
-        }
-    },
     click: ->
+      selectedTables = []
+      unless loadData("tables")
+        storeData("tables", [])
+      else
+        selectedTables = loadData("tables")
+
       if this.status() == 'available'
-          return 'selected'
+          selectedTables.push(this.node()[0].id)
+          storeData("tables", selectedTables)
+          return "selected"
       else if this.status() == 'selected'
-          # seat has been vacated
-          return 'available'
-      else if this.status() == 'unavailable'
-          # seat has been already booked
-          return 'unavailable'
+          selectedTables = _.without(selectedTables, this.node()[0].id)
+          storeData("tables", selectedTables)
+          return "available"
+      else if this.status() == "unavailable"
+          return "unavailable"
       else
           return this.style()
   }
+
+createSeatsMap = (restaurantSeats) ->
+  seatMap = []
+  rows = []
+
+  for area in restaurantSeats
+    rows.push(area.area)
+    seatMap.push(_.reduce(area.tables, (acc, table) ->
+      "#{acc}a[#{area.id}_#{table.id}, #{table.seatstable}]"
+    , ""))
+
+  initializeSeatMap(seatMap, rows)
 
 bindHandlers = ->
   $("a[name='invite']").unbind("click").click (event) ->

@@ -31,6 +31,9 @@
   <h1 class="ml-5 display-4">Select table</h1>
   <hr>
 
+  <%= content_tag :div, :id => "restaurant-seats", :data => { :temp => @restaurant.seats } do %>
+  <% end %>
+
   <div class="mb-5 container d-flex justify-content-center">
     <div id="seat-map">
       <div id="legend" class="d-flex justify-content-center">

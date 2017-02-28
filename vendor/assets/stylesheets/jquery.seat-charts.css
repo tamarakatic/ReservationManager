@@ -7,13 +7,13 @@ div.seatCharts-container {
 div.seatCharts-cell {
 	height: 2rem;
 	width: 2rem;
-	margin: 5px;
+	margin-right: 15px;
 	float: left;
 	text-align: center;
 	outline: none;
 	font-size: 13px;
 	line-height: 16px;
-	color: blue;
+	color: black;
 }
 
 div.seatCharts-seat {
@@ -39,6 +39,8 @@ div.seatCharts-row {
 
 div.seatCharts-row:after {
 	clear: both;
+  margin-right: 2rem;
+  color: black;
 }
 
 div.seatCharts-seat.selected {
