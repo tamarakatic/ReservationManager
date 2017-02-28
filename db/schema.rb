@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.integer  "restaurant_id"
+    t.integer  "food_type"
     t.index ["restaurant_id"], name: "index_foods_on_restaurant_id", using: :btree
   end
 

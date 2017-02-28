@@ -69,8 +69,15 @@
             <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange</button>
             <select class="form-control col-sm-6" id="cookSelect">
               <option disabled selected value></option>
-                <% @cooks.each do |cook| %>
-              <option value="<%= cook.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+                <% cooksArr = findCook(food, @cooks) %>
+                <% if cooksArr.nil? %>
+                  <% @cooks.each do |cook| %>
+                    <option value="<%= cook.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+                  <% end %>
+                <% else %>
+                  <% cooksArr.each do |cook| %>
+                    <option value="<%= cook.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+                  <% end %>
                 <% end %>
             </select>
           <% end %>
@@ -96,7 +103,7 @@
             <select class="form-control col-sm-6" id="barSelect">
               <option disabled selected value></option>
                 <% @bartenders.each do |bar| %>
-              <option value="<%= bartender.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+              <option value="<%= bar.id %>"><%= "#{bar.firstname} #{bar.lastname}"%></option>
                 <% end %>
             </select>
           <% end %>

@@ -14,7 +14,7 @@ class Profiles::WaiterOrdersController < ApplicationController
         if seat.nil?
           return
         else
-          if seat.number_of_seats.include? c.number_of_seats[0]
+          unless (seat.number_of_seats - c.number_of_seats).empty?
             addCostumerOrder(@customer_order,c,shift)
           end
         end
@@ -30,11 +30,19 @@ class Profiles::WaiterOrdersController < ApplicationController
     date = c.order_time.strftime("%Y-%m-%d")
     shift_date = shift.work_day.strftime("%Y-%m-%d")
     if(date == shift_date)
-      time = formatTime(c.order_time.strftime("%I:%p"))
+      timeHours, timeMinutes = formatEndTime(c.order_time.strftime("%I:%M:%p"))
       start = formatTime(shift.start_at.strftime("%I:%p"))
-      endTime = formatTime(shift.end_at.strftime("%I:%p"))
-      if(time > start and time < endTime)
-        @customer_order << c
+      endHours, endMinutes = formatEndTime(shift.end_at.strftime("%I:%M:%p"))
+      if(timeHours > start and timeHours == endHours)
+        if(timeMinutes < endMinutes)
+          unless c.status == 'Finished'
+            @customer_order << c
+          end
+        end
+      elsif(timeHours > start and timeHours < endHours)
+          unless c.status == 'Finished'
+            @customer_order << c
+          end
       end
     end
   end
@@ -46,5 +54,15 @@ class Profiles::WaiterOrdersController < ApplicationController
       finalTime += 12
     end
     finalTime
+  end
+
+  def formatEndTime(time)
+    t = time.split(':')
+    hours = t[0].to_i
+    minutes = t[1].to_i
+    if(t[2] == "PM")
+      hours += 12
+    end
+    return hours, minutes
   end
 end

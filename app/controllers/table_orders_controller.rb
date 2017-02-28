@@ -1,5 +1,6 @@
 class TableOrdersController < ApplicationController
   before_action :authenticate_employee!
+  before_action :checkActivity
 
   layout "home_page"
 
@@ -7,8 +8,8 @@ class TableOrdersController < ApplicationController
     @customer_order = CustomerOrder.find(params[:customer_order])
     @foods = Food.all
     @drinks = Drink.all
-    @cooks = Employee.where(:type => "Cook")
-    @bartenders = Employee.where(:type => "Bartender")
+    @cooks = empInShift("Cook")
+    @bartenders = empInShift("Bartender")
     @restaurant = Restaurant.find(current_employee.manager_id)
   end
 
@@ -75,6 +76,61 @@ class TableOrdersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to table_orders_path(:customer_order => customer_order.id)}
+    end
+  end
+
+  private
+
+  def empInShift(type)
+    emp = Employee.where(:type => type)
+    customer_order = CustomerOrder.find(params[:customer_order])
+    tempEmp = []
+    emp.each do |cook|
+      cook_shifts = EmployeeShift.where(employee_id: cook.id)
+      cook_shifts.each do |shift|
+        sh = Shift.find(shift.shift_id)
+        date = customer_order.order_time.strftime("%Y-%m-%d")
+        shift_date = sh.work_day.strftime("%Y-%m-%d")
+        if(shift_date == date)
+          timeHours, timeMinutes = formatEndTime(customer_order.order_time.strftime("%I:%M:%p"))
+          start = formatStartTime(sh.start_at.strftime("%I:%p"))
+          endHours, endMinutes = formatEndTime(sh.end_at.strftime("%I:%M:%p"))
+          if(timeHours > start and timeHours == endHours)
+            if(timeMinutes <= endMinutes)
+              tempEmp << cook
+            end
+          elsif(timeHours > start and timeHours < endHours)
+            tempEmp << cook
+          end
+        end
+      end
+    end
+    tempEmp
+  end
+
+  def formatStartTime(time)
+    t = time.split(':')
+    finalTime = t[0].to_i
+    if(t[1] == "PM" and t[1] != 12)
+      finalTime += 12
+    end
+    finalTime
+  end
+
+  def formatEndTime(time)
+    t = time.split(':')
+    hours = t[0].to_i
+    minutes = t[1].to_i
+    if(t[2] == "PM" and t[2] !=12 )
+      hours += 12
+    end
+    return hours, minutes
+  end
+
+  def checkActivity
+    customer_order = CustomerOrder.find(params[:customer_order])
+    if customer_order.nil? or customer_order.status == "Ready"
+      redirect_to watier_orders_path
     end
   end
 end

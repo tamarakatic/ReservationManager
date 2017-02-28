@@ -19,11 +19,13 @@ pera.create_restaurant!(:title       => "Black Swan",
 
 steak = pera.restaurant.foods.create!(:name        => "Steak Tartare",
                               :description => "Dry aged steak with avocado.",
-                              :price       => 45.0)
+                              :price       => 45.0,
+                              :food_type   => "RoastMeal")
 
 becka = pera.restaurant.foods.create!(:name        => "Becka snicla",
-                              :description => "Samo menza bato.",
-                              :price       => 5.0)
+                              :description => "Quality only.",
+                              :price       => 5.0,
+                              :food_type   => "RoastMeal")
 
 rakija = pera.restaurant.drinks.create!(:name        => "Rakija",
                                :description => "Strong alcholic beverage",
@@ -54,8 +56,19 @@ pera.employees.create!(:firstname             => "Djole",
                        :clothing_size         => "S",
                        :birth_date            => Date.new(1989, 3, 7),
                        :shoe_size             => 43,
-                       :speciality            => "Testenine",
+                       :speciality            => "RoastMeal",
                        :type                  => 'Cook')
+
+pera.employees.create!(:firstname             => "Misa",
+                       :lastname              => "Macak",
+                       :email                 => "somi@gmail.com",
+                       :password              => "somimacak",
+                       :password_confirmation => "somimacak",
+                       :confirmed_at          => Time.now,
+                       :clothing_size         => "S",
+                       :birth_date            => Date.new(1989, 3, 7),
+                       :shoe_size             => 41,
+                       :type                  => 'Bartender')
 
 pera.restaurant.seats.create!(:area => "Garden I")
 pera.restaurant.seats.create!(:area => "Garden II")
