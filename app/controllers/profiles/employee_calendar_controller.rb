@@ -16,7 +16,8 @@ class Profiles::EmployeeCalendarController < ApplicationController
 
     respond_to do |format|
       if request.xhr?
-        format.json { render :json => { :shift => all_shifts} }
+        format.json { render :json => { :title => "#{current_employee.firstname} #{current_employee.lastname}",
+                                        :shift => all_shifts} }
       end
 
       format.html

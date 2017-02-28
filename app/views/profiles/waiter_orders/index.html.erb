@@ -1,0 +1,17 @@
+<div class='container'>
+  <div style="background: transparent !important;" class='jumbotron'>
+    <h3 style="font-family: Wildera Regular;"><i>Active orders</i></h3>
+    <h6>
+    <span style="font-family: Gentona"><%= current_employee.firstname %></span>
+    <span style="margin-left: 0.3%;font-family: Gentona"><%= current_employee.lastname %></span>
+    </h6>
+    <hr style="color: gray">
+  </div>
+
+  <div class="container">
+    <div class="card-columns">
+      <%= render :partial => "customer_order", :collection => @customer_order, :as => :order %>
+    </div>
+  </div>
+
+</div>

@@ -49,6 +49,13 @@ Rails.application.routes.draw do
   get 'profiles/employee_calendar' => 'profiles/employee_calendar#index', :as => 'employee_calendar'
   get 'profiles/employee_reon'     => 'profiles/employee_reon#index',     :as => 'employee_reon'
   get 'profiles/employee_reon/seats' => 'profiles/employee_reon#seats'
+  get 'profiles/waiter_orders'     => 'profiles/waiter_orders#index',     :as => 'waiter_orders'
+  get 'profiles/cook_orders'       => 'profiles/cook_orders#index',       :as => 'cook_orders'
+
+  get 'table_orders'               => 'table_orders#index'
+  put 'table_orders'               => 'table_orders#add_foods'
+  delete 'table_orders'            => 'table_orders#delete_food'
+  put 'table_orders/exchange'      => 'table_orders#exchange_food'
 
   authenticated :customer do
     root 'home_page/customer_home#index'

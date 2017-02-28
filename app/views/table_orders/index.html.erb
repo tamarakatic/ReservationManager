@@ -1,0 +1,93 @@
+<div class='container'>
+
+<div class="modal fade" id="foodModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Choose food</h4>
+      </div>
+      <div class="modal-body">
+        <span>Food:</span>
+        <input type="hidden" id="orderFood" value=<%= @customer_order.id %>> </input>
+        <select class="form-control col-sm-6" id="foodSelect">
+          <option disabled selected value></option>
+          <% @foods.each do |f| %>
+            <option value="<%= f.id %>"><%= "#{f.name}"%></option>
+          <% end %>
+        </select> <br/><br/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="food" class="btn btn-primary">Add in order</button>
+        <button type="button" id="exfood" class="btn btn-primary">Exchange in order</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="drinksModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Choose drinks</h4>
+      </div>
+      <div class="modal-body">
+        <span>Drink:</span>
+        <span id="orderDrink" class="hidden"><%= @customer_order.id %></span>
+        <select class="form-control col-sm-6" id="drinkSelect">
+          <option disabled selected value></option>
+          <% @drinks.each do |d| %>
+            <option value="<%= d.id %>"><%= "#{d.name}"%></option>
+          <% end %>
+        </select> <br/><br/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="drink" class="btn btn-primary">Add in order</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+  <div style='background: transparent !important;' class='jumbotron'>
+    <h3>Order for table: <%= @customer_order.number_of_seats[0].number %></h3>
+    <hr>
+  </div>
+  <div style="width: 100%; overflow: hidden;">
+    <div style="float:left;margin-left:3%; ">
+      <span style="font-size: 20px;">Foods in order:</span> <br/>
+      <ul id="foodList">
+        <% @customer_order.foods.each do |food| %>
+          <li> <%= food.name %> <input type="hidden" value=<%= food.id %> />
+          <button type="button" id="deleteFood" class="btn btn-danger btn-sm">Delete</button>
+          <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange this</button>
+            <ul>
+             <li><i> <%= food.description %></i></li>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+      <hr>
+      <button id="callModal" type="button" class="btn btn-info btn-sm">Add food</button>
+    </div>
+    <div style="margin-left: 60%;">
+      <span style="font-size: 20px;">Drinks in order:</span> <br/>
+      <ul>
+        <% @customer_order.drinks.each do |drink| %>
+          <li> <%= drink.name %>
+          <button type="button" class="btn btn-danger btn-sm">Delete</button>
+          <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange this</button>
+            <ul>
+             <li><i> <%= drink.description %></i></li>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+      <hr>
+      <button id="drinkModal" type="button" class="btn btn-info btn-sm">Add drinks</button>
+    </div>
+  </div>
+</div>

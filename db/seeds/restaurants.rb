@@ -1,4 +1,8 @@
 Restaurant.delete_all
+CustomerOrder.delete_all
+CustomerOrderDrink.delete_all
+CustomerOrderFood.delete_all
+CustomerOrderSeat.delete_all
 
 pera = Manager.create!(:firstname             => "Pera",
                        :lastname              => "Peric",
@@ -13,11 +17,15 @@ pera.create_restaurant!(:title       => "Black Swan",
                                         "culinary imagination as our award-winning wine list " +
                                         "of more than 5,000 bottles awakens your inner sommelier")
 
-pera.restaurant.foods.create!(:name        => "Steak Tartare",
+steak = pera.restaurant.foods.create!(:name        => "Steak Tartare",
                               :description => "Dry aged steak with avocado.",
                               :price       => 45.0)
 
-pera.restaurant.drinks.create!(:name        => "Rakija",
+becka = pera.restaurant.foods.create!(:name        => "Becka snicla",
+                              :description => "Samo menza bato.",
+                              :price       => 5.0)
+
+rakija = pera.restaurant.drinks.create!(:name        => "Rakija",
                                :description => "Strong alcholic beverage",
                                :price       => 10.0)
 
@@ -28,7 +36,6 @@ pera.employees.create!(:firstname             => "Ana",
                        :password_confirmation => "anaspasic",
                        :password_changed      => true,
                        :confirmed_at          => Time.now,
-                       :type                  => "Bartender",
                        :clothing_size         => "S",
                        :birth_date            => Date.new(1994, 5, 5),
                        :shoe_size             => 42,
@@ -48,7 +55,7 @@ pera.employees.create!(:firstname             => "Djole",
 
 pera.restaurant.seats.create!(:area => "Garden I")
 pera.restaurant.seats.create!(:area => "Garden II")
-pera.restaurant.seats.create!(:area => "Garden III")
+garden = pera.restaurant.seats.create!(:area => "Garden III")
 
 pera.restaurant.seats.each.with_index(1) do |seat, iteration|
   Array.new(5) { rand(1...8) }.each.with_index(1) do |seats, number|
@@ -71,3 +78,10 @@ pera.restaurant.providers.create!(:firstname             => "Slade",
                                   :password_confirmation => "sladeslade",
                                   :password_changed      => true,
                                   :confirmed_at          => Time.now)
+
+customer_order = CustomerOrder.create!()
+customer_order.foods << steak
+customer_order.foods << becka
+customer_order.drinks << rakija
+customer_order.number_of_seats << garden.number_of_seats[0]
+

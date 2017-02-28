@@ -1,0 +1,36 @@
+<div class="w-100 card card-inverse card-primary">
+  <div class="card-block">
+    <h4 style="text-align: left; font-family: Wildera Regular;"class="card-title">Order</h4>
+    <h6><i>Status:</i></h6>
+    <hr>
+    <% if current_employee.type == 'Waiter' %>
+      <% order.number_of_seats.each do |table| %>
+        <span> Table: <%= table.number %>
+        </span>
+        <span style="text-align: right;margin-left: 30%;">Number of seats: <%= table.seatstable %>
+        </span>
+      <% end %>
+      <hr>
+    <% end %>
+    <% if current_employee.type == 'Waiter' or current_employee.type == 'Cook' %>
+      <h6><i>Foods:</i></h6>
+      <ul>
+        <% order.foods.each do |food| %>
+          <li> <%= food.name %> </li>
+        <% end %>
+      </ul>
+      <hr>
+    <% end %>
+    <% if current_employee.type == 'Waiter' or current_employee.type == 'Bartender' %>
+      <h6><i>Drinks:</i></h6>
+      <ul>
+        <% order.drinks.each do |drink| %>
+          <li> <%= drink.name %> </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+  <div class="card-footer">
+   <%= link_to "Details", table_orders_path(:customer_order => order.id) , :class => "btn btn-success btn-sm" %>
+  </div>
+</div>

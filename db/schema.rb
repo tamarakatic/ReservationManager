@@ -44,7 +44,9 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.datetime "updated_at",        null: false
     t.integer  "seat_id"
     t.integer  "customer_order_id"
+    t.integer  "number_of_seat_id"
     t.index ["customer_order_id"], name: "index_customer_order_seats_on_customer_order_id", using: :btree
+    t.index ["number_of_seat_id"], name: "index_customer_order_seats_on_number_of_seat_id", using: :btree
     t.index ["seat_id"], name: "index_customer_order_seats_on_seat_id", using: :btree
   end
 
@@ -308,6 +310,7 @@ ActiveRecord::Schema.define(version: 20170228193521) do
   add_foreign_key "customer_order_foods", "customer_orders"
   add_foreign_key "customer_order_foods", "foods"
   add_foreign_key "customer_order_seats", "customer_orders"
+  add_foreign_key "customer_order_seats", "number_of_seats"
   add_foreign_key "customer_order_seats", "seats"
   add_foreign_key "drinks", "restaurants"
   add_foreign_key "employee_shifts", "employees"
