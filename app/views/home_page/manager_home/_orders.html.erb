@@ -1,14 +1,19 @@
 <h2>New Order   <%= link_to 'Add', new_order_path(current_manager.restaurant), class: "btn btn-danger btn-sm", method: :get %></h2>
 <ul>
   <% current_manager.restaurant.orders.each do |order| %>
-        <p><b>Activate:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %></p>
-          <% order.order_items.each do |item| %>
+        <h3>Active:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %></h3>
+          <% order.offers.each do |offer| %>
+            <h4>Provider delivery time:</b> <%= "#{offer.delivery_time.strftime("%d-%m-%Y")} #{offer.provider_id}" %> <%= link_to 'Accept', order_path(offer.provider_id), :id => offer.provider_id, :class => "btn btn-danger btn-sm" %></h4>
             <ol>
-              <li><%= item.item %>
-              <%= item.quantity %>
-              <%= item.unit_of_measure %></li>
+            <% order.order_items.each do |item| %>
+              <li><%= "#{item.item}" %>
+                <%= "#{item.quantity}" %>
+                <%= "#{item.unit_of_measure}" %>
+                <%= "#{item.offer_item.price}" %>
+              </li>
+            <% end %>
             </ol>
           <% end %>
-      <br />
+        <br />
   <% end %>
 </ul>
