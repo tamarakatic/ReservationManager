@@ -8,7 +8,7 @@ class Reservation < ApplicationRecord
 
   alias_attribute :owner, :customer
   alias_attribute :invitations, :reservation_invitations
-  alias_attribute :table, :number_of_seat
+  alias_attribute :tables, :number_of_seats
 
   validates :reserved_from, :presence => true,
                             :timeliness => { :on_or_after => lambda { Date.current }, :type => :date }

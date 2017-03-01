@@ -7,6 +7,7 @@ RSpec.describe Restaurant, type: :model do
     it { should have_many(:seats).dependent(:destroy) }
     it { should have_many(:providers) }
     it { should have_many(:reservations) }
+    it { should have_many(:tables) }
     it { should belong_to(:manager) }
   end
 

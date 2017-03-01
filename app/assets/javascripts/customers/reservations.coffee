@@ -7,11 +7,11 @@ $ ->
 
 ready = ->
   initializeDatetimePicker()
-  createSeatsMap($("#restaurant-seats").data("temp"))
+  # createSeatsMap($("#restaurant-seats").data("temp"))
   bindHandlers()
 
 initializeSeatMap = (map, rowLabels) ->
-  $("#seat-map").seatCharts {
+  sc = $("#seat-map").seatCharts {
     animate: true,
     naming: {
       top: false
@@ -46,14 +46,16 @@ initializeSeatMap = (map, rowLabels) ->
           return this.style()
   }
 
-createSeatsMap = (restaurantSeats) ->
-  seatMap = []
-  rows = []
+  sc.find('u').status("unavailable")
 
-  for area in restaurantSeats
-    rows.push(area.area)
+createSeatsMap = (areas) ->
+  seatMap = []
+  rows    = []
+
+  for area in areas
+    rows.push(area.name)
     seatMap.push(_.reduce(area.tables, (acc, table) ->
-      "#{acc}a[#{area.id}_#{table.id}, #{table.seatstable}]"
+      "#{acc}#{table.symbol || 'a'}[#{area.id}_#{table.id}, #{table.seatstable}]"
     , ""))
 
   initializeSeatMap(seatMap, rows)
@@ -78,7 +80,12 @@ bindHandlers = ->
     event.preventDefault()
     storeData("invited", invited)
 
-  # Set correct button for invited friends
+  $("#tables-step").unbind("click").on "click", (e) ->
+    $("#menu").removeAttr("hidden", true)
+    $("#tables-step").attr("hidden", true)
+    e.preventDefault()
+
+  # Set correct button for invited friends from saved data in sessionStorage
   invited = loadData("invited")
   $("a[name='invite']").each (index) ->
     if _.contains(invited, $(this).attr("id"))
@@ -104,6 +111,8 @@ initializeDatetimePicker = ->
       storeData("reservation-date", context.select)
   })
 
+  storeData("reservation-date", $("#reservation-date").text())
+
   $("#reservation-time").pickatime({
     format:    "HH:i",
     interval:  30,
@@ -113,6 +122,7 @@ initializeDatetimePicker = ->
       storeData("reservation-time", context.select)
   }).val( () ->
     time = loadData("reservation-time") || 8 * 60
+    storeData("reservation-time", time)
 
     hours   = Math.floor(time / 60)
     minutes = time % 60
@@ -128,11 +138,15 @@ initializeDatetimePicker = ->
 
   $("#date-step").unbind("click").bind "click", (e) ->
     if loadData("reservation-duration") > 0 and loadData("reservation-duration") <= 3
-      $("#select-table").removeAttr("hidden")
-      $("#date-hr").removeAttr("hidden")
       $(this).text("Refresh")
       $(this).switchClass("btn-success", "btn-warning")
       $(this).unbind("click").bind("click", updateAvailableSeats)
+      $.when(updateAvailableSeats(e)).then ->
+        $("#select-table").removeAttr("hidden")
+        $("#date-hr").removeAttr("hidden")
+        $("html, body").animate({
+            scrollTop: $("#legend").offset().top
+        }, 2000)
     else
       alert("Reservation duration must be more thatn 0 and less than 3 hours!")
       $("#reservation-duration").val(0.5)
@@ -144,11 +158,39 @@ updateAvailableSeats = (event) ->
   time     = loadData("reservation-time")
   duration = loadData("reservation-duration")
 
+  reservation_start = moment(date).add(time, "minutes")
+  reservation_end   = moment(date).add(time, "minutes").add(duration, "hours")
+
   $.ajax "/customers/reservations/available_tables",
-    type: "GET",
-    data: { restaurant_id: $("#restaurant-seats").data("restaurant") }
-    success: () ->
-      console.log "hello"
+    type:     "GET",
+    dataType: "json",
+    data: {
+      restaurant_id:     $("#restaurant-seats").data("restaurant"),
+      reservation_start: reservation_start.valueOf(),
+      reservation_end:   reservation_end.valueOf()
+    },
+    success: (response) ->
+      areas = {}
+
+      putTable = (areas, table) ->
+        if table.area_id of areas
+          areas[table.area_id].tables.push(table)
+        else
+          areas[table.area_id] = {
+            name:    table.area_name,
+            id:      table.area_id,
+            tables:  [table]
+          }
+
+      for table in response.available
+        table.symbol = 'a'
+        putTable(areas, table)
+
+      for table in response.reserved
+        table.symbol = 'u'
+        putTable(areas, table)
+
+      createSeatsMap(_.values(areas))
 
   event.preventDefault()
 
