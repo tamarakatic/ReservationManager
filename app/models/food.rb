@@ -3,6 +3,9 @@ class Food < ApplicationRecord
   has_many :customer_order_foods, :dependent => :destroy
   has_many :customer_orders, :through => :customer_order_foods
 
+  has_many :food_reviews
+  has_many :foods, :through => :food_reviews
+
   enum food_type: %w(Desert Pasta Salad Appetizer Fish Soup RoastMeal CookedMeal)
 
   validates :price, presence: true,
