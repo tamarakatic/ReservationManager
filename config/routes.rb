@@ -58,7 +58,6 @@ Rails.application.routes.draw do
   get 'profiles/employee_profile'  => 'profiles/employee_profile#index',  :as => 'employee_profile'
   get 'profiles/manager_profile'   => 'profiles/manager_profile#index',   :as => 'manager_profile'
 
-
   get "accept_offer" => "orders#accept_offer"
 
   get "list_food" => "restaurants#list_food"
