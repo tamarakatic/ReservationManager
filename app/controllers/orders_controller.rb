@@ -14,6 +14,7 @@ class OrdersController < ApplicationController
   end
 
   def accept_offer
+    offer = params[:offer_id]
     provider = Provider.find(params[:id])
     @restaurant = Restaurant.where(:manager_id => current_manager.id).first
     provider_reject = RestaurantProvider.where(:restaurant_id => @restaurant.id).map { |e| e.provider_id }
@@ -22,8 +23,9 @@ class OrdersController < ApplicationController
     @rejected_providers = reject_providers
 
     ActionCable.server.broadcast 'accept_offers',
+      :confirmed_offer => offer,
       :confirmed_provider => provider.id,
-      :message_confirmed => 'Your offer is confirmed!!!',
+      :message_confirmed => 'This offer is confirmed!!!',
       :rejected_providers => reject_providers,
       :message_rejected => 'Your offer is rejected!!!'
 

@@ -2,7 +2,7 @@ class HomePage::ProviderHomeController < ApplicationController
   before_action :authenticate_provider!
   before_action :check_if_password_changed
 
-  layout "home_page"
+  layout "restaurant_home"
 
   def index
     restaurant = RestaurantProvider.where(:provider_id => current_provider.id).map { |e| e.restaurant_id }

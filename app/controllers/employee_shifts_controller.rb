@@ -2,7 +2,7 @@ class EmployeeShiftsController < ApplicationController
   before_action :set_employee_shift, only: [:edit, :update]
   before_action :authenticate_manager!
 
-  layout "home_page"
+  layout "manager_profile"
 
   def index
     @employee_shifts = EmployeeShift.all

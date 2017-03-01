@@ -4,6 +4,7 @@ App.order_notifications = App.cable.subscriptions.create("OrderNotificationsChan
     return $("#provider-notifications").html(this.renderNotification(notification));
   },
   renderNotification: function (data) {
-    return "<p class='text-center'>" + data.notification + "</p>";
+    var show_msg = "Show Orders!";
+    return "<p class='text-center'>" + data.notification + show_msg.link(".") + "</p>";
   }
 });

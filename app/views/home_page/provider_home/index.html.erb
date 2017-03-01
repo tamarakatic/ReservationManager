@@ -1,22 +1,24 @@
 <%= content_tag :div, :id => :current_user, :data => { :provider => current_provider.id } do %>
 <% end %>
 
-<h1>Provider Profile</h1>
-</br>
-<h2> Welcome <%= current_provider.firstname %> </h2>
+<div class="jumbotron">
+  <h1 class="display-3" style="font-family:sans-serif;">Hello, <%= current_provider.firstname %>!</h1>
+  <hr class="my-4">
+</div>
+<br/>
 
-<br>
+<div class="panel-body hidden" id="provider-notifications">
+</div>
 
-<h3>Restaurant</h3>
+<h2>Restaurants:</h2>
 <ul>
   <% @restaurants.each do |restaurant| %>
     <li>
-      <%= restaurant.title %>
-
+      <h3><b><%= restaurant.title %></b></h3>
       <ul>
         <% restaurant.orders.each do |order| %>
           <li>
-            <b>Activate:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %>
+            <b>Active:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %>
             <% if offer_exists?(order.id, current_provider.id) %>
               <%= hidden_field_tag :active_from, order.active_from.strftime("%m/%d/%Y") %>
               <%= hidden_field_tag :active_till, order.active_till.strftime("%m/%d/%Y") %>
@@ -30,8 +32,3 @@
     </li>
   <% end %>
 <ul>
-
-<div class="panel-body hidden" id="provider-notifications">
-
-</div>
-<%= link_to 'Show Orders', root_path, class: "btn btn-success btn-sm" %>
