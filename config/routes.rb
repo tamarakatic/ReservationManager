@@ -62,6 +62,8 @@ Rails.application.routes.draw do
   delete 'table_orders/remove_drinks'    => 'table_orders#delete_drink'
   put 'table_orders/exchange_drink'     => 'table_orders#exchange_drink'
 
+  get 'profiles/order_histories'   => 'profiles/order_histories#index',   :as => 'order_histories'
+
   authenticated :customer do
     root 'home_page/customer_home#index'
   end

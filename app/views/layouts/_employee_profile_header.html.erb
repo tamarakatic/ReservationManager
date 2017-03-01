@@ -34,9 +34,16 @@
         </li>
         <li class="nav-item active">
           <%= link_to list_of_orders(@type), :class => "nav-link" do %>
-            <%= fa_icon "history", :text => "List of orders", :class => "fa-lg fa-fw" %>
+            <%= fa_icon "list", :text => "List of orders", :class => "fa-lg   fa-fw" %>
           <% end %>
         </li>
+        <% if @type == 'Waiter' %>
+        <li class="nav-item active">
+            <%= link_to order_histories_path, :class => "nav-link" do %>
+              <%= fa_icon "history", :text => "Orders history", :class => "fa-lg fa-fw" %>
+            <% end %>
+        </li>
+        <% end %>
         <li class="nav-item active">
             <%= link_to employee_calendar_path, :class => "nav-link" do %>
               <%= fa_icon "calendar", :text => "Calendar schedule", :class => "fa-lg fa-fw" %>

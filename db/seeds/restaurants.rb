@@ -3,6 +3,7 @@ CustomerOrder.delete_all
 CustomerOrderDrink.delete_all
 CustomerOrderFood.delete_all
 CustomerOrderSeat.delete_all
+ServingTime.delete_all
 
 pera = Manager.create!(:firstname             => "Pera",
                        :lastname              => "Peric",
@@ -35,7 +36,7 @@ viski = pera.restaurant.drinks.create!(:name        => "Jack Daniels",
                                :description => "Top notch scocht",
                                :price       => 50.0)
 
-pera.employees.create!(:firstname             => "Ana",
+ana = pera.employees.create!(:firstname             => "Ana",
                        :lastname              => "Spasic",
                        :email                 => "ana@gmail.com",
                        :password              => "anaspasic",
@@ -70,6 +71,17 @@ pera.employees.create!(:firstname             => "Misa",
                        :shoe_size             => 41,
                        :type                  => 'Bartender')
 
+milos = pera.employees.create!(:firstname             => "Milos",
+                       :lastname              => "Ivic",
+                       :email                 => "milos@gmail.com",
+                       :password              => "milosivic",
+                       :password_confirmation => "milosivic",
+                       :confirmed_at          => Time.now,
+                       :clothing_size         => "M",
+                       :birth_date            => Date.new(1989, 3, 7),
+                       :shoe_size             => 44,
+                       :type                  => 'Waiter')
+
 pera.restaurant.seats.create!(:area => "Garden I")
 pera.restaurant.seats.create!(:area => "Garden II")
 garden = pera.restaurant.seats.create!(:area => "Garden III")
@@ -103,3 +115,17 @@ customer_order.foods << becka
 customer_order.drinks << rakija
 customer_order.drinks << viski
 customer_order.number_of_seats << garden.number_of_seats[0]
+
+customer_order_again = CustomerOrder.create!(:status           => "Finished",
+                                             :order_time       => DateTime.new(2017, 2, 2, 10, 10, 0, Rational(-0,24)))
+customer_order_again.foods << steak
+customer_order_again.foods << becka
+customer_order_again.drinks << rakija
+customer_order_again.drinks << viski
+customer_order_again.number_of_seats << garden.number_of_seats[0]
+
+serving = ServingTime.create!(:employee_id => ana.id,
+                               :customer_order_id => customer_order.id)
+
+ServingTime.create!(:employee_id => milos.id,
+                    :customer_order_id => customer_order_again.id)

@@ -4,7 +4,7 @@ class Profiles::CookOrdersController < ApplicationController
   layout "home_page"
 
   def index
-    customer = CustomerOrder.where.not(status: 'Finished' )
+    customer = CustomerOrder.where(status: 'Pending' )
     employee_shift = EmployeeShift.where(employee_id: current_employee.id)
     @customer_order = []
     customer.each do |c|
@@ -17,15 +17,21 @@ class Profiles::CookOrdersController < ApplicationController
 
   private
 
+  private
+
   def addCostumerOrder(costumer_order, c, shift)
     date = c.order_time.strftime("%Y-%m-%d")
     shift_date = shift.work_day.strftime("%Y-%m-%d")
     if(date == shift_date)
-      time = formatTime(c.order_time.strftime("%I:%p"))
+      timeHours, timeMinutes = formatEndTime(c.order_time.strftime("%I:%M:%p"))
       start = formatTime(shift.start_at.strftime("%I:%p"))
-      endTime = formatTime(shift.end_at.strftime("%I:%p"))
-      if(time > start and time < endTime)
-        @customer_order << c
+      endHours, endMinutes = formatEndTime(shift.end_at.strftime("%I:%M:%p"))
+      if(timeHours > start and timeHours == endHours)
+        if(timeMinutes <= endMinutes)
+          @customer_order << c
+        end
+      elsif(timeHours > start and timeHours < endHours)
+          @customer_order << c
       end
     end
   end
@@ -37,5 +43,15 @@ class Profiles::CookOrdersController < ApplicationController
       finalTime += 12
     end
     finalTime
+  end
+
+  def formatEndTime(time)
+    t = time.split(':')
+    hours = t[0].to_i
+    minutes = t[1].to_i
+    if(t[2] == "PM")
+      hours += 12
+    end
+    return hours, minutes
   end
 end
