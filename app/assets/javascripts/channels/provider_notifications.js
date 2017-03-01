@@ -8,7 +8,7 @@ App.provider_notifications = App.cable.subscriptions.create("ProviderNotificatio
     var user = $("#current_user").data("provider")
 
     if (data.confirmed_provider === user) {
-      return "<p class='text-center'>" + data.message_confirmed + "</p>";
+      return "<p class='text-center'>" + data.confirmed_offer + data.message_confirmed + "</p>";
     }
     else if (data.rejected_providers.indexOf(user) != -1) {
       return "<p class='text-center'>" + data.message_rejected + "</p>";

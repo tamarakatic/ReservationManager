@@ -78,7 +78,10 @@ gem 'fullcalendar-rails'
 gem 'momentjs-rails'
 
 gem 'jquery-timepicker-rails', '~> 1.11', '>= 1.11.4'
+
 gem 'underscore-rails'
 
-gem 'momentjs-rails'
 gem 'pickadate-rails'
+
+
+gem 'chart-js-rails'

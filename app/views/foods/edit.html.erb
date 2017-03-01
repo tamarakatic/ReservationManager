@@ -2,5 +2,7 @@
 
 <%= render 'form', food: @food %>
 
-<%= link_to 'Show', @food %> |
-<%= link_to 'Back', root_path %>
+<br /><br />
+<%= button_to list_food_path, :class => "btn btn-lg", method: :get do %>
+<%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+<% end %>

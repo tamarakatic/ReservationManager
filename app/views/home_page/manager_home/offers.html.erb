@@ -1,0 +1,15 @@
+<h2>Offers</h2>
+<br />
+<%= button_to root_path, :class => "btn btn-lg", method: :get do %>
+<%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+<% end %>
+
+<ul>
+  <% current_manager.restaurant.providers.each do |provider| %>
+    <% provider.offers.each do |offer| %>
+    <%= hidden_field_tag :accept_till, offer.delivery_time.strftime("%m/%d/%Y") %>
+    <h4>Provider: <b><%= "#{provider.firstname} #{provider.lastname}" %></b> has delivery time:</b> <%= "#{offer.delivery_time.strftime("%d-%m-%Y")}" %> <%= link_to 'Accept', accept_offer_path(:id => provider.id, :offer_id => offer.id), :name => "accept", :class => "btn btn-danger btn-sm active" %></h4>
+      <%= render partial: 'offers_item', :locals => { :offer => offer.order } %>
+    <% end %>
+  <% end %>
+</ul>

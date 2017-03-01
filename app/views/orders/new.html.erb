@@ -2,4 +2,7 @@
 
 <%= render 'form', order: @order %>
 
-<%= link_to 'Back', orders_path %>
+<br />
+<%= button_to root_path, :class => "btn btn-lg", method: :get do %>
+<%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+<% end %>

@@ -40,3 +40,6 @@
 //= require profiles/bartender_orders
 //= require profiles/waiter_orders
 //= require customers/reservations
+//= require home_page/manager_home
+//= require Chart
+//= require restaurants

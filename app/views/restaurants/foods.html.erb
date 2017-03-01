@@ -1,0 +1,14 @@
+<br /><br />
+<ul>
+  <% current_manager.restaurant.foods.each do |food| %>
+    <li>
+        <%= food.name %>
+        <%= link_to 'Edit', edit_food_path(food), class: 'btn btn-success btn-sm', method: :get %>
+        <%= link_to 'Destroy', food, class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+    <% end %>
+</ul>
+
+<%= button_to edit_restaurant_path(current_manager.restaurant), :class => "btn btn-sm", method: :get do %>
+<%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+<% end %>

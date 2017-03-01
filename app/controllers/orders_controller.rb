@@ -14,6 +14,7 @@ class OrdersController < ApplicationController
   end
 
   def accept_offer
+    offer = params[:offer_id]
     provider = Provider.find(params[:id])
     @restaurant = Restaurant.where(:manager_id => current_manager.id).first
     provider_reject = RestaurantProvider.where(:restaurant_id => @restaurant.id).map { |e| e.provider_id }
@@ -22,8 +23,9 @@ class OrdersController < ApplicationController
     @rejected_providers = reject_providers
 
     ActionCable.server.broadcast 'accept_offers',
+      :confirmed_offer => offer,
       :confirmed_provider => provider.id,
-      :message_confirmed => 'Your offer is confirmed!!!',
+      :message_confirmed => 'This offer is confirmed!!!',
       :rejected_providers => reject_providers,
       :message_rejected => 'Your offer is rejected!!!'
 
@@ -49,7 +51,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        format.html { redirect_to @order, notice: 'Order was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }
@@ -63,7 +65,7 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit }

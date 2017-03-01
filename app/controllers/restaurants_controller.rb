@@ -3,6 +3,8 @@ class RestaurantsController < ApplicationController
 
   before_action :authenticate_system_manager!
 
+  layout 'restaurant_home'
+
   # GET /restaurants
   # GET /restaurants.json
   def index
@@ -24,6 +26,29 @@ class RestaurantsController < ApplicationController
   def edit
   end
 
+  def list_food
+    respond_to do |format|
+      format.html { render :foods }
+    end
+  end
+
+  def list_drink
+    respond_to do |format|
+      format.html { render :drinks }
+    end
+  end
+
+  def list_seat
+    respond_to do |format|
+      format.html { render :seats }
+    end
+  end
+
+  def visit_chart
+    respond_to do |format|
+      format.html { render :charts }
+    end
+  end
   # POST /restaurants
   # POST /restaurants.json
   def create
@@ -45,7 +70,7 @@ class RestaurantsController < ApplicationController
   def update
     respond_to do |format|
       if @restaurant.update(restaurant_params)
-        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully updated.' }
+        format.html { render :edit, notice: 'Restaurant was successfully updated.' }
         format.json { render :show, status: :ok, location: @restaurant }
       else
         format.html { render :edit }

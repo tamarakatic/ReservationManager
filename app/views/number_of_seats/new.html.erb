@@ -2,4 +2,7 @@
 
 <%= render 'form', number_of_seat: @number_of_seat %>
 
-<%= link_to 'Back', number_of_seats_path %>
+<br />
+<%= button_to list_seat_path, :class => "btn btn-lg", method: :get do %>
+<%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+<% end %>

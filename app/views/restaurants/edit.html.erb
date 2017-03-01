@@ -1,6 +1,64 @@
-<h1>Editing Restaurant</h1>
+<h1>Editing "<%= @restaurant.title %>" </h1>
 
 <%= render 'form', restaurant: @restaurant %>
 
-<%= link_to 'Show', @restaurant %> |
-<%= link_to 'Back', restaurants_path %>
+<br/><br/>
+<div class="container">
+  <div class="row mb-6">
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to new_food_path(current_manager.restaurant), class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "cutlery", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to new_drink_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "glass", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to new_seat_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "braille", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="mt-5 row">
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_food_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_drink_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_seat_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="mt-5 row">
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to visit_chart_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "bar-chart-o", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_drink_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_seat_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<br />
+<%= button_to root_path, :class => "btn btn-lg", method: :get do %>
+<%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+<% end %>
+<br /> <br />
