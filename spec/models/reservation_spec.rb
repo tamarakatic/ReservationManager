@@ -5,6 +5,7 @@ RSpec.describe Reservation, type: :model do
     it { should belong_to(:restaurant) }
     it { should belong_to(:customer) }
     it { should have_many(:reservation_invitations) }
+    it { should have_many(:number_of_seats) }
   end
 
   describe "validations" do
