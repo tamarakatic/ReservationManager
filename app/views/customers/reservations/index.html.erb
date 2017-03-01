@@ -1,0 +1,25 @@
+<div>
+  &nbsp;
+  &nbsp;
+</div>
+
+<div class="container invitation">
+  <div class="mt-5 container">
+    <div>
+      <h1 class="text-center display-4">Invitation for <strong class="text-danger"><%= @reservation.restaurant.title %></strong></h1>
+
+      <hr>
+
+      <h5 class="text-muted">Invited by: <%= "#{@reservation.owner.firstname} #{@reservation.owner.lastname}" %></h5>
+
+    </div>
+  </div>
+  <div class="mt-5 mb-4 container">
+    <div class="text-center">
+      <div class="btn-group">
+        <%= button_to "Accept", customers_reservations_accept_path(:reservation_id => @reservation.id), :class => "mr-2 btn btn-success btn-lg" %>
+        <%= button_to "Decline", customers_reservations_decline_path(:reservation_id => @reservation.id), :class => "btn btn-danger btn-lg" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -21,6 +21,7 @@ gem 'coffee-rails', '~> 4.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-sass-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -68,7 +69,7 @@ gem 'has_friendship'
 # Require Bootstrap 4
 gem 'bootstrap', '~> 4.0.0.alpha6'
 
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 
 gem 'cocoon'
 
@@ -77,3 +78,7 @@ gem 'fullcalendar-rails'
 gem 'momentjs-rails'
 
 gem 'jquery-timepicker-rails', '~> 1.11', '>= 1.11.4'
+gem 'underscore-rails'
+
+gem 'momentjs-rails'
+gem 'pickadate-rails'

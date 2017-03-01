@@ -7,4 +7,8 @@ class Seat < ApplicationRecord
   validates :area, presence: true,
                    allow_blank: false,
                    length: { in: 2..30 }
+
+  def as_json(options={})
+    super.as_json.merge(:tables => self.number_of_seats)
+  end
 end

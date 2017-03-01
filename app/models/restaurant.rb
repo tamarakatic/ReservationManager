@@ -1,4 +1,5 @@
 class Restaurant < ApplicationRecord
+  belongs_to :manager
   has_many :foods, dependent: :destroy
   has_many :drinks, dependent: :destroy
   has_many :seats, dependent: :destroy
@@ -7,7 +8,8 @@ class Restaurant < ApplicationRecord
   has_many :orders
   has_many :restaurant_reviews
   has_many :reviews, :through => :restaurant_reviews
-  belongs_to :manager
+  has_many :reservations
+  has_many :tables, :through => :seats, :source => :number_of_seats
 
   validates :title, uniqueness: true,
                     length: { in: 2..30 },

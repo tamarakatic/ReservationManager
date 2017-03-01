@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
+  describe "Associations" do
+    it { should have_many(:reservations) }
+    it { should have_many(:reservation_invitations) }
+  end
 
   describe 'Validations' do
     let!(:customer) { build(:customer) }

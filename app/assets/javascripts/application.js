@@ -11,13 +11,20 @@
 // about supported directives.
 //
 //= require jquery
-//= require cocoon
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require jquery.seat-charts
+//= require moment
+//= require cocoon
 //= require tether
 //= require bootstrap
 //= require moment
 //= require fullcalendar
 //= require jquery.timepicker.js
+//= require underscore
+//= require pickadate/picker
+//= require pickadate/picker.date
+//= require pickadate/picker.time
 //= require turbolinks
 //
 //= require persist.js
@@ -32,3 +39,4 @@
 //= require profiles/cook_orders
 //= require profiles/bartender_orders
 //= require profiles/waiter_orders
+//= require customers/reservations

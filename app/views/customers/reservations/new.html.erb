@@ -1,0 +1,128 @@
+<div class="mt-5 mb-5 w-100">
+  <h1 class="display-3 text-center">
+    <strong>Reservation</strong>
+    <strong class="text-danger">@<%= @restaurant.title %></strong>
+  </h1>
+  <hr>
+</div>
+
+<div class="container mt-3 rounded reservation-form">
+  <h2 class="ml-5 mt-3 display-4">Pick a date</h2>
+  <hr>
+
+  <div class="row mb-5 w-100 d-flex justify-content-center">
+    <div class="column w-50">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Date</label>
+        <div class="col-7">
+          <input class="form-control" id="reservation-date" placeholder="Select date" />
+          <small class="form-text text-muted">Shoose a perfect date for you.</small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Time</label>
+        <div class="col-7">
+          <input class="form-control" id="reservation-time" placeholder="Select time" />
+          <small class="form-text text-muted">Reservations can be made from 08:00 to 22:00.</small>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Duration</label>
+        <div class="col-7">
+          <div class="input-group">
+            <input class="form-control" required id="reservation-duration" aria-describedby="duration" type="number" min="0.5" max="3" step="0.5" value="0.5" placeholder="Duration (hours)" />
+            <span class="input-group-addon" id="duration">h</span>
+          </div>
+          <small class="form-text text-muted">Maximum duration is 3 hours.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ml-3 mr-3 mb-3 w-50">
+    <%= link_to "Show availalbe tables", "#", :id => "date-step", :class => "btn btn-success btn-sm active" %>
+  </div>
+  <hr id="date-hr" hidden>
+
+  <div id="select-table" hidden>
+    <h1 class="ml-5 display-4">Select table</h1>
+    <hr>
+
+    <%= content_tag :div, :id => "restaurant-seats", :data => { :temp => @restaurant.seats, :restaurant => @restaurant.id } do %>
+    <% end %>
+
+    <div class="mb-5 container d-flex justify-content-center">
+      <div id="seat-map">
+        <div id="legend" class="d-flex justify-content-center">
+        </div>
+      </div>
+    </div>
+    <div class="ml-3 mr-3 mb-3 w-50">
+      <%= link_to "Invite friends", "#", :id => "tables-step", :class => "btn btn-success btn-sm active" %>
+    </div>
+  </div>
+
+  <div id="invite-friends" hidden>
+    <hr>
+    <h1 class="ml-5 display-4">Invite friends</h1>
+    <hr>
+
+    <div class="mb-5">
+      <ul class="list-group w-50 container"> <% @friends.each do |friend| %>
+          <li class="list-group-item justify-content-between">
+            <%= "#{friend.firstname} #{friend.lastname}" %>
+            <%= link_to "Invite", "", :id => friend.id, :name => "invite", :class => "btn btn-success btn-sm active" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="ml-3 mr-3 mb-3 w-50">
+      <%= link_to "Show menu", "#", :id => "menu-step", :class => "btn btn-success btn-sm active" %>
+    </div>
+  </div>
+
+  <div id="menu" hidden>
+    <hr>
+    <h1 class="ml-5 display-4">Menu</h1>
+    <hr>
+
+    <div class="mb-5">
+      <table class="container mt-4 table w-50">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Food / Drink</th>
+            <th>Price</th>
+            <th width="25%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @restaurant.foods.each do |food| %>
+            <tr class="table-active">
+              <td>
+                  <%= "#{food.name}" %>
+              </td>
+              <td>
+                  <%= "$ #{food.price}" %>
+              </td>
+              <td>
+                <%= link_to "Order", "#", :id => food.id, :name => "order-food", :class => "btn btn-success btn-sm active pull-right" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <div class="mb-3 text-center">
+      <%= link_to "Create reservation", "", :id => "create-reservation", :class => "btn btn-success btn-lg active" %>
+    </div>
+  </div>
+
+</div>
+
+<div class="mt-3">
+  &nbsp;
+  &nbsp;
+</div>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello, <%= @user.firstname %></h1>
+    <p>
+      You have an invitation from <%= @reservation.owner.email %>
+      to <%= @reservation.restaurant.title %>
+    </p>
+    <br>
+    <p>
+    For more details follow next link
+    <%= link_to "link", customers_reservations_index_url(:reservation_id => @reservation.id) %>
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>

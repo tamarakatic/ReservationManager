@@ -1,5 +1,7 @@
 class NumberOfSeat < ApplicationRecord
   belongs_to :seat
+  has_many :reserved_tables
+  has_many :reservations, :through => :reserved_tables
 
   has_many :customer_order_seats, :dependent => :destroy
   has_many :customer_orders, :through => :customer_order_seats
