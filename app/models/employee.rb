@@ -31,6 +31,10 @@ class Employee < ApplicationRecord
     %w(Bartender Cook Waiter)
   end
 
+  def as_json options={}
+    super.as_json.merge!("type" => self.type)
+  end
+
   private
 
   def speciality_validator

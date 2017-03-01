@@ -15,8 +15,8 @@ $ ->
       },
       events: (start, end, timezone, callback) ->
         employee_shift_load(callback)
-      minTime: "00:00:00",
-      maxTime: "23:59:00",
+      minTime: "06:00:00",
+      maxTime: "23:30:00",
       dayClick: (date, element, view) ->
         saveShift(date)
         $('#eventModal').modal 'show'
@@ -26,9 +26,9 @@ $ ->
         right: 'month,agendaWeek,agendaDay'
       },
       eventClick: (event, element) ->
-        $('#eventModalUpdate').modal 'show'
         fillModal(event)
         updateShift(event)
+        $('#eventModalUpdate').modal 'show'
       timeFormat: 'h:mm a',
       dragOpacity: "0.5"
     });
@@ -36,27 +36,33 @@ $ ->
     $('#employee').change ->
       employee = document.getElementById('employee')
       employee_type = employee.options[employee.selectedIndex].text.split(' ')[2]
-      if(employee_type == 'Waiter')
+      if employee_type == 'Waiter'
         $('#role').show()
         $('#area').show()
       else
         $('#role').hide()
         $('#area').hide()
+        $('#role').filter(->
+          $(this).text() == ''
+        ).prop 'selected', true
 
     $('#employeeUpdate').change ->
       employee = document.getElementById('employeeUpdate')
       employee_type = employee.options[employee.selectedIndex].text.split(' ')[2]
-      if(employee_type == 'Waiter')
+      if employee_type == 'Waiter'
         $('#areaUpdate').show()
         $('#roleUpdate').show()
       else
         $('#areaUpdate').hide()
         $('#roleUpdate').hide()
+        $('#roleUpdate').filter(->
+          $(this).text() == ''
+        ).prop 'selected', true
 
 
     $('#startTime').timepicker({
-      minTime: '00:00am',
-      maxTime: '23:59pm',
+      minTime: '06:00am',
+      maxTime: '23:30pm',
       interval: 5,
       dynamic: false,
       dropdown: true,
@@ -64,8 +70,8 @@ $ ->
     })
 
     $('#endTime').timepicker({
-      minTime: '00:00am',
-      maxTime: '23:59pm',
+      minTime: '06:00am',
+      maxTime: '23:30pm',
       interval: 5,
       dynamic: false,
       dropdown: true,
@@ -73,8 +79,8 @@ $ ->
     })
 
     $('#startTimeUpdate').timepicker({
-      minTime: '00:00am',
-      maxTime: '23:59pm',
+      minTime: '06:00am',
+      maxTime: '23:30pm',
       interval: 5,
       dynamic: false,
       dropdown: true,
@@ -82,8 +88,8 @@ $ ->
     })
 
     $('#endTimeUpdate').timepicker({
-      minTime: '00:00am',
-      maxTime: '23:59pm',
+      minTime: '06:00am',
+      maxTime: '23:30pm',
       interval: 5,
       dynamic: false,
       dropdown: true,
@@ -94,9 +100,8 @@ saveShift = (date) ->
   $('#SaveShift').unbind("click").click (e) ->
     console.log(date)
     employee = document.getElementById('employee')
+    employee_type = employee.options[employee.selectedIndex].text.split(' ')[2]
     employee_id = employee.options[employee.selectedIndex].value
-    name_surname = employee.options[employee.selectedIndex].title
-
     startTime = timeConvert($('#startTime').val())
     endTime = timeConvert($('#endTime').val())
     type = document.getElementById('role')
@@ -104,9 +109,6 @@ saveShift = (date) ->
     dat = moment(date).format('YYYY-MM-DD')
     start = new Date(dat+"T"+startTime)
     end = new Date(dat+"T"+endTime)
-
-    console.log(start)
-    console.log(end)
 
     if employee_id == '' || startTime == '' || endTime == ''
       return
@@ -121,47 +123,63 @@ saveShift = (date) ->
         startT = response.shift.start_at.split('T')[1]
         endT = response.shift.end_at.split('T')[1]
         event = {
-          title: response.employee.firstname + " " + response.employee.lastname,
+          employee_id: employee_id,
+          employee_type: employee_type,
+          title: "#{response.employee.firstname} #{response.employee.lastname}",
           start: new Date(response.shift.work_day+"T"+startT),
           end: new Date(response.shift.work_day+"T"+endT)
           allDay: false
         }
         $('#calendar_employee').fullCalendar 'renderEvent', event, true
 
-
-    $('#employee :selected').text()
+    $('#employee').filter(->
+      $(this).text() == ''
+    ).prop 'selected', true
     $('#startTime').val('')
     $('#endTime').val('')
-    $('#role :selected').text()
+    $('#role').filter(->
+      $(this).text() == ''
+    ).prop 'selected', true
     $('#eventModal').modal 'hide'
 
 updateShift = (event) ->
   $('#updateShift').unbind("click").click (e) ->
-    employee = document.getElementById('employeeUpdate')
-    employee_id = employee.options[employee.selectedIndex].value
-    name_surname = employee.options[employee.selectedIndex].title
-    console.log(name_surname)
+    employee_id = event.employee_id
     startTime = timeConvert($('#startTimeUpdate').val())
     endTime = timeConvert($('#endTimeUpdate').val())
-    type = document.getElementById('roleUpdate')
-    role = type.options[type.selectedIndex].value
-    event.title = name_surname
+    if event.employee_type == 'Waiter'
+      role = $('#roleUpdate option:selected').val()
+    else
+      role = ''
+
     datum = moment(event.start).format('YYYY-MM-DD')
-    event.start = new Date(datum+"T"+startTime)
-    event.end = new Date(datum+"T"+endTime)
-    if employee_id == '' || startTime = '' || endTime = ''
+
+    if employee_id == '' || startTime == '' || endTime == ''
       return
-    $('#calendar_employee').fullCalendar('updateEvent', event)
-    $('#employeeUpdate :selected').text()
-    $('#startTimeUpdate').val('')
-    $('#endTimeUpdate').val('')
-    $('#roleUpdate :selected').text()
+
+    $.ajax
+      url: "/employee_shifts/#{employee_id}"
+      type: 'PUT'
+      dataType: 'json'
+      data: { employee_id: employee_id, start_at: startTime, end_at: endTime, role: role, current_date: datum }
+      success: (response) ->
+        startT = response.shift.start_at.split('T')[1]
+        endT = response.shift.end_at.split('T')[1]
+        event.start = new Date(response.shift.work_day + "T" + startT)
+        event.end = new Date(response.shift.work_day + "T" + endT)
+        $('#calendar_employee').fullCalendar('updateEvent', event)
+
     $('#eventModalUpdate').modal 'hide'
 
 fillModal = (event) ->
-  $('employeeUpdate').filter(->
-    $(this).text() == event.title
-  ).prop 'selected', true
+  $('#employeeUpdate').val("#{event.title} #{event.employee_type}")
+  unless event.employee_type == 'Waiter'
+    $('#areaUpdate').hide()
+    $('#roleUpdate').hide()
+  else
+    $('#areaUpdate').show()
+    $('#roleUpdate').show()
+
   startTimeFormat = event.start.format('hh:mma')
   endTimeFormat = event.end.format('hh:mma')
   $('#startTimeUpdate').val(startTimeFormat)
@@ -187,12 +205,13 @@ employee_shift_load = (callback)->
     type: 'GET'
     dataType: 'json'
     success: (response) ->
-      console.log(response)
       eventsArray = []
       for x of response.employee
         startT = response.shift[x].start_at.split('T')[1]
         endT = response.shift[x].end_at.split('T')[1]
         event = {
+          employee_id: response.employee[x].id,
+          employee_type: response.employee[x].type,
           title: response.employee[x].firstname + " " + response.employee[x].lastname,
           start: new Date(response.shift[x].work_day+"T"+startT),
           end: new Date(response.shift[x].work_day+"T"+endT)

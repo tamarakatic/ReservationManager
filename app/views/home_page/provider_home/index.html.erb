@@ -1,11 +1,11 @@
+<%= content_tag :div, :id => :current_user, :data => { :provider => current_provider.id } do %>
+<% end %>
+
 <h1>Provider Profile</h1>
 </br>
 <h2> Welcome <%= current_provider.firstname %> </h2>
 
-<%= link_to 'Edit profile', edit_provider_registration_path %>
 <br>
-<%= link_to 'Log out', destroy_provider_session_path, method: :delete %>
-<br />
 
 <h3>Restaurant</h3>
 <ul>
@@ -16,9 +16,11 @@
       <ul>
         <% restaurant.orders.each do |order| %>
           <li>
-            <%= "#{order.active_from} - #{order.active_till}" %>
-            <% if offer_exists?(order.id) %>
-              <%= link_to 'Edit', edit_offer_path(offer_id(order.id), :order_id => order.id), class: "btn btn-warning btn-sm" %>
+            <b>Activate:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %>
+            <% if offer_exists?(order.id, current_provider.id) %>
+              <%= hidden_field_tag :active_from, order.active_from.strftime("%m/%d/%Y") %>
+              <%= hidden_field_tag :active_till, order.active_till.strftime("%m/%d/%Y") %>
+              <%= link_to 'Edit', edit_offer_path(offer_id(order.id), :order_id => order.id), :name => "edit", class: "btn btn-warning btn-sm active" %>
             <% else %>
                 <%= link_to 'Add', new_offer_path(:order_id => order.id), class: "btn btn-success btn-sm" %>
             <% end %>
@@ -28,3 +30,8 @@
     </li>
   <% end %>
 <ul>
+
+<div class="panel-body hidden" id="provider-notifications">
+
+</div>
+<%= link_to 'Show Orders', root_path, class: "btn btn-success btn-sm" %>

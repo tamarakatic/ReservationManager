@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225221434) do
+ActiveRecord::Schema.define(version: 20170228193521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,12 +241,19 @@ ActiveRecord::Schema.define(version: 20170225221434) do
     t.datetime "updated_at",                          null: false
     t.string   "firstname"
     t.string   "lastname"
-    t.integer  "restaurant_id"
     t.boolean  "password_changed"
     t.index ["confirmation_token"], name: "index_providers_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_providers_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_providers_on_reset_password_token", unique: true, using: :btree
-    t.index ["restaurant_id"], name: "index_providers_on_restaurant_id", using: :btree
+  end
+
+  create_table "restaurant_providers", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "restaurant_id"
+    t.integer  "provider_id"
+    t.index ["provider_id"], name: "index_restaurant_providers_on_provider_id", using: :btree
+    t.index ["restaurant_id"], name: "index_restaurant_providers_on_restaurant_id", using: :btree
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -255,9 +262,7 @@ ActiveRecord::Schema.define(version: 20170225221434) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "manager_id"
-    t.integer  "provider_id"
     t.index ["manager_id"], name: "index_restaurants_on_manager_id", using: :btree
-    t.index ["provider_id"], name: "index_restaurants_on_provider_id", using: :btree
   end
 
   create_table "seats", force: :cascade do |t|
@@ -317,8 +322,8 @@ ActiveRecord::Schema.define(version: 20170225221434) do
   add_foreign_key "offers", "providers"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "restaurants"
-  add_foreign_key "providers", "restaurants"
+  add_foreign_key "restaurant_providers", "providers"
+  add_foreign_key "restaurant_providers", "restaurants"
   add_foreign_key "restaurants", "managers"
-  add_foreign_key "restaurants", "providers"
   add_foreign_key "seats", "restaurants"
 end

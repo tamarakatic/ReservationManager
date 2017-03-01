@@ -2,7 +2,8 @@ class Restaurant < ApplicationRecord
   has_many :foods, dependent: :destroy
   has_many :drinks, dependent: :destroy
   has_many :seats, dependent: :destroy
-  has_many :providers
+  has_many :restaurant_providers
+  has_many :providers, :through => :restaurant_providers
   has_many :orders
   belongs_to :manager
 

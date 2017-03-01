@@ -32,21 +32,24 @@
   </tbody>
 </table>
 
+<%= hidden_field_tag :active_from, @active_from %>
+<%= hidden_field_tag :active_till, @active_till %>
+
 <%= hidden_field_tag :order_id, @order_items.first.order_id %>
 
-<div class="form-group row col-sm-10">
-  <label for="example-datetime-local-input" class="col-2 col-form-label">Date and time</label>
+<div class = "form-group row col-sm-10">
+  <label for = "example-datetime-local-input" class = "col-2 col-form-label">Date and time</label>
   <div>
-    <input class="form-control" type="datetime-local" value="<%= Time.now.utc.iso8601.gsub("Z", "") %>" id="example-datetime-local-input">
+    <input class = "form-control" type = "datetime-local" value = "" id = "offer_time"></input>
   </div>
 </div>
 
 <div class="field">
   <% if params[:action] == "new" %>
-    <%= link_to "Create", '#', :id => "create_offer", :class => "btn btn-success" %>
+    <%= link_to "Create", '#', :id => "create_offer", :name => "alert", :class => "btn btn-success active" %>
   <% else %>
     <%= hidden_field_tag :offer_id, @offer.id %>
-    <%= link_to "Edit", '#', :id => "edit_offer", :class => "btn btn-warning" %>
+    <%= link_to "Edit", '#', :id => "edit_offer", :name => "alert", :class => "btn btn-warning" %>
   <% end %>
   <%= link_to "Back", root_path, :class => "btn btn-info" %>
 </div>
