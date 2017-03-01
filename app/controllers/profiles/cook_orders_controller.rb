@@ -4,15 +4,12 @@ class Profiles::CookOrdersController < ApplicationController
   layout "home_page"
 
   def index
-    customer = CustomerOrder.where(:status => ['ReadyDrinks','Pending','ProgressFoods','Progress','ProgressFoodsWithReadyDrinks','Active'] )
-    employee_shift = EmployeeShift.where(employee_id: current_employee.id)
+    customer = CustomerOrderPart.where(:status => ['Pending','ProgressFoods'],:employee_id => current_employee.id).to_a
     @customer_order = []
+    byebug
     customer.each do |c|
-      employee_shift.each do |emp|
-        shift = Shift.find(emp.shift_id)
-        addCostumerOrder(@customer_order, c, shift)
+        @customer_order << c
       end
-    end
   end
 
   def setPrepare

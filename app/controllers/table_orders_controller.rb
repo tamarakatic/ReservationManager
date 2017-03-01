@@ -1,6 +1,5 @@
 class TableOrdersController < ApplicationController
   before_action :authenticate_employee!
-  before_action :checkActivity
 
   layout "home_page"
 
@@ -79,6 +78,27 @@ class TableOrdersController < ApplicationController
     end
   end
 
+  def notify_cook
+    food = Food.find(params[:id][:food_id])
+    temp = CustomerOrderPart.where(:employee_id => params[:id][:cook_id], :customer_order_id => params[:id][:customer_id]).first
+    if temp.nil?
+      part = CustomerOrderPart.new(:customer_order_id => params[:id][:customer_id],
+                               :employee_id => params[:id][:cook_id],
+                               :status => 'Pending')
+      part.foods << food
+      if part.save!
+        respond_to do |format|
+          format.html {redirect_to table_orders_path(:customer_order=>params[:id][:customer_id])}
+        end
+      end
+    else
+      temp.foods << food
+      respond_to do |format|
+        format.html {redirect_to table_orders_path(:customer_order=>params[:id][:customer_id])}
+      end
+    end
+  end
+
   private
 
   def empInShift(type)
@@ -127,10 +147,4 @@ class TableOrdersController < ApplicationController
     return hours, minutes
   end
 
-  def checkActivity
-    customer_order = CustomerOrder.find(params[:customer_order])
-    if customer_order.nil? or customer_order.status == "Ready"
-      redirect_to waiter_orders_path
-    end
-  end
 end

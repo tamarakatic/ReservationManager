@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   put 'table_orders/foods'         => 'table_orders#add_foods'
   delete 'table_orders'            => 'table_orders#delete_food'
   put 'table_orders/exchange'      => 'table_orders#exchange_food'
+  post 'table_orders/notify_cook'  => 'table_orders#notify_cook'
 
   put 'table_orders/drinks'        => 'table_orders#add_drinks'
   delete 'table_orders/remove_drinks'    => 'table_orders#delete_drink'

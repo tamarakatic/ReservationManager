@@ -54,8 +54,10 @@
 
 
   <div style='background: transparent !important;' class='jumbotron'>
-    <h3>Order for table: <%= @customer_order.number_of_seats[0].number %></h3>
-    <hr>
+    <% @customer_order.number_of_seats.each do |ord| %>
+      <h3>Order for table: <%= ord.number %></h3>
+      <hr>
+    <% end %>
   </div>
   <div id="foodDiv" style="width: 100%; overflow: hidden;">
     <div style="float:left;margin-left:3%; ">
@@ -81,6 +83,7 @@
                 <% end %>
             </select>
           <% end %>
+               <button id="sendCooks" style="float:right;" type="button" class="btn btn-info btn-sm">Notify cooks</button>
             <ul>
              <li><i> <%= food.description %></i></li>
             </ul>
@@ -89,7 +92,6 @@
       </ul>
       <hr>
       <button id="callModal" type="button" class="btn btn-info btn-sm">Add food</button>
-      <button id="sendCooks" style="float:right;" type="button" class="btn btn-info btn-sm">Notify cooks</button>
     </div>
     <div id='drinkDiv' style="margin-left: 60%;">
       <span style="font-size: 20px;">Drinks in order:</span> <br/> <br/>
@@ -107,6 +109,7 @@
                 <% end %>
             </select>
           <% end %>
+             <button id="sendBartenders" style="float:right;" type="button" class="btn btn-info btn-sm">Notify b</button>
             <ul>
              <li><i> <%= drink.description %></i></li>
             </ul>
@@ -115,14 +118,8 @@
       </ul>
       <hr>
       <button id="drinkModal" type="button" class="btn btn-info btn-sm">Add drinks</button>
-      <button id="sendBartenders" style="float:right;" type="button" class="btn btn-info btn-sm">Notify bartenders</button>
     </div>
     <br/>
     <br/>
-    <div id="footer">
-      <div class="navbar navbar-inner  navbar-fixed-bottom" style="background-color: lightgray; opacity: 0.6;">
-      <h5 style="font-family: Ayres Serif;text-align: left;margin-left: 4%;"><i><%= @restaurant.title %> restaurant</i></h5>
-      </div>
-    </div>
   </div>
 </div>

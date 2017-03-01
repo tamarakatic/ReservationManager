@@ -46,7 +46,7 @@ $ ->
           $('#drinkModal').modal 'hide'
 
 
-    $('#foodDiv').unbind('click').on 'click', '#deleteFood', ->
+    $('#foodList').unbind('click').on 'click', '#deleteFood', ->
       food_id = $(this).prev().val()
       customer_id = $('#orderFood').val()
       $.ajax
@@ -76,6 +76,18 @@ $ ->
       drink_id = $(this).prev().prev().val()
       $('#drinksModal').modal 'show'
       exchangeDrink(drink_id)
+
+    $('#foodList').unbind('click').on 'click', '#sendCooks', ->
+      cook_id = $(this).prev().find('option:selected').val()
+      food_id = $(this).prev().prev().prev().prev().val()
+      customer_id = $('#orderFood').val()
+      if(cook_id == "" || food_id == "" || customer_id == "")
+        return
+      $.ajax
+        url: 'table_orders/notify_cook'
+        type: 'POST'
+        data: id:{cook_id, food_id, customer_id}
+
 
   exchangeFood = (food_id) ->
     $('#exfood').unbind("click").click (e) ->

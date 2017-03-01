@@ -9,5 +9,6 @@ class CustomerOrder < ApplicationRecord
   has_one :customer_order_seat, :dependent => :destroy
   has_many :number_of_seats, :through => :customer_order_seat
   has_many :serving_times
+  has_many :customer_order_parts
 
 end

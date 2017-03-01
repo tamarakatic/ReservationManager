@@ -2,7 +2,6 @@
   <div class="card-block">
     <h4 style="text-align: left; font-family: Wildera Regular;"class="card-title">Order</h4>
     <h6><i>Status: <%= order.status %></i></h6>
-    <h6><i>Date of service: <%= order.order_time.strftime("%Y/%m/%d") %></i></h6>
     <input type="hidden" id="orderId" value=<%= order.id %> />
     <hr>
     <% if current_employee.type == 'Waiter' %>
@@ -37,9 +36,9 @@
     <button type="button" id="finishButton" class="btn btn-info">Serve and create bill</button>
    <%elsif order.status == 'Finished' %>
       <span>Total price: </span> <%= getPrice(order) %> <span>$</span>
-   <%elsif current_employee.type == 'Cook' and (order.status == 'Active' or order.status == 'ProgressDrinks' or order.status == 'ReadyDrinks')%>
+   <%elsif current_employee.type == 'Cook' and (order.status == 'Pending' or order.status == 'ProgressDrinks')%>
     <button id ="preparing" class="btn btn-success btn-sm">Prepare</button>
-   <%elsif current_employee.type == 'Bartender' and (order.status == 'Active' or order.status == 'ProgressFoods' or order.status == 'ReadyFoods')%>
+   <%elsif current_employee.type == 'Bartender' and (order.status == 'Pending' or order.status == 'ProgressFoods')%>
     <button id ="preparingDrink" class="btn btn-success btn-sm">Prepare</button>
    <%elsif current_employee.type =='Cook' and (order.status == 'ProgressFoods' or order.status == 'ProgressFoodWithReadyDrinks') %>
     <button id ="readyFood" class="btn btn-success btn-sm">Finished</button>
