@@ -7,7 +7,6 @@ class HomePage::ProviderHomeController < ApplicationController
   def index
     restaurant = RestaurantProvider.where(:provider_id => current_provider.id).map { |e| e.restaurant_id }
     @restaurants = Restaurant.find(restaurant)
-    p @restaurants
   end
 
   private

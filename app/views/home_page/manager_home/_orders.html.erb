@@ -3,28 +3,16 @@
 <ul>
   <% current_manager.restaurant.orders.each do |order| %>
     <h3>Active:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %></h3>
-        <ol>
-        <% order.order_items.each do |item| %>
-          <li><%= "#{item.item}" %>
-            <%= "#{item.quantity}" %>
-            <%= "#{item.unit_of_measure}" %>
-          </li>
-        <% end %>
-        </ol>
+      <%= render partial: 'orders_item', :locals => { :order => order } %>
       <br />
   <% end %>
 </ul>
 
 <ul>
   <% current_manager.restaurant.providers.each do |provider| %>
-    <%= provider.firstname %>
     <% provider.offers.each do |offer| %>
-      <h4>Provider delivery time:</b> <%= "#{offer.delivery_time.strftime("%d-%m-%Y")} #{provider.id}" %> <%= link_to 'Accept', accept_offer_path(:id => provider.id), :class => "btn btn-danger btn-sm" %></h4>
-      <ol>
-      <% offer.offer_items.each do |offer_item| %>
-        <li><%= "#{offer_item.price}" %></li>
-      <% end %>
-      </ol>
+    <h4>Provider delivery time:</b> <%= "#{offer.delivery_time.strftime("%d-%m-%Y")}" %> <%= link_to 'Accept', accept_offer_path(:id => provider.id), :class => "btn btn-danger btn-sm" %></h4>
+      <%= render partial: 'offers_item', :locals => { :offer => offer.order } %>
     <% end %>
   <% end %>
 </ul>

@@ -19,6 +19,7 @@ class OrdersController < ApplicationController
     provider_reject = RestaurantProvider.where(:restaurant_id => @restaurant.id).map { |e| e.provider_id }
     @provider_all = Provider.find(provider_reject)
     reject_providers = @provider_all.reject { |e| e.id == provider.id }.map { |p| p.id }
+    @rejected_providers = reject_providers
 
     ActionCable.server.broadcast 'accept_offers',
       :confirmed_provider => provider.id,
