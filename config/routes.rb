@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :profiles do
+    get 'bartender_orders/index'
+  end
+
   get 'employee_shift/index'
 
   mount ActionCable.server => '/cable'
@@ -51,6 +55,7 @@ Rails.application.routes.draw do
   get 'profiles/employee_reon/seats' => 'profiles/employee_reon#seats'
   get 'profiles/waiter_orders'     => 'profiles/waiter_orders#index',     :as => 'waiter_orders'
   get 'profiles/cook_orders'       => 'profiles/cook_orders#index',       :as => 'cook_orders'
+  get 'profiles/bartender_orders'  => 'profiles/bartender_orders#index',  :as => 'bartender_orders'
 
   get 'table_orders'               => 'table_orders#index'
 
