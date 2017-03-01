@@ -14,8 +14,8 @@ class Customers::ReservationsController < ApplicationController
   def available_tables
     @restaurant = Restaurant.find(params[:restaurant_id])
 
-    new_reservation_start = Time.at(params[:reservation_start].to_f / 1000)
-    new_reservation_end   = Time.at(params[:reservation_end].to_f / 1000)
+    new_reservation_start = to_date_time(params[:reservation_start])
+    new_reservation_end   = to_date_time(params[:reservation_end])
 
     tables = { :available => [], :reserved => [] }
 
@@ -39,8 +39,28 @@ class Customers::ReservationsController < ApplicationController
     end
   end
 
+  # POST /customers/reservations/create
   def create
+    reservation = Reservation.new
 
+    restaurant        = Restaurant.find(params[:restaurant])
+    reservation_start = to_date_time(params[:start])
+    reservation_end   = to_date_time(params[:end])
+
+    reservation.restaurant    = Restaurant.find(params[:restaurant])
+    reservation.owner         = current_customer
+    reservation.reserved_from = reservation_start
+    reservation.reserved_to   = reservation_end
+
+    reservation.save!
+
+    params[:tables].each do |table|
+      reservation.reserved_tables.create(:table => NumberOfSeat.find(table))
+    end
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+    end
   end
 
   # POST /customers/reservations/inite
@@ -52,6 +72,10 @@ class Customers::ReservationsController < ApplicationController
   end
 
   private
+
+  def to_date_time(ms)
+    Time.at(ms.to_f / 1000)
+  end
 
   def interval_overlaps?(first_start, first_end, second_start, second_end)
     (first_start - second_end) * (second_start - first_end) >= 0

@@ -6,12 +6,15 @@ $ ->
   $(document).on("turbolinks:load", ready)
 
 ready = ->
+  storeData("tables", [])
+  storeData("invited", [])
+  storeData("ordered", [])
+
   initializeDatetimePicker()
-  # createSeatsMap($("#restaurant-seats").data("temp"))
   bindHandlers()
 
 initializeSeatMap = (map, rowLabels) ->
-  sc = $("#seat-map").seatCharts {
+  window.seatMap ||= $("#seat-map").seatCharts {
     animate: true,
     naming: {
       top: false
@@ -33,20 +36,22 @@ initializeSeatMap = (map, rowLabels) ->
         selectedTables = loadData("tables")
 
       if this.status() == 'available'
-          selectedTables.push(this.node()[0].id)
-          storeData("tables", selectedTables)
-          return "selected"
+        table = this.node()[0].id.split("_")[1]
+        selectedTables.push(table)
+        storeData("tables", selectedTables)
+        return "selected"
       else if this.status() == 'selected'
-          selectedTables = _.without(selectedTables, this.node()[0].id)
-          storeData("tables", selectedTables)
-          return "available"
+        table = this.node()[0].id.split("_")[1]
+        selectedTables = _.without(selectedTables, table)
+        storeData("tables", selectedTables)
+        return "available"
       else if this.status() == "unavailable"
-          return "unavailable"
+        return "unavailable"
       else
-          return this.style()
+        return this.style()
   }
 
-  sc.find('u').status("unavailable")
+  window.seatMap.find('u').status("unavailable")
 
 createSeatsMap = (areas) ->
   seatMap = []
@@ -80,11 +85,6 @@ bindHandlers = ->
     event.preventDefault()
     storeData("invited", invited)
 
-  $("#tables-step").unbind("click").on "click", (e) ->
-    $("#menu").removeAttr("hidden", true)
-    $("#tables-step").attr("hidden", true)
-    e.preventDefault()
-
   # Set correct button for invited friends from saved data in sessionStorage
   invited = loadData("invited")
   $("a[name='invite']").each (index) ->
@@ -96,6 +96,70 @@ bindHandlers = ->
       $(this).removeClass("btn-danger")
       $(this).addClass("btn-success")
       $(this).text("Invite")
+
+  $("a[name='order-food']").unbind("click").click (e) ->
+    ordered = []
+    unless loadData("ordered")
+      storeData("ordered", [])
+    else
+      ordered = loadData("ordered")
+
+    if $(this).text() == "Cancel"
+      ordered = _.without(ordered, $(this).attr("id"))
+      $(this).text("Order")
+      $(this).switchClass("btn-danger", "btn-success", 1000)
+    else
+      ordered.push($(this).attr("id"))
+      $(this).text("Cancel")
+      $(this).switchClass("btn-success", "btn-danger", 1000)
+
+    event.preventDefault()
+    storeData("ordered", ordered)
+
+  ordered = loadData("ordered")
+  $("a[name='order-food']").each (index) ->
+    if _.contains(ordered, $(this).attr("id"))
+      $(this).removeClass("btn-success")
+      $(this).addClass("btn-danger")
+      $(this).text("Cancel")
+    else
+      $(this).removeClass("btn-danger")
+      $(this).addClass("btn-success")
+      $(this).text("Order")
+
+  $("#create-reservation").unbind("click").click (e) ->
+    dates = getReservationDates()
+
+    $.ajax "/customers/reservations/create",
+      type: "POST",
+      data: {
+        restaurant:  $("#restaurant-seats").data("restaurant"),
+        start:       dates.start.valueOf(),
+        end:         dates.end.valueOf(),
+        tables:      loadData("tables"),
+        friends:     loadData("invited"),
+        orders:      loadData("ordered")
+      },
+      success: (data) ->
+        console.log("success")
+
+    e.preventDefault()
+
+  $("#tables-step").unbind("click").on "click", (e) ->
+    $("#invite-friends").removeAttr("hidden", true)
+    $("#tables-step").attr("hidden", true)
+    $("html, body").animate({
+        scrollTop: $(".list-group").offset().top
+    }, 2000)
+    e.preventDefault()
+
+  $("#menu-step").unbind("click").on "click", (e) ->
+    $("#menu").removeAttr("hidden", true)
+    $("#menu-step").attr("hidden", true)
+    $("html, body").animate({
+        scrollTop: $(".table").offset().top
+    }, 2000)
+    e.preventDefault()
 
 initializeDatetimePicker = ->
   savedDate = []
@@ -111,7 +175,7 @@ initializeDatetimePicker = ->
       storeData("reservation-date", context.select)
   })
 
-  storeData("reservation-date", $("#reservation-date").text())
+  storeData("reservation-date", Date.parse($("#reservation-date").val()))
 
   $("#reservation-time").pickatime({
     format:    "HH:i",
@@ -153,7 +217,7 @@ initializeDatetimePicker = ->
       return false
     e.preventDefault()
 
-updateAvailableSeats = (event) ->
+getReservationDates = ->
   date     = loadData("reservation-date")
   time     = loadData("reservation-time")
   duration = loadData("reservation-duration")
@@ -161,16 +225,25 @@ updateAvailableSeats = (event) ->
   reservation_start = moment(date).add(time, "minutes")
   reservation_end   = moment(date).add(time, "minutes").add(duration, "hours")
 
+  {
+    start:  reservation_start,
+    end:    reservation_end
+  }
+
+updateAvailableSeats = (event) ->
+  dates = getReservationDates()
+
   $.ajax "/customers/reservations/available_tables",
     type:     "GET",
     dataType: "json",
     data: {
       restaurant_id:     $("#restaurant-seats").data("restaurant"),
-      reservation_start: reservation_start.valueOf(),
-      reservation_end:   reservation_end.valueOf()
+      reservation_start: dates.start.valueOf(),
+      reservation_end:   dates.end.valueOf()
     },
     success: (response) ->
       areas = {}
+      reserved = []
 
       putTable = (areas, table) ->
         if table.area_id of areas
@@ -187,10 +260,14 @@ updateAvailableSeats = (event) ->
         putTable(areas, table)
 
       for table in response.reserved
+        reserved.push("#{table.area_id}_#{table.id}")
         table.symbol = 'u'
         putTable(areas, table)
 
-      createSeatsMap(_.values(areas))
+      unless window.seatMap
+        createSeatsMap(_.values(areas))
+      else
+        window.seatMap.status(reserved, "unavailable")
 
   event.preventDefault()
 
