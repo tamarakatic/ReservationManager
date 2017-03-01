@@ -3,6 +3,12 @@ class Drink < ApplicationRecord
   has_many :customer_order_drinks, :dependent => :destroy
   has_many :customer_orders, :through => :customer_order_drinks
 
+  has_many :drink_reviews
+  has_many :drinks, :through => :drink_reviews
+
+  has_many :customer_order_part_drinks
+  has_many :customer_order_parts, :through => :customer_order_part_drinks
+
   validates :name, presence: true,
                    uniqueness: true,
                    length: { in: 2..30 },

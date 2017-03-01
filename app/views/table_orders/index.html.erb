@@ -1,0 +1,125 @@
+<div class='container'>
+
+<div class="modal fade" id="foodModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Choose food</h4>
+      </div>
+      <div class="modal-body">
+        <span>Food:</span>
+        <input type="hidden" id="orderFood" value=<%= @customer_order.id %>> </input>
+        <select class="form-control col-sm-6" id="foodSelect">
+          <option disabled selected value></option>
+          <% @foods.each do |f| %>
+            <option value="<%= f.id %>"><%= "#{f.name}"%></option>
+          <% end %>
+        </select> <br/><br/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="food" class="btn btn-primary">Add in order</button>
+        <button type="button" id="exfood" class="btn btn-primary">Exchange in order</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="drinksModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Choose drinks</h4>
+      </div>
+      <div class="modal-body">
+        <span>Drink:</span>
+        <input type="hidden" id="orderDrink" value=<%= @customer_order.id %>> </input>
+        <select class="form-control col-sm-6" id="drinkSelect">
+          <option disabled selected value></option>
+          <% @drinks.each do |d| %>
+            <option value="<%= d.id %>"><%= "#{d.name}"%></option>
+          <% end %>
+        </select> <br/><br/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="drink" class="btn btn-primary">Add in order</button>
+        <button type="button" id="exdrink" class="btn btn-primary">Exchange in order</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div style='background: transparent !important;' class='jumbotron'>
+    <% @customer_order.number_of_seats.each do |ord| %>
+      <h3>Order for table: <%= ord.number %></h3>
+      <hr>
+    <% end %>
+  </div>
+  <div id="foodDiv" style="width: 100%; overflow: hidden;">
+    <div style="float:left;margin-left:3%; ">
+      <span style="font-size: 20px;">Foods in order:</span> <br/> <br/>
+      <ul id="foodList">
+        <% @customer_order.foods.each do |food| %>
+          <li> <%= food.name %>
+          <input type="hidden" value=<%= food.id %> />
+          <button type="button" id="deleteFood" class="btn btn-danger btn-sm">Delete</button>
+          <% if @customer_order.status == 'Active' or @customer_order.status == 'ProgressDrinks' %>
+            <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange</button>
+            <select class="form-control col-sm-6" id="cookSelect">
+              <option disabled selected value></option>
+                <% cooksArr = findCook(food, @cooks) %>
+                <% if cooksArr.nil? %>
+                  <% @cooks.each do |cook| %>
+                    <option value="<%= cook.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+                  <% end %>
+                <% else %>
+                  <% cooksArr.each do |cook| %>
+                    <option value="<%= cook.id %>"><%= "#{cook.firstname} #{cook.lastname}"%></option>
+                  <% end %>
+                <% end %>
+            </select>
+          <% end %>
+               <button id="sendCooks" style="float:right;" type="button" class="btn btn-info btn-sm">Notify cooks</button>
+            <ul>
+             <li><i> <%= food.description %></i></li>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+      <hr>
+      <button id="callModal" type="button" class="btn btn-info btn-sm">Add food</button>
+    </div>
+    <div id='drinkDiv' style="margin-left: 60%;">
+      <span style="font-size: 20px;">Drinks in order:</span> <br/> <br/>
+      <ul id="drinkList">
+        <% @customer_order.drinks.each do |drink| %>
+          <li> <%= drink.name %>
+          <input type="hidden" value=<%= drink.id %> />
+          <button type="button" id="deleteDrink" class="btn btn-danger btn-sm">Delete</button>
+          <% if @customer_order.status == 'Active' or @customer_order.status == 'ProgressFoods' %>
+            <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange</button>
+            <select class="form-control col-sm-6" id="barSelect">
+              <option disabled selected value></option>
+                <% @bartenders.each do |bar| %>
+              <option value="<%= bar.id %>"><%= "#{bar.firstname} #{bar.lastname}"%></option>
+                <% end %>
+            </select>
+          <% end %>
+             <button id="sendBartenders" style="float:right;" type="button" class="btn btn-info btn-sm">Notify b</button>
+            <ul>
+             <li><i> <%= drink.description %></i></li>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+      <hr>
+      <button id="drinkModal" type="button" class="btn btn-info btn-sm">Add drinks</button>
+    </div>
+    <br/>
+    <br/>
+  </div>
+</div>

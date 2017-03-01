@@ -1,0 +1,51 @@
+<div class="w-100 card card-inverse card-primary">
+  <div class="card-block">
+    <h4 style="text-align: left; font-family: Wildera Regular;"class="card-title">Order</h4>
+    <h6><i>Status: <%= order.status %></i></h6>
+    <input type="hidden" id="orderId" value=<%= order.id %> />
+    <hr>
+    <% if current_employee.type == 'Waiter' %>
+      <% order.number_of_seats.each do |table| %>
+        <span> Table: <%= table.number %>
+        </span>
+        <span style="text-align: right;margin-left: 30%;">Number of seats: <%= table.seatstable %>
+        </span>
+      <% end %>
+      <hr>
+    <% end %>
+    <% if current_employee.type == 'Waiter' or current_employee.type == 'Cook' %>
+      <h6><i>Foods:</i></h6>
+      <ul>
+        <% order.foods.each do |food| %>
+          <li> <%= food.name %> </li>
+        <% end %>
+      </ul>
+      <hr>
+    <% end %>
+    <% if current_employee.type == 'Waiter' or current_employee.type == 'Bartender' %>
+      <h6><i>Drinks:</i></h6>
+      <ul>
+        <% order.drinks.each do |drink| %>
+          <li> <%= drink.name %> </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+  <div class="card-footer">
+   <% if order.status == 'Ready' and current_employee.type == 'Waiter' %>
+    <button type="button" id="finishButton" class="btn btn-info">Serve and create bill</button>
+   <%elsif order.status == 'Finished' %>
+      <span>Total price: </span> <%= getPrice(order) %> <span>$</span>
+   <%elsif current_employee.type == 'Cook' and (order.status == 'Pending' or order.status == 'ProgressDrinks')%>
+    <button id ="preparing" class="btn btn-success btn-sm">Prepare</button>
+   <%elsif current_employee.type == 'Bartender' and (order.status == 'Pending' or order.status == 'ProgressFoods')%>
+    <button id ="preparingDrink" class="btn btn-success btn-sm">Prepare</button>
+   <%elsif current_employee.type =='Cook' and (order.status == 'ProgressFoods' or order.status == 'ProgressFoodWithReadyDrinks') %>
+    <button id ="readyFood" class="btn btn-success btn-sm">Finished</button>
+   <%elsif current_employee.type =='Bartender' and (order.status == 'ProgressDrinks' or order.status == 'ProgressDrinksWithReadyFoods') %>
+    <button id ="readyDrinks" class="btn btn-success btn-sm">Finished</button>
+   <%elsif current_employee.type == 'Waiter' %>
+    <%= link_to "Details", table_orders_path(:customer_order => order.id) , :class => "btn btn-success btn-sm" %>
+   <% end %>
+  </div>
+</div>

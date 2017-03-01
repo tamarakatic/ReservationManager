@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228193521) do
+ActiveRecord::Schema.define(version: 20170301222753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,18 +39,48 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.index ["food_id"], name: "index_customer_order_foods_on_food_id", using: :btree
   end
 
+  create_table "customer_order_part_drinks", force: :cascade do |t|
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "drink_id"
+    t.integer  "customer_order_part_id"
+    t.index ["customer_order_part_id"], name: "index_customer_order_part_drinks_on_customer_order_part_id", using: :btree
+    t.index ["drink_id"], name: "index_customer_order_part_drinks_on_drink_id", using: :btree
+  end
+
+  create_table "customer_order_part_foods", force: :cascade do |t|
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "customer_order_part_id"
+    t.integer  "food_id"
+    t.index ["customer_order_part_id"], name: "index_customer_order_part_foods_on_customer_order_part_id", using: :btree
+    t.index ["food_id"], name: "index_customer_order_part_foods_on_food_id", using: :btree
+  end
+
+  create_table "customer_order_parts", force: :cascade do |t|
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "employee_id"
+    t.integer  "customer_order_id"
+    t.integer  "status"
+    t.index ["customer_order_id"], name: "index_customer_order_parts_on_customer_order_id", using: :btree
+    t.index ["employee_id"], name: "index_customer_order_parts_on_employee_id", using: :btree
+  end
+
   create_table "customer_order_seats", force: :cascade do |t|
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "seat_id"
     t.integer  "customer_order_id"
+    t.integer  "number_of_seat_id"
     t.index ["customer_order_id"], name: "index_customer_order_seats_on_customer_order_id", using: :btree
-    t.index ["seat_id"], name: "index_customer_order_seats_on_seat_id", using: :btree
+    t.index ["number_of_seat_id"], name: "index_customer_order_seats_on_number_of_seat_id", using: :btree
   end
 
   create_table "customer_orders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "status"
+    t.datetime "order_time"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -77,6 +107,15 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "drink_reviews", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "drink_id"
+    t.integer  "review_id"
+    t.index ["drink_id"], name: "index_drink_reviews_on_drink_id", using: :btree
+    t.index ["review_id"], name: "index_drink_reviews_on_review_id", using: :btree
+  end
+
   create_table "drinks", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -85,6 +124,15 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.datetime "updated_at",                            null: false
     t.integer  "restaurant_id"
     t.index ["restaurant_id"], name: "index_drinks_on_restaurant_id", using: :btree
+  end
+
+  create_table "employee_reviews", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "employee_id"
+    t.integer  "review_id"
+    t.index ["employee_id"], name: "index_employee_reviews_on_employee_id", using: :btree
+    t.index ["review_id"], name: "index_employee_reviews_on_review_id", using: :btree
   end
 
   create_table "employee_shifts", force: :cascade do |t|
@@ -130,6 +178,15 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "food_reviews", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "food_id"
+    t.integer  "review_id"
+    t.index ["food_id"], name: "index_food_reviews_on_food_id", using: :btree
+    t.index ["review_id"], name: "index_food_reviews_on_review_id", using: :btree
+  end
+
   create_table "foods", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -137,6 +194,7 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.integer  "restaurant_id"
+    t.integer  "food_type"
     t.index ["restaurant_id"], name: "index_foods_on_restaurant_id", using: :btree
   end
 
@@ -256,6 +314,15 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.index ["restaurant_id"], name: "index_restaurant_providers_on_restaurant_id", using: :btree
   end
 
+  create_table "restaurant_reviews", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "review_id"
+    t.integer  "restaurant_id"
+    t.index ["restaurant_id"], name: "index_restaurant_reviews_on_restaurant_id", using: :btree
+    t.index ["review_id"], name: "index_restaurant_reviews_on_review_id", using: :btree
+  end
+
   create_table "restaurants", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -265,12 +332,28 @@ ActiveRecord::Schema.define(version: 20170228193521) do
     t.index ["manager_id"], name: "index_restaurants_on_manager_id", using: :btree
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "seats", force: :cascade do |t|
     t.string   "area"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "restaurant_id"
     t.index ["restaurant_id"], name: "index_seats_on_restaurant_id", using: :btree
+  end
+
+  create_table "serving_times", force: :cascade do |t|
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.integer  "employee_id"
+    t.integer  "customer_order_id"
+    t.decimal  "duration",          precision: 4, scale: 2
+    t.index ["customer_order_id"], name: "index_serving_times_on_customer_order_id", using: :btree
+    t.index ["employee_id"], name: "index_serving_times_on_employee_id", using: :btree
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -307,13 +390,25 @@ ActiveRecord::Schema.define(version: 20170228193521) do
   add_foreign_key "customer_order_drinks", "drinks"
   add_foreign_key "customer_order_foods", "customer_orders"
   add_foreign_key "customer_order_foods", "foods"
+  add_foreign_key "customer_order_part_drinks", "customer_order_parts"
+  add_foreign_key "customer_order_part_drinks", "drinks"
+  add_foreign_key "customer_order_part_foods", "customer_order_parts"
+  add_foreign_key "customer_order_part_foods", "foods"
+  add_foreign_key "customer_order_parts", "customer_orders"
+  add_foreign_key "customer_order_parts", "employees"
   add_foreign_key "customer_order_seats", "customer_orders"
-  add_foreign_key "customer_order_seats", "seats"
+  add_foreign_key "customer_order_seats", "number_of_seats"
+  add_foreign_key "drink_reviews", "drinks"
+  add_foreign_key "drink_reviews", "reviews"
   add_foreign_key "drinks", "restaurants"
+  add_foreign_key "employee_reviews", "employees"
+  add_foreign_key "employee_reviews", "reviews"
   add_foreign_key "employee_shifts", "employees"
   add_foreign_key "employee_shifts", "seats"
   add_foreign_key "employee_shifts", "shifts"
   add_foreign_key "employees", "managers"
+  add_foreign_key "food_reviews", "foods"
+  add_foreign_key "food_reviews", "reviews"
   add_foreign_key "foods", "restaurants"
   add_foreign_key "number_of_seats", "seats"
   add_foreign_key "offer_items", "offers"
@@ -324,6 +419,10 @@ ActiveRecord::Schema.define(version: 20170228193521) do
   add_foreign_key "orders", "restaurants"
   add_foreign_key "restaurant_providers", "providers"
   add_foreign_key "restaurant_providers", "restaurants"
+  add_foreign_key "restaurant_reviews", "restaurants"
+  add_foreign_key "restaurant_reviews", "reviews"
   add_foreign_key "restaurants", "managers"
   add_foreign_key "seats", "restaurants"
+  add_foreign_key "serving_times", "customer_orders"
+  add_foreign_key "serving_times", "employees"
 end

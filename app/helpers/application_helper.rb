@@ -24,6 +24,23 @@ module ApplicationHelper
       employee_profile_path
     when "employee_calendar"
       employee_profile_path
+    when "table_orders"
+      employee_profile_path
+    when "waiter_orders"
+      employee_profile_path
+    when "cook_orders"
+      employee_profile_path
+    when "order_histories"
+      employee_profile_path
+    else
+      root_path
+    end
+  end
+
+  def notif_path(controller)
+    case controller
+    when "employee_home"
+      employee_notifications_path
     else
       root_path
     end
