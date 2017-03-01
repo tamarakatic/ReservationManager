@@ -11,23 +11,23 @@
     </div>
   <% end %>
 
-    <%= f.text_field :restaurant_id, hidden: true, value: current_manager.restaurant.id %>
+  <%= f.text_field :restaurant_id, hidden: true, value: current_manager.restaurant.id %>
 
   <div class="field">
     <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description %>
+    <%= f.text_area :description, :rows => 8, :cols => 30, :class => "form_control" %>
   </div>
 
   <div class="field">
     <%= f.label :price %>
     <%= f.text_field :price %>
   </div>
-
+<br />
   <div class="actions">
     <%= f.submit %>
   </div>

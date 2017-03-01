@@ -11,6 +11,8 @@
     </div>
   <% end %>
 
+  <%= f.text_field :restaurant_id, hidden: true, value: current_manager.restaurant.id %>
+
   <%= f.text_field :seat_id, hidden: true, value: params[:seat_id] %>
 
   <div class="field">
@@ -23,6 +25,7 @@
     <%= f.number_field :seatstable %>
   </div>
 
+<br />
   <div class="actions">
     <%= button_tag "Create", :name => "seat_id", :value => params[:seat_id] %>
   </div>

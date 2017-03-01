@@ -1,6 +1,10 @@
 class SeatsController < ApplicationController
   before_action :set_seat, only: [:show, :edit, :update, :destroy]
 
+  before_action :authenticate_manager!
+
+  layout 'restaurant_home'
+
   # GET /seats
   # GET /seats.json
   def index
@@ -10,15 +14,19 @@ class SeatsController < ApplicationController
   # GET /seats/1
   # GET /seats/1.json
   def show
+    @seats = Seat.all
+    @restaurant = current_manager.restaurant
   end
 
   # GET /seats/new
   def new
     @seat = Seat.new
+    @restaurant = current_manager.restaurant
   end
 
   # GET /seats/1/edit
   def edit
+    @restaurant = current_manager.restaurant
   end
 
   # POST /seats
@@ -28,7 +36,7 @@ class SeatsController < ApplicationController
 
     respond_to do |format|
       if @seat.save
-        format.html { redirect_to @seat, notice: 'Seat was successfully created.' }
+        format.html { redirect_to edit_restaurant_path(current_manager.restaurant.id), notice: 'Seat was successfully created.' }
         format.json { render :show, status: :created, location: @seat }
       else
         format.html { render :new }
@@ -42,7 +50,7 @@ class SeatsController < ApplicationController
   def update
     respond_to do |format|
       if @seat.update(seat_params)
-        format.html { redirect_to @seat, notice: 'Seat was successfully updated.' }
+        format.html { redirect_to list_seat_path, notice: 'Seat was successfully updated.' }
         format.json { render :show, status: :ok, location: @seat }
       else
         format.html { render :edit }
@@ -56,7 +64,7 @@ class SeatsController < ApplicationController
   def destroy
     @seat.destroy
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Seat was successfully destroyed.' }
+      format.html { redirect_to list_seat_path, notice: 'Seat was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

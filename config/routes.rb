@@ -61,6 +61,18 @@ Rails.application.routes.draw do
 
   get "accept_offer" => "orders#accept_offer"
 
+  get "list_food" => "restaurants#list_food"
+
+  get "list_drink" => "restaurants#list_drink"
+
+  get "list_seat" => "restaurants#list_seat"
+
+  get "list_provider" => "home_page/manager_home#list_provider"
+
+  get "list_order" => "home_page/manager_home#list_order"
+
+  get "list_offer" => "home_page/manager_home#list_offer"
+
   get 'profiles/employee_calendar' => 'profiles/employee_calendar#index', :as => 'employee_calendar'
   get 'profiles/employee_reon'     => 'profiles/employee_reon#index',     :as => 'employee_reon'
   get 'profiles/employee_reon/seats' => 'profiles/employee_reon#seats'

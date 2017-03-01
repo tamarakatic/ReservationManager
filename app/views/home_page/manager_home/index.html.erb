@@ -1,46 +1,67 @@
-
-<h1>Welcome <%= current_manager.firstname %></h1>
-</br>
+<div class="jumbotron">
+  <h1 class="display-3" style="font-family:sans-serif;">Hello, <%= current_manager.firstname %>!</h1>
+  <hr class="my-4">
+</div>
 <br/>
 <div class="panel-body hidden" id="manager-notifications">
 
 </div>
 <br/><br/>
-<%= button_to 'Schedule', employee_shifts_path, :id => "schedule_button", class: "btn btn-danger btn-lg", method: :get %>
+<div class="container">
+  <div class="row mb-6">
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to new_employee_registration_path, :params => { :type => "Cook" }, class:"btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "user-plus", :text => "cook", :class => "fa-lg fa-fl" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to new_employee_registration_path, :params => { :type => "Bartender" },
+        class:"btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "user-plus", :text => "bartender", :class => "fa-lg fa-fl" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to new_employee_registration_path, :params => { :type => "Waiter" },
+        class:"btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "user-plus", :text => "waiter", :class => "fa-lg fa-fl" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="mt-5 row">
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to employee_shifts_path, :id => "schedule_button", :class => "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "calendar", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to new_provider_registration_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "user-plus", :text => "provider", :class => "fa-lg fa-fw" %>
+      <% end %>
+      <%= hidden_field_tag :restaurant_id, current_manager.restaurant.id %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to edit_restaurant_path(current_manager.restaurant), class: 'btn btn-circle btn-lg', method: :get do %>
+      <%= fa_icon "home", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="mt-5 row">
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_provider_path, :class => "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_order_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "cart-arrow-down", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_offer_path, class: 'btn btn-circle btn-lg', method: :get do %>
+      <%= fa_icon "check-square", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <br />
-<%= button_to 'New Cook', new_employee_registration_path, :params => { :type => "Cook" },
-  class: "btn btn-danger btn-lg", method: :get %>
-<br/>
-<%= button_to 'New Bartender', new_employee_registration_path, :params => { :type => "Bartender" },
-  class: "btn btn-danger btn-lg", method: :get %>
-<br/>
-<%= button_to 'New Waiter', new_employee_registration_path, :params => { :type => "Waiter" },
-  class: "btn btn-danger btn-lg", method: :get %>
-<br/>
-<h2>Employees</h2>
-<ul>
-<% current_manager.employees.each do |employee| %>
-<li><%= employee.firstname %></li>
-<% end %>
-</ul>
-
-<br/><br/>
-<%= button_to 'New Provider', new_provider_registration_path, class: "btn btn-danger btn-lg", method: :get %>
-<%= hidden_field_tag :restaurant_id, current_manager.restaurant.id %>
-<br/>
-<% unless current_manager.restaurant.nil? %>
-<h2>Providers</h2>
-
-<ul>
-  <% current_manager.restaurant.providers.each do |provider| %>
-    <li><%= provider.firstname %></li>
-  <% end %>
-</ul>
-
-<%= render partial: 'orders' %>
-<%= render partial: 'restaurant' %>
-<%= render partial: 'foods' %>
-<%= render partial: 'drinks' %>
-<%= render partial: 'seats' %>
-
-<% end %>

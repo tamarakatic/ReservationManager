@@ -16,4 +16,6 @@
 </p>
 
 <%= link_to 'Edit', edit_food_path(@food) %> |
-<%= link_to 'Back', root_path %>
+<%= button_to edit_restaurant_path(@restaurant), :class => "btn btn-lg", method: :get do %>
+<%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+<% end %>
