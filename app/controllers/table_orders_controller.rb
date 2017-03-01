@@ -130,7 +130,7 @@ class TableOrdersController < ApplicationController
   def checkActivity
     customer_order = CustomerOrder.find(params[:customer_order])
     if customer_order.nil? or customer_order.status == "Ready"
-      redirect_to watier_orders_path
+      redirect_to waiter_orders_path
     end
   end
 end

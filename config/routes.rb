@@ -54,8 +54,15 @@ Rails.application.routes.draw do
   get 'profiles/employee_reon'     => 'profiles/employee_reon#index',     :as => 'employee_reon'
   get 'profiles/employee_reon/seats' => 'profiles/employee_reon#seats'
   get 'profiles/waiter_orders'     => 'profiles/waiter_orders#index',     :as => 'waiter_orders'
+  put 'profiles/waiter_orders'     => 'profiles/waiter_orders#finish'
+
   get 'profiles/cook_orders'       => 'profiles/cook_orders#index',       :as => 'cook_orders'
+  put 'profiles/cook_orders/prepare' => 'profiles/cook_orders#setPrepare'
+  put 'profiles/cook_orders/finish'  => 'profiles/cook_orders#finish'
+
   get 'profiles/bartender_orders'  => 'profiles/bartender_orders#index',  :as => 'bartender_orders'
+  put 'profiles/bartender_orders/prepare'  => 'profiles/bartender_orders#prepare'
+  put 'profiles/bartender_orders/finish'   => 'profiles/bartender_orders#finish'
 
   get 'table_orders'               => 'table_orders#index'
 
@@ -68,6 +75,8 @@ Rails.application.routes.draw do
   put 'table_orders/exchange_drink'     => 'table_orders#exchange_drink'
 
   get 'profiles/order_histories'   => 'profiles/order_histories#index',   :as => 'order_histories'
+
+  get 'employee/notifications'     => 'home_page/employee_home#notifications'
 
   authenticated :customer do
     root 'home_page/customer_home#index'

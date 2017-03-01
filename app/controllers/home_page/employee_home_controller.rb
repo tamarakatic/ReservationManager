@@ -8,6 +8,12 @@ class HomePage::EmployeeHomeController < ApplicationController
     @restaurant = Restaurant.find(current_employee.manager_id)
   end
 
+  def notifications
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
 
   def check_whether_password_changed

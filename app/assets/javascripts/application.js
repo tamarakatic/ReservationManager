@@ -20,11 +20,15 @@
 //= require jquery.timepicker.js
 //= require turbolinks
 //
+//= require persist.js
 //= require_tree ./channels
 //= require profiles/employee_calendar
 //= require customers/friends
+//= require home_page/employee_home
 //= require home_page/provider_home
 //= require employee_shift
 //= require profiles/employee_reon
 //= require table_orders
 //= require profiles/cook_orders
+//= require profiles/bartender_orders
+//= require profiles/waiter_orders

@@ -1,6 +1,6 @@
 class CustomerOrder < ApplicationRecord
 
-  enum status: %w(Active Progress Pending ProgressDrinks ProgressFoods Ready Finished)
+  enum status: %w(Active Pending ProgressDrinks ProgressFoods Progress ReadyFoods ReadyDrinks ProgressFoodsWithReadyDrinks ProgressDrinksWithReadyFoods Ready Finished)
 
   has_many :customer_order_foods, :dependent => :destroy
   has_many :foods, :through => :customer_order_foods

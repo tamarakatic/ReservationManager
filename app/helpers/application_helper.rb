@@ -37,4 +37,13 @@ module ApplicationHelper
     end
   end
 
+  def notif_path(controller)
+    case controller
+    when "employee_home"
+      employee_notifications_path
+    else
+      root_path
+    end
+  end
+
 end

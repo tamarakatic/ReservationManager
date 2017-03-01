@@ -1,3 +1,4 @@
+<%= hidden_field_tag :waiterId, current_employee.id %>
 <div class='container'>
   <h2 style="font-family: Ayres Serif"> <%= current_employee.firstname %> <%= current_employee.lastname %> </h2>
   <span style="float:left;"> <i>My average stars:</i> </span> <br/>
@@ -20,5 +21,10 @@
     <%= button_to 'Change', edit_employee_registration_path, method: "get",
       form: {style: 'display:inline-block;'} %>
    <span style="font-family: Century Gothic;"> basic informations </span>
+  </div>
+  <br/>
+  <div id="notifications">
+    <span style="font-family: Century Gothic">Notifications</span>
+    <hr>
   </div>
 </div>
