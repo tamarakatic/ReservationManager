@@ -38,6 +38,23 @@
       <% end %>
     </div>
   </div>
+  <div class="mt-5 row">
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to visit_chart_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "bar-chart-o", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_drink_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+    <div class="col-6 col-md-4 text-center">
+      <%= button_to list_seat_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <br />

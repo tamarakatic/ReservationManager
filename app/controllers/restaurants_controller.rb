@@ -43,6 +43,12 @@ class RestaurantsController < ApplicationController
       format.html { render :seats }
     end
   end
+
+  def visit_chart
+    respond_to do |format|
+      format.html { render :charts }
+    end
+  end
   # POST /restaurants
   # POST /restaurants.json
   def create

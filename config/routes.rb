@@ -66,6 +66,8 @@ Rails.application.routes.draw do
 
   get "list_seat" => "restaurants#list_seat"
 
+  get "visit_chart" => "restaurants#visit_chart"
+
   get "list_provider" => "home_page/manager_home#list_provider"
 
   get "list_order" => "home_page/manager_home#list_order"
