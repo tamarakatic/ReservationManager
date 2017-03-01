@@ -87,32 +87,30 @@
     <hr>
 
     <div class="mb-5">
-      <ul class="list-group w-50 container">
-        <table class="mt-4 table">
-          <thead class="thead-inverse">
-            <tr>
-              <th>Food / Drink</th>
-              <th>Price</th>
-              <th width="25%"></th>
+      <table class="container mt-4 table w-50">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Food / Drink</th>
+            <th>Price</th>
+            <th width="25%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @restaurant.foods.each do |food| %>
+            <tr class="table-active">
+              <td>
+                  <%= "#{food.name}" %>
+              </td>
+              <td>
+                  <%= "$ #{food.price}" %>
+              </td>
+              <td>
+                <%= link_to "Order", "#", :id => food.id, :name => "order-food", :class => "btn btn-success btn-sm active pull-right" %>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <% @restaurant.foods.each do |food| %>
-              <tr class="table-active">
-                <td>
-                    <%= "#{food.name}" %>
-                </td>
-                <td>
-                    <%= "$ #{food.price}" %>
-                </td>
-                <td>
-                  <%= link_to "Order", "#", :id => food.id, :name => "order-food", :class => "btn btn-success btn-sm active pull-right" %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </ul>
+          <% end %>
+        </tbody>
+      </table>
     </div>
 
     <hr>

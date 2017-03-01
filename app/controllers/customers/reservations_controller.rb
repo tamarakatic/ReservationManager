@@ -3,6 +3,14 @@ class Customers::ReservationsController < ApplicationController
 
   layout "customer_home"
 
+  def index
+    @reservation = Reservation.find(params[:reservation_id])
+
+    unless @reservation.invitations.any? { |inv| inv.customer.id == current_customer.id }
+      redirect_to root_path
+    end
+  end
+
   # GET /customers/reservations/new
   def new
     @friends     = current_customer.friends
@@ -52,10 +60,14 @@ class Customers::ReservationsController < ApplicationController
     reservation.reserved_from = reservation_start
     reservation.reserved_to   = reservation_end
 
-    reservation.save!
+    if reservation.save!
+      params[:tables].each do |table|
+        reservation.reserved_tables.create(:table => NumberOfSeat.find(table))
+      end
 
-    params[:tables].each do |table|
-      reservation.reserved_tables.create(:table => NumberOfSeat.find(table))
+      params[:friends].each do |friend|
+        reservation.invitations.create(:customer => Customer.find(friend), :status => :pending)
+      end
     end
 
     respond_to do |format|
@@ -63,12 +75,26 @@ class Customers::ReservationsController < ApplicationController
     end
   end
 
-  # POST /customers/reservations/inite
-  def invite
+  def accept
+    @reservation = Reservation.find(params[:reservation_id])
+    invitation = ReservationInvitation.where(:reservation_id => @reservation.id,
+                                             :customer_id => current_customer.id).first
+    invitation.accepted!
+    redirect_to customers_reservations_orders_path(:reservation => @reservation.id)
+  end
 
+  def decline
+    invitation = ReservationInvitation.where(:reservation_id => params[:reservation_id],
+                                             :customer_id => current_customer.id).first
+    invitation.declined!
+    redirect_to root_path
   end
 
   def cancel
+  end
+
+  def orders
+    @reservation = Reservation.find(params[:reservation])
   end
 
   private

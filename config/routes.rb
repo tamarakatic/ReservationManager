@@ -32,10 +32,13 @@ Rails.application.routes.draw do
   end
 
   namespace :customers do
+    get    "reservations/index"
+    get    "reservations/orders"
     get    "reservations/new"
     get    "reservations/available_tables"
     post   "reservations/create"
-    post   "reservations/invite"
+    post   "reservations/accept"
+    post   "reservations/decline"
     delete "reservations/cancel"
   end
 
