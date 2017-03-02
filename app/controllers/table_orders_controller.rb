@@ -80,6 +80,8 @@ class TableOrdersController < ApplicationController
 
   def notify_cook
     food = Food.find(params[:id][:food_id])
+    employee = Employee.find(params[:id][:cook_id])
+    customer = CustomerOrder.find(params[:id][:customer_id])
     temp = CustomerOrderPart.where(:employee_id => params[:id][:cook_id], :customer_order_id => params[:id][:customer_id]).first
     if temp.nil?
       part = CustomerOrderPart.new(:customer_order_id => params[:id][:customer_id],
@@ -87,16 +89,30 @@ class TableOrdersController < ApplicationController
                                :status => 'Pending')
       part.foods << food
       if part.save!
+        ActionCable.server.broadcast 'cook_notify',
+                                      content: " Your need to prepare food",
+                                      firstname: current_employee.firstname,
+                                      lastname: current_employee.lastname,
+                                      employee: employee.id
         respond_to do |format|
-          format.html {redirect_to table_orders_path(:customer_order=>params[:id][:customer_id])}
+          format.html {redirect_to table_orders_path(:customer_order => customer.id) }
         end
       end
     else
       temp.foods << food
+      if temp.status == 'ReadyFoods' or temp.status == 'ProgressFoods'
+        temp.update(:status => 'Pending')
+      end
+      ActionCable.server.broadcast 'cook_notify',
+                                    content: " Your need to prepare one more meal",
+                                    firstname: current_employee.firstname,
+                                    lastname: current_employee.lastname,
+                                    employee: employee.id
       respond_to do |format|
-        format.html {redirect_to table_orders_path(:customer_order=>params[:id][:customer_id])}
+        format.html {redirect_to table_orders_path(:customer_order => customer.id) }
       end
     end
+    redirect_to table_orders_path(:customer_order => customer.id)
   end
 
   private

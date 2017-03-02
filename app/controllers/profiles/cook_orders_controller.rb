@@ -6,23 +6,17 @@ class Profiles::CookOrdersController < ApplicationController
   def index
     customer = CustomerOrderPart.where(:status => ['Pending','ProgressFoods'],:employee_id => current_employee.id).to_a
     @customer_order = []
-    byebug
     customer.each do |c|
         @customer_order << c
       end
   end
 
   def setPrepare
-    customer_order = CustomerOrder.find(params[:id][:id])
+    customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:id], :employee_id => current_employee.id).first
     waiter = ServingTime.find(customer_order.id)
     unless customer_order.nil? and waiter.nil?
-      if customer_order.status == 'ProgressDrinks'
-        customer_order.update(:status => 'Progress')
-      elsif customer_order.status == 'ReadyDrinks'
-        customer_order.update(:status => 'ProgressFoodsWithReadyDrinks')
-      else
-        customer_order.update(:status => "ProgressFoods")
-      end
+      customer_order.update(:status => 'ProgressFoods')
+
 
       ActionCable.server.broadcast 'cook_orders',
                                     content: "Food is preparing for order #{customer_order.id}",
@@ -37,19 +31,15 @@ class Profiles::CookOrdersController < ApplicationController
   end
 
   def finish
-    customer_order = CustomerOrder.find(params[:id][:order_id])
+    customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:order_id],:employee_id => current_employee.id).first
     waiter = ServingTime.find(customer_order.id)
     unless customer_order.nil? and waiter.nil?
-        if(customer_order.status == 'ReadyDrinks' or customer_order.status == 'ProgressFoodsWithReadyDrinks')
-          customer_order.update(:status => 'Ready')
-        else
-          customer_order.update(:status => 'ReadyFoods')
-        end
-       ActionCable.server.broadcast 'cook_orders',
-                                     content: "Food is finished for order #{customer_order.id}",
-                                     firstname: current_employee.firstname,
-                                     lastname: current_employee.lastname,
-                                     employee: waiter.id
+      customer_order.update(:status => 'ReadyFoods')
+      ActionCable.server.broadcast 'cook_orders',
+                                    content: "Food is finished for order #{customer_order.id}",
+                                    firstname: current_employee.firstname,
+                                    lastname: current_employee.lastname,
+                                    employee: waiter.id
 
       respond_to do |format|
         format.html {redirect_to employee_profile_path}
