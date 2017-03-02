@@ -43,5 +43,6 @@
 //= require profiles/waiter_orders
 //= require customers/reservations
 //= require home_page/manager_home
+//= require customers/reservations/reservation_reviews
 //= require Chart
 //= require restaurants

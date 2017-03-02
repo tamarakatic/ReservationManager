@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   namespace :profiles do
     get 'bartender_orders/index'
   end
@@ -109,6 +110,11 @@ Rails.application.routes.draw do
   get 'profiles/order_histories'   => 'profiles/order_histories#index',   :as => 'order_histories'
 
   get 'employee/notifications'     => 'home_page/employee_home#notifications'
+
+  get 'customers/reservations/reservation_reviews' => 'customers/reservations/reservation_reviews#index', :as => 'reservation_reviews'
+  post 'reservation_reviews/restaurant' => 'customers/reservations/reservation_reviews#restaurant_review', :as => 'reservation_reviews/restaurant'
+  post 'reservation_reviews/foods' => 'customers/reservations/reservation_reviews#foods_review', :as => 'reservation_reviews/foods'
+  post 'reservation_reviews/drinks' => 'customers/reservations/reservation_reviews#drinks_review', :as => 'reservation_reviews/drinks'
 
   authenticated :customer do
     root 'home_page/customer_home#index'

@@ -11,14 +11,9 @@
       <hr>
     </div>
   </div>
-  <div class="mb-3">
-
-    <ul>
-      <% @reservations.each do |reservation| %>
-        <li>
-          <%= reservation.restaurant.title %>
-        </li>
-      <% end %>
-    </ul>
+  <div class="container">
+    <div class="card-columns">
+      <%= render :partial => "reservation_history", :collection => @reservations, :as => :reservation %>
+    </div>
   </div>
 </div>
