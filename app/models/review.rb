@@ -10,6 +10,6 @@ class Review < ApplicationRecord
   has_many :employees, :through => :employee
 
   validates :rating, numericality: { less_then_or_equal_to: 10, only_integer: true,
-                                     :greater_than_or_equal_to: 1}
+                                     greater_than_or_equal_to: 1}
 
 end

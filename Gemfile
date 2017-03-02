@@ -83,5 +83,8 @@ gem 'underscore-rails'
 
 gem 'pickadate-rails'
 
+gem 'gmaps4rails'
 
 gem 'chart-js-rails'
+
+ruby "2.3.1"
