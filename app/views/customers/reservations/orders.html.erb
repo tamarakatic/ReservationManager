@@ -3,6 +3,8 @@
   &nbsp;
 </div>
 
+<%= hidden_field_tag :reservation, @reservation.id %>
+
 <div class="container invitation">
   <div class="mt-5 container">
     <div>
@@ -15,10 +17,10 @@
     </div>
   </div>
   <div class="mb-3">
-    <table class="container mt-4 mb-4 table w-50">
+    <table class="container mt-4 mb-4 table w-75">
       <thead class="thead-inverse">
         <tr>
-          <th>Food / Drink</th>
+          <th>Food</th>
           <th>Price</th>
           <th width="25%"></th>
         </tr>
@@ -33,11 +35,40 @@
                 <%= "$ #{food.price}" %>
             </td>
             <td>
-              <%= link_to "Order", "#", :id => food.id, :name => "order-food", :class => "btn btn-success btn-sm active pull-right" %>
+              <%= link_to "Order", "#", :id => food.id, :name => "guest-order-food", :class => "btn btn-success btn-sm active pull-right" %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
+    <table class="container mt-4 mb-4 table w-75">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Drink</th>
+          <th>Price</th>
+          <th width="25%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reservation.restaurant.drinks.each do |drink| %>
+          <tr class="table-active">
+            <td>
+              <%= "#{drink.name}" %>
+            </td>
+            <td>
+              <%= "$ #{drink.price}" %>
+            </td>
+            <td>
+              <%= link_to "Order", "#", :id => drink.id, :name => "guest-order-drink", :class => "btn btn-success btn-sm active pull-right" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <hr>
+    <div class="text-center">
+      <%= link_to "Send order", "", :id => "guest-create-order", :class => "btn btn-success" %>
+    </div>
   </div>
 </div>

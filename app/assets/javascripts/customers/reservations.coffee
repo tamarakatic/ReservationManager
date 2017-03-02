@@ -9,6 +9,8 @@ ready = ->
   storeData("tables", [])
   storeData("invited", [])
   storeData("ordered", [])
+  storeData("guest-ordered-foods", [])
+  storeData("guest-ordered-drinks", [])
 
   initializeDatetimePicker()
   bindHandlers()
@@ -126,6 +128,85 @@ bindHandlers = ->
       $(this).removeClass("btn-danger")
       $(this).addClass("btn-success")
       $(this).text("Order")
+
+  #############################################################################
+
+  $("a[name='guest-order-food']").unbind("click").click (e) ->
+    guestOrder = []
+    unless loadData("guest-ordered-foods")
+      storeData("guest-ordered-foods", [])
+    else
+      guestOrder = loadData("guest-ordered-foods")
+
+    if $(this).text() == "Cancel"
+      guestOrder = _.without(guestOrder, $(this).attr("id"))
+      $(this).text("Order")
+      $(this).switchClass("btn-danger", "btn-success", 1000)
+    else
+      guestOrder.push($(this).attr("id"))
+      $(this).text("Cancel")
+      $(this).switchClass("btn-success", "btn-danger", 1000)
+
+    event.preventDefault()
+    storeData("guest-ordered-foods", guestOrder)
+    console.log loadData("guest-ordered-foods")
+
+  guestOrder = loadData("guest-ordered-foods")
+  $("a[name='guest-order-food']").each (index) ->
+    if _.contains(guestOrder, $(this).attr("id"))
+      $(this).removeClass("btn-success")
+      $(this).addClass("btn-danger")
+      $(this).text("Cancel")
+    else
+      $(this).removeClass("btn-danger")
+      $(this).addClass("btn-success")
+      $(this).text("Order")
+
+  ##########################################################################
+
+  $("a[name='guest-order-drink']").unbind("click").click (e) ->
+    guestOrder = []
+    unless loadData("guest-ordered-drinks")
+      storeData("guest-ordered-drinks", [])
+    else
+      guestOrder = loadData("guest-ordered-drinks")
+
+    if $(this).text() == "Cancel"
+      guestOrder = _.without(guestOrder, $(this).attr("id"))
+      $(this).text("Order")
+      $(this).switchClass("btn-danger", "btn-success", 1000)
+    else
+      guestOrder.push($(this).attr("id"))
+      $(this).text("Cancel")
+      $(this).switchClass("btn-success", "btn-danger", 1000)
+
+    event.preventDefault()
+    storeData("guest-ordered-drinks", guestOrder)
+    console.log loadData("guest-ordered-drinks")
+
+  guestOrder = loadData("guest-ordered-drinks")
+  $("a[name='guest-order-drink']").each (index) ->
+    if _.contains(guestOrder, $(this).attr("id"))
+      $(this).removeClass("btn-success")
+      $(this).addClass("btn-danger")
+      $(this).text("Cancel")
+    else
+      $(this).removeClass("btn-danger")
+      $(this).addClass("btn-success")
+      $(this).text("Order")
+
+  $("#guest-create-order").unbind("click").click (e) ->
+    $.ajax "/customers/reservations/orders",
+      type: "POST",
+      data: {
+        reservation: $("#reservation").val(),
+        orders: {
+          foods:   loadData("guest-ordered-foods"),
+          drinks:  loadData("guest-ordered-foods")
+        }
+      },
+      success: (data) ->
+        console.log data
 
   $("#create-reservation").unbind("click").click (e) ->
     dates = getReservationDates()

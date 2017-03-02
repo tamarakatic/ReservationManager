@@ -1,9 +1,9 @@
-Restaurant.delete_all
-CustomerOrder.delete_all
-CustomerOrderDrink.delete_all
-CustomerOrderFood.delete_all
-CustomerOrderSeat.delete_all
-ServingTime.delete_all
+# Restaurant.delete_all
+# CustomerOrder.delete_all
+# CustomerOrderDrink.delete_all
+# CustomerOrderFood.delete_all
+# CustomerOrderSeat.delete_all
+# ServingTime.delete_all
 
 pera = Manager.create!(:firstname             => "Pera",
                        :lastname              => "Peric",
@@ -124,8 +124,8 @@ customer_order_again.drinks << rakija
 customer_order_again.drinks << viski
 customer_order_again.number_of_seats << garden.number_of_seats[0]
 
-serving = ServingTime.create!(:employee_id => ana.id,
-                               :customer_order_id => customer_order.id)
+ServingTime.create!(:employee_id => ana.id,
+                    :customer_order_id => customer_order.id)
 
 ServingTime.create!(:employee_id => milos.id,
                     :customer_order_id => customer_order_again.id)

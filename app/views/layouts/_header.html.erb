@@ -29,12 +29,12 @@
 					<% end %>
 				</li>
 				<li class="nav-item active">
-					<%= link_to notif_path(cont), :class => "nav-link" do %>
+					<%= link_to notif_path(controller.controller_name), :class => "nav-link" do %>
             <%= fa_icon "bell inverse", :text => "Notifications", :class => "fa-lg fa-fw" %>
 					<% end %>
 				</li>
 				<li class="nav-item active">
-						<%= link_to user_profile_path(cont), :class => "nav-link" do %>
+						<%= link_to user_profile_path(controller.controller_name), :class => "nav-link" do %>
             	<%= fa_icon "user-circle inverse", :text => "Profile", :class => "fa-lg fa-fw" %>
 					<% end %>
 				</li>

@@ -68,6 +68,18 @@ class Customers::ReservationsController < ApplicationController
       params[:friends].each do |friend|
         reservation.invitations.create(:customer => Customer.find(friend), :status => :pending)
       end
+
+      customer_order = CustomerOrder.create(:customer => current_customer)
+
+      params[:orders][:foods].each do |order|
+        customer_order.customer_order_foods.create(Food.find(order))
+      end
+
+      params[:orders][:drinks].each do |order|
+        customer_order.customer_order_drinks.create(Drink.find(order))
+      end
+
+      reservation.reservation_orders.create(:customer_order => customer_order)
     end
 
     respond_to do |format|
@@ -93,8 +105,29 @@ class Customers::ReservationsController < ApplicationController
   def cancel
   end
 
+  # GET /customers/reservations/orders
   def orders
     @reservation = Reservation.find(params[:reservation])
+
+    respond_to do |format|
+      if request.post?
+        customer_order = CustomerOrder.create(:customer => current_customer)
+
+        params[:orders][:foods].each do |order|
+          customer_order.customer_order_foods.create(:food => Food.find(order))
+        end
+
+        params[:orders][:drinks].each do |order|
+          customer_order.customer_order_drinks.create(:drink => Drink.find(order))
+        end
+
+        @reservation.reservation_orders.create(:customer_order => customer_order)
+
+        format.js { render :inline => "alert('hello')" }
+      end
+
+      format.html
+    end
   end
 
   private

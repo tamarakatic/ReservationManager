@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     get    "reservations/new"
     get    "reservations/available_tables"
     post   "reservations/create"
+    post   "reservations/orders"
     post   "reservations/accept"
     post   "reservations/decline"
     delete "reservations/cancel"

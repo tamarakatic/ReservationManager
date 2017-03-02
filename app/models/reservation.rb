@@ -6,6 +6,9 @@ class Reservation < ApplicationRecord
   has_many :reserved_tables
   has_many :number_of_seats, :through => :reserved_tables
 
+  has_many :reservation_orders
+  has_many :customer_orders, :through => :reservation_orders
+
   alias_attribute :owner, :customer
   alias_attribute :invitations, :reservation_invitations
   alias_attribute :tables, :number_of_seats
