@@ -8,7 +8,8 @@ $ ->
 ready = ->
   storeData("tables", [])
   storeData("invited", [])
-  storeData("ordered", [])
+  storeData("ordered-foods", [])
+  storeData("ordered-drinks", [])
   storeData("guest-ordered-foods", [])
   storeData("guest-ordered-drinks", [])
 
@@ -99,12 +100,14 @@ bindHandlers = ->
       $(this).addClass("btn-success")
       $(this).text("Invite")
 
+ ##############################################################################
+
   $("a[name='order-food']").unbind("click").click (e) ->
     ordered = []
-    unless loadData("ordered")
-      storeData("ordered", [])
+    unless loadData("ordered-foods")
+      storeData("ordered-foods", [])
     else
-      ordered = loadData("ordered")
+      ordered = loadData("ordered-foods")
 
     if $(this).text() == "Cancel"
       ordered = _.without(ordered, $(this).attr("id"))
@@ -115,11 +118,41 @@ bindHandlers = ->
       $(this).text("Cancel")
       $(this).switchClass("btn-success", "btn-danger", 1000)
 
-    event.preventDefault()
-    storeData("ordered", ordered)
+    e.preventDefault()
+    storeData("ordered-foods", ordered)
 
-  ordered = loadData("ordered")
+  ordered = loadData("ordered-foods")
   $("a[name='order-food']").each (index) ->
+    if _.contains(ordered, $(this).attr("id"))
+      $(this).removeClass("btn-success")
+      $(this).addClass("btn-danger")
+      $(this).text("Cancel")
+    else
+      $(this).removeClass("btn-danger")
+      $(this).addClass("btn-success")
+      $(this).text("Order")
+
+  $("a[name='order-drink']").unbind("click").click (e) ->
+    ordered = []
+    unless loadData("ordered-drinks")
+      storeData("ordered-drinks", [])
+    else
+      ordered = loadData("ordered-drinks")
+
+    if $(this).text() == "Cancel"
+      ordered = _.without(ordered, $(this).attr("id"))
+      $(this).text("Order")
+      $(this).switchClass("btn-danger", "btn-success", 1000)
+    else
+      ordered.push($(this).attr("id"))
+      $(this).text("Cancel")
+      $(this).switchClass("btn-success", "btn-danger", 1000)
+
+    e.preventDefault()
+    storeData("ordered-drinks", ordered)
+
+  ordered = loadData("ordered-drinks")
+  $("a[name='order-drink']").each (index) ->
     if _.contains(ordered, $(this).attr("id"))
       $(this).removeClass("btn-success")
       $(this).addClass("btn-danger")
@@ -147,7 +180,7 @@ bindHandlers = ->
       $(this).text("Cancel")
       $(this).switchClass("btn-success", "btn-danger", 1000)
 
-    event.preventDefault()
+    e.preventDefault()
     storeData("guest-ordered-foods", guestOrder)
     console.log loadData("guest-ordered-foods")
 
@@ -180,7 +213,7 @@ bindHandlers = ->
       $(this).text("Cancel")
       $(this).switchClass("btn-success", "btn-danger", 1000)
 
-    event.preventDefault()
+    e.preventDefault()
     storeData("guest-ordered-drinks", guestOrder)
     console.log loadData("guest-ordered-drinks")
 
@@ -219,7 +252,10 @@ bindHandlers = ->
         end:         dates.end.valueOf(),
         tables:      loadData("tables"),
         friends:     loadData("invited"),
-        orders:      loadData("ordered")
+        orders: {
+          foods:   loadData("ordered-foods"),
+          drinks:  loadData("ordered-drinks")
+        }
       },
       success: (data) ->
         console.log("success")

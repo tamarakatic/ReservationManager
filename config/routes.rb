@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   end
 
   namespace :customers do
+    get    "reservations/history"
     get    "reservations/index"
     get    "reservations/orders"
     get    "reservations/new"
