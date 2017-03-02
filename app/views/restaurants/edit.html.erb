@@ -1,6 +1,17 @@
 <h1>Editing "<%= @restaurant.title %>" </h1>
 
 <%= render 'form', restaurant: @restaurant %>
+<br /><br />
+
+<ul>
+  <h2>Current employees:</h2>
+  <% current_manager.employees.each do |employee| %>
+    <li>
+      <%= "#{employee.firstname} #{employee.lastname}"%>&nbsp;&nbsp; <b>Type:</b> <%= " #{employee.type}" %>
+    </li>
+  <% end %>
+</ul>
+
 
 <br/><br/>
 <div class="container">
@@ -45,13 +56,13 @@
       <% end %>
     </div>
     <div class="col-6 col-md-4 text-center">
-      <%= button_to list_drink_path, class: "btn btn-circle btn-lg", method: :get do %>
-      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <%= button_to review_mark_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "star", :class => "fa-3x fa-fw" %>
       <% end %>
     </div>
     <div class="col-6 col-md-4 text-center">
-      <%= button_to list_seat_path, class: "btn btn-circle btn-lg", method: :get do %>
-      <%= fa_icon "list", :class => "fa-3x fa-fw" %>
+      <%= button_to income_path, class: "btn btn-circle btn-lg", method: :get do %>
+      <%= fa_icon "usd", :class => "fa-3x fa-fw" %>
       <% end %>
     </div>
   </div>
