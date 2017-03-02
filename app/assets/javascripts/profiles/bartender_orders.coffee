@@ -4,7 +4,6 @@
 
 $ ->
   $(document).on 'ready turbolinks:load', ->
-    console.log("blaaa")
 
     $("#preparingDrink").unbind('click').click (e) ->
       id = $('#orderId').val()

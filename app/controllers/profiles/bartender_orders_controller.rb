@@ -4,28 +4,26 @@ class Profiles::BartenderOrdersController < ApplicationController
   layout "home_page"
 
   def index
-    customer = CustomerOrder.where(:status =>['Pending','ProgressDrinks','ProgressDrinksWithReadyFoods','Progress','ReadyFoods','Active'] )
-    employee_shift = EmployeeShift.where(employee_id: current_employee.id)
+    customer = CustomerOrderPart.where(:status =>['Pending','ProgressDrinks'],:employee_id => current_employee.id).to_a
     @customer_order = []
     customer.each do |c|
-      employee_shift.each do |emp|
-        shift = Shift.find(emp.shift_id)
-        addCostumerOrder(@customer_order, c, shift)
+        @customer_order << c
       end
-    end
   end
 
   def prepare
-    customer_order = CustomerOrder.find(params[:id][:id])
-    waiter = ServingTime.find(customer_order.id)
+    customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:id], :employee_id => current_employee.id).first
+    customer = CustomerOrder.find(params[:id][:id])
+    waiter = ServingTime.find(customer_order.customer_order_id)
     unless customer_order.nil? and waiter.nil?
-      if(customer_order.status == 'ProgressFoods')
-        customer_order.update(:status => 'Progress')
-      elsif(customer_order.status == 'ReadyFoods')
-        customer_order.update(:status => 'ProgressDrinksWithReadyFoods')
-      else
-        customer_order.update(:status => "ProgressDrinks")
+      customer_order.update(:status => "ProgressDrinks")
+      customer.customer_order_parts.each do |part|
+        if part.status == 'ProgressFoods'
+          customer.update(:status => 'Progress')
+          break
+        end
       end
+
       ActionCable.server.broadcast 'bartender_orders',
                                     content: "Drink is preparing for order #{customer_order.id}",
                                     firstname: current_employee.firstname,
@@ -39,19 +37,23 @@ class Profiles::BartenderOrdersController < ApplicationController
   end
 
   def finish
-    customer_order = CustomerOrder.find(params[:id][:order_id])
-    waiter = ServingTime.find(customer_order.id)
+    customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:order_id],:employee_id => current_employee.id).first
+    waiter = ServingTime.find(customer_order.customer_order_id)
+    customer = CustomerOrder.find(params[:id][:order_id])
     unless customer_order.nil? and waiter.nil?
-        if(customer_order.status == 'ReadyFoods' or customer_order.status == 'ProgressDrinksWithReadyFoods')
-          customer_order.update(:status => 'Ready')
-        else
-          customer_order.update(:status => 'ReadyDrinks')
+      customer_order.update(:status => 'ReadyDrinks')
+      customer.customer_order_parts.each do |part|
+        if part.status == 'ReadyFoods'
+          customer.update(:status => 'Ready')
+          break
         end
-       ActionCable.server.broadcast 'bartender_orders',
-                                     content: "Drink is finished for order #{customer_order.id}",
-                                     firstname: current_employee.firstname,
-                                     lastname: current_employee.lastname,
-                                     employee: waiter.id
+      end
+
+      ActionCable.server.broadcast 'bartender_orders',
+                                    content: "Drink is finished for order #{customer_order.id}",
+                                    firstname: current_employee.firstname,
+                                    lastname: current_employee.lastname,
+                                    employee: waiter.id
 
       respond_to do |format|
         format.html {redirect_to employee_profile_path}

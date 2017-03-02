@@ -13,10 +13,16 @@ class Profiles::CookOrdersController < ApplicationController
 
   def setPrepare
     customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:id], :employee_id => current_employee.id).first
-    waiter = ServingTime.find(customer_order.id)
+    waiter = ServingTime.find(customer_order.customer_order_id)
+    customer = CustomerOrder.find(params[:id][:id])
     unless customer_order.nil? and waiter.nil?
       customer_order.update(:status => 'ProgressFoods')
-
+        customer.customer_order_parts.each do |part|
+          if part.status == 'ProgressDrinks'
+            customer.update(:status => 'Progress')
+            break
+          end
+        end
 
       ActionCable.server.broadcast 'cook_orders',
                                     content: "Food is preparing for order #{customer_order.id}",
@@ -32,9 +38,17 @@ class Profiles::CookOrdersController < ApplicationController
 
   def finish
     customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:order_id],:employee_id => current_employee.id).first
-    waiter = ServingTime.find(customer_order.id)
+    waiter = ServingTime.find(customer_order.customer_order_id)
+    customer = CustomerOrder.find(params[:id][:order_id])
     unless customer_order.nil? and waiter.nil?
       customer_order.update(:status => 'ReadyFoods')
+      customer.customer_order_parts.each do |part|
+        if part.status == 'ReadyDrinks'
+          customer.update(:status => 'Ready')
+          break
+        end
+      end
+
       ActionCable.server.broadcast 'cook_orders',
                                     content: "Food is finished for order #{customer_order.id}",
                                     firstname: current_employee.firstname,

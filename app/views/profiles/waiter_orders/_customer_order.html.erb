@@ -2,7 +2,11 @@
   <div class="card-block">
     <h4 style="text-align: left; font-family: Wildera Regular;"class="card-title">Order</h4>
     <h6><i>Status: <%= order.status %></i></h6>
+    <%if current_employee.type == 'Cook' or current_employee.type == 'Bartender' %>
+    <input type="hidden" id="orderId" value=<%= order.customer_order_id %> />
+    <%else %>
     <input type="hidden" id="orderId" value=<%= order.id %> />
+    <%end %>
     <hr>
     <% if current_employee.type == 'Waiter' %>
       <% order.number_of_seats.each do |table| %>

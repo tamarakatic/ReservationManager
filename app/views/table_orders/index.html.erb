@@ -99,7 +99,6 @@
           <li> <%= drink.name %>
           <input type="hidden" value=<%= drink.id %> />
           <button type="button" id="deleteDrink" class="btn btn-danger btn-sm">Delete</button>
-          <% if @customer_order.status == 'Active' or @customer_order.status == 'ProgressFoods' %>
             <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange</button>
             <select class="form-control col-sm-6" id="barSelect">
               <option disabled selected value></option>
@@ -107,7 +106,6 @@
               <option value="<%= bar.id %>"><%= "#{bar.firstname} #{bar.lastname}"%></option>
                 <% end %>
             </select>
-          <% end %>
              <button id="sendBartenders" style="float:right;" type="button" class="btn btn-info btn-sm">Notify b</button>
             <ul>
              <li><i> <%= drink.description %></i></li>

@@ -115,6 +115,43 @@ class TableOrdersController < ApplicationController
     redirect_to table_orders_path(:customer_order => customer.id)
   end
 
+  def notify_bartender
+    drink = Drink.find(params[:id][:drink_id])
+    employee = Employee.find(params[:id][:bart_id])
+    customer = CustomerOrder.find(params[:id][:customer_id])
+    temp = CustomerOrderPart.where(:employee_id => params[:id][:bart_id], :customer_order_id => params[:id][:customer_id]).first
+    if temp.nil?
+      part = CustomerOrderPart.new(:customer_order_id => params[:id][:customer_id],
+                               :employee_id => params[:id][:bart_id],
+                               :status => 'Pending')
+      part.drinks << drink
+      if part.save!
+        ActionCable.server.broadcast 'bartender_notify',
+                                      content: " Your need to prepare drink",
+                                      firstname: current_employee.firstname,
+                                      lastname: current_employee.lastname,
+                                      employee: employee.id
+        respond_to do |format|
+          format.html {redirect_to table_orders_path(:customer_order => customer.id) }
+        end
+      end
+    else
+      temp.drinks << drink
+      if temp.status == 'ReadyDrinks' or temp.status == 'ProgressDrinks'
+        temp.update(:status => 'Pending')
+      end
+      ActionCable.server.broadcast 'bartender_notify',
+                                    content: " Your need to prepare one more drink",
+                                    firstname: current_employee.firstname,
+                                    lastname: current_employee.lastname,
+                                    employee: employee.id
+      respond_to do |format|
+        format.html {redirect_to table_orders_path(:customer_order => customer.id) }
+      end
+    end
+    redirect_to table_orders_path(:customer_order => customer.id)
+  end
+
   private
 
   def empInShift(type)
