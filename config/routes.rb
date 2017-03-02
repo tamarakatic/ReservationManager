@@ -70,6 +70,10 @@ Rails.application.routes.draw do
 
   get "visit_chart" => "restaurants#visit_chart"
 
+  get "review_mark" => "restaurants#review_mark"
+
+  get "income" => "restaurants#income"
+
   get "list_provider" => "home_page/manager_home#list_provider"
 
   get "list_order" => "home_page/manager_home#list_order"

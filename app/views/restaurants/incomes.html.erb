@@ -1,0 +1,27 @@
+<br /><br />
+<div class="container">
+  <h1>Restaurants <%= current_manager.restaurant.title %> has incomes:</h1>
+  <b><p>11.01.2017. - 12.02.2017</p></b>
+  <span class="input-group-addon"><i class="fa fa-usd fa-fw"></i>
+  <input class="form-control" type="text" readonly="true" placeholder="<%= current_manager.restaurant.id * 1000 %>"></span>
+  <br /><br />
+
+  <h2>Waiters incomes:</h1>
+    <ul>
+      <% current_manager.employees.each do |employee| %>
+        <% if employee.type == "Waiter" %>
+          <li>
+            <%= employee.firstname %>
+             <span class="input-group-addon"><i class="fa fa-usd fa-fw"></i>
+             <input class="form-control" type="text" readonly="true" placeholder="<%= employee.id * 300 %>"></span>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+</div>
+<br />
+<div class="alert alert clearfix">
+  <%= button_to edit_restaurant_path(current_manager.restaurant), :class => "btn btn-lg pull-left", method: :get do %>
+  <%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+  <% end %>
+<br /><br />

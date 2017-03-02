@@ -1,3 +1,13 @@
 <br /><br />
+<div class="alert alert clearfix">
+  <%= button_to edit_restaurant_path(current_manager.restaurant), :class => "btn btn-lg pull-left", method: :get do %>
+  <%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+  <% end %>
+  <%= button_to "Day visits", "#", :id => "day_chart", :class => "btn btn-success btn-lg pull-right", method: :get %>
+  <%= button_to "Week visits", "#", :id => "week_chart", :class => "btn btn-danger btn-lg pull-right", method: :get %>
+</div>
+<br />
+<canvas id="canvas" width="250" height="150"></canvas>
 
-<canvas id="myChart" width="250" height="100"></canvas>
+
+<canvas id="myChart" width="250" height="150"></canvas>
