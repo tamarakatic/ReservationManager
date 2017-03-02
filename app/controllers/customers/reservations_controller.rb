@@ -72,11 +72,11 @@ class Customers::ReservationsController < ApplicationController
       customer_order = CustomerOrder.create(:customer => current_customer)
 
       params[:orders][:foods].each do |order|
-        customer_order.customer_order_foods.create(Food.find(order))
+        customer_order.customer_order_foods.create(:food => Food.find(order))
       end
 
       params[:orders][:drinks].each do |order|
-        customer_order.customer_order_drinks.create(Drink.find(order))
+        customer_order.customer_order_drinks.create(:drink => Drink.find(order))
       end
 
       reservation.reservation_orders.create(:customer_order => customer_order)
@@ -102,6 +102,16 @@ class Customers::ReservationsController < ApplicationController
     redirect_to root_path
   end
 
+  def history
+    @reservations = Reservation.where(:owner => current_customer).to_a
+
+    if @reservations.first.nil?
+      ReservationInvitation.where(:customer => current_customer, :status => :accepted).each do |inv|
+        @reservations << inv.reservation
+      end
+    end
+  end
+
   def cancel
   end
 
@@ -123,7 +133,7 @@ class Customers::ReservationsController < ApplicationController
 
         @reservation.reservation_orders.create(:customer_order => customer_order)
 
-        format.js { render :inline => "alert('hello')" }
+        format.js { render :inline => "alert('Ordered successfully')" }
       end
 
       format.html
