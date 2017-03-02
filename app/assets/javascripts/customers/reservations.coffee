@@ -242,6 +242,11 @@ bindHandlers = ->
         console.log data
 
   $("#create-reservation").unbind("click").click (e) ->
+    if _.isEmpty(loadData("tables"))
+      alert("You must select a table!")
+      e.preventDefault()
+      return
+
     dates = getReservationDates()
 
     $.ajax "/customers/reservations/create",

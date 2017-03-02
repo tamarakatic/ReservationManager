@@ -65,21 +65,25 @@ class Customers::ReservationsController < ApplicationController
         reservation.reserved_tables.create(:table => NumberOfSeat.find(table))
       end
 
-      params[:friends].each do |friend|
-        reservation.invitations.create(:customer => Customer.find(friend), :status => :pending)
+      unless params[:friends].nil?
+        params[:friends].each do |friend|
+          reservation.invitations.create(:customer => Customer.find(friend), :status => :pending)
+        end
       end
 
-      customer_order = CustomerOrder.create(:customer => current_customer)
+      unless params[:orders].nil? or (params[:orders][:foods].nil? and params[:orders][:drinks].nil?)
+        customer_order = CustomerOrder.create(:customer => current_customer)
 
-      params[:orders][:foods].each do |order|
-        customer_order.customer_order_foods.create(:food => Food.find(order))
+        params[:orders][:foods].each do |order|
+          customer_order.customer_order_foods.create(:food => Food.find(order))
+        end
+
+        params[:orders][:drinks].each do |order|
+          customer_order.customer_order_drinks.create(:drink => Drink.find(order))
+        end
+
+        reservation.reservation_orders.create(:customer_order => customer_order)
       end
-
-      params[:orders][:drinks].each do |order|
-        customer_order.customer_order_drinks.create(:drink => Drink.find(order))
-      end
-
-      reservation.reservation_orders.create(:customer_order => customer_order)
     end
 
     respond_to do |format|
