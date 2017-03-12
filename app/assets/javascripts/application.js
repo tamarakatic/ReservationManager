@@ -25,6 +25,7 @@
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require pickadate/picker.time
+//= require filterrific/filterrific-jquery
 //= require turbolinks
 //
 //= require persist.js
