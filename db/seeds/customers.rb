@@ -1,5 +1,3 @@
-Customer.delete_all
-
 john = Customer.create!(:firstname => "John",
                         :lastname => "Doe",
                         :email => "johndoe@gmail.com",
