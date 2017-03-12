@@ -11,10 +11,10 @@
       &nbsp;
     </div>
 
-    <h1 class="display-2 text-center text-success text-weight-bold mt-5">Find your perfect restaurant</h1>
+    <h1 class="display-2 text-center text-success text-weight-bold mt-2">Find your perfect restaurant</h1>
     <hr class="my-5 w-75">
 
-    <div class="container gray-panel">
+    <div class="container gray-panel mb-5">
 
       <div class="row form-inline mt-4">
         <div class="col-6 input-group">
@@ -35,5 +35,10 @@
         <%= render :partial => "restaurant", :collection => @restaurants, :as => :restaurant %>
       </div>
     </div>
+
+    <div class="mt-5">
+      &nbsp;
+    </div>
+
   <% end %>
 <% end %>

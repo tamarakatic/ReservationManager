@@ -1,10 +1,3 @@
-# Restaurant.delete_all
-# CustomerOrder.delete_all
-# CustomerOrderDrink.delete_all
-# CustomerOrderFood.delete_all
-# CustomerOrderSeat.delete_all
-# ServingTime.delete_all
-
 pera = Manager.create!(:firstname             => "Pera",
                        :lastname              => "Peric",
                        :email                 => "peric@gmail.com",
@@ -13,6 +6,7 @@ pera = Manager.create!(:firstname             => "Pera",
                        :confirmed_at          => Time.now)
 
 pera.create_restaurant!(:title       => "Black Swan",
+                        :category    => "French",
                         :description => "Our impressive menu of nationally renowned dry aged " +
                                         "steaks and the freshest of seafood will ignite your " +
                                         "culinary imagination as our award-winning wine list " +
@@ -139,6 +133,7 @@ nick = Manager.create!(:firstname             => "Nick",
                        :confirmed_at          => Time.now)
 
 nick.create_restaurant!(:title       => "Central",
+                        :category    => "Peruvian",
                         :description => "A gastronomic exploration of altitude and Peru’s ecosystem")
 
 # 'Mirazur' restaurant
@@ -150,6 +145,7 @@ jean = Manager.create!(:firstname             => "Jean",
                        :confirmed_at          => Time.now)
 
 jean.create_restaurant!(:title       => "Mirazur",
+                        :category    => "Italian",
                         :description => "The cuisine of the sun interpreted anew by a passionate son of Italy and Argentina")
 
 # 'El Celler de Can Roca' restaurant
@@ -161,6 +157,7 @@ roca = Manager.create!(:firstname             => "Roco",
                        :confirmed_at          => Time.now)
 
 roca.create_restaurant!(:title       => "El Celler de Can Roca",
+                        :category    => "Modern freestyle",
                         :description => "It’s a haven of tranquillity boasting a wine-lover’s fantasy cellar, a triangular glass-walled " +
                                         "modernist dining room and a contemporary tasting menu that draws extensively from the Catalan terroir")
 
@@ -173,6 +170,7 @@ chris = Manager.create!(:firstname             => "Chris",
                         :confirmed_at          => Time.now)
 
 chris.create_restaurant!(:title       => "Eleven Madison Park",
+                         :category    => "Modern European",
                          :description => "Creative fine dining in the Big Apple with hospitality at its heart")
 
 # 'Narisawa' restaurant
@@ -184,4 +182,5 @@ yoshi = Manager.create!(:firstname             => "Yoshihiro",
                         :confirmed_at          => Time.now)
 
 yoshi.create_restaurant!(:title       => "Narisawa",
+                         :category    => "Japanese",
                          :description => "Japanese Satoyama and wisdom of the ancestors from chef Yoshihiro Narisawa")

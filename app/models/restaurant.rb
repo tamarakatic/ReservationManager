@@ -11,19 +11,24 @@ class Restaurant < ApplicationRecord
   has_many :reservations
   has_many :tables, :through => :seats, :source => :number_of_seats
 
-  validates :title, uniqueness: true,
-                    length: { in: 2..30 },
-                    presence: true,
-                    allow_blank: false
+  validates :title, :uniqueness => true,
+                    :length => { :in => 2..30 },
+                    :presence => true,
+                    :allow_blank => false
 
-  validates :description, length: { maximum: 300 },
-                          presence: true,
-                          allow_blank: false
+  validates :description, :length => { :maximum => 300 },
+                          :presence => true,
+                          :allow_blank => false
+
+  validates :category, :length => { :maximum => 30 },
+                       :allow_blank => false
 
   def self.sort_options
     [
       ["Name (A-Z)", "title_asc"],
-      ["Name (Z-A)", "title_desc"]
+      ["Name (Z-A)", "title_desc"],
+      ["Category (A-Z)", "category_asc"],
+      ["Category (Z-A)", "category_desc"]
     ]
   end
 
@@ -36,7 +41,7 @@ class Restaurant < ApplicationRecord
   scope :search_query, lambda { |query|
     return nil if query.blank?
 
-    where("title ILIKE ? or description ILIKE ?", "%#{query}%", "%#{query}%")
+    where("title ILIKE ? or category ILIKE ?", "%#{query}%", "%#{query}%")
   }
 
   scope :sorted_by, lambda { |option|
@@ -45,6 +50,8 @@ class Restaurant < ApplicationRecord
     case option.to_s
     when /^title/
       order("LOWER(restaurants.title) #{direction}")
+    when /^category/
+      order("LOWER(restaurants.category) #{direction}")
     end
   }
 
