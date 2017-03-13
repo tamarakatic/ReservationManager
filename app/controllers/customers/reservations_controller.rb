@@ -53,21 +53,34 @@ class Customers::ReservationsController < ApplicationController
                                   :reserved_from => reservation_start,
                                   :reserved_to   => reservation_end)
 
-    params[:tables].each do |table|
-      reservation.reserved_tables.build(:number_of_seat_id => table)
+    if params[:tables].empty?
+      redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
+        :alert => "You must select table." and return
     end
 
-    unless params[:friends].nil?
-      params[:friends].each do |friend|
-        reservation.invitations.build(:customer_id => friend, :status => :pending)
+    ActiveRecord::Base.transaction do
+      params[:tables].each do |table_id|
+        table = NumberOfSeat.lock.find(table_id)
+
+        if table.reserved?(reservation_start, reservation_end)
+          redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
+            :alert => "One of the selected tables is already reserved." and return
+        end
+
+        reservation.reserved_tables.build(:table => table)
       end
-    end
 
-    respond_to do |format|
+      unless params[:friends].nil?
+        params[:friends].each do |friend|
+          reservation.invitations.build(:customer_id => friend, :status => :pending)
+        end
+      end
+
       if reservation.save!
-        format.html { redirect_to root_path }
+        redirect_to root_path
       else
-        format.js { render :inline => "alert('Reservation cannot be made! Please try again.')"}
+        redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
+          :alert => "Reservation cannot be made! Please try again."
       end
     end
   end
