@@ -5,16 +5,16 @@ class Offer < ApplicationRecord
 
   enum offer_state: [:active, :rejected, :accepted]
 
-  after_save :broadcast_notification
+  after_update :updated_notification
 
-  after_update :update_notification
+  after_create :created_notification
 
-  def broadcast_notification
+  def created_notification
     ActionCable.server.broadcast 'offer_notifications',
       :notification => "Offer is created!!!"
   end
 
-  def update_notification
+  def updated_notification
     ActionCable.server.broadcast 'offer_notifications',
       :notification => "Offer is updated!!!"
   end

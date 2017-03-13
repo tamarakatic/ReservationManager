@@ -34,7 +34,6 @@ fillCalendar = (callback) ->
     dataType: 'json'
     success: (data) ->
       eventsArray = []
-      console.log(data)
       for x of data.shift
         startT = data.shift[x].start_at.split('T')[1]
         endT = data.shift[x].end_at.split('T')[1]

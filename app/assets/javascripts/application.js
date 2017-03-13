@@ -22,6 +22,7 @@
 //= require fullcalendar
 //= require jquery.timepicker.js
 //= require underscore
+//= require gmaps/google 
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require pickadate/picker.time
