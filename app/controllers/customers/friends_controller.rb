@@ -1,7 +1,7 @@
 class Customers::FriendsController < ApplicationController
   before_action :authenticate_customer!
 
-  layout "home_page"
+  layout "customer_home"
 
   # GET /friends
   def index

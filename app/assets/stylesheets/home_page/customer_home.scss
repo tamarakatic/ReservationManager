@@ -2,12 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.restaurant-search {
+.customer-home {
   background-image: image-url("customer_home_background.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
   background-attachment: fixed;
-  height: 25rem;
+  background-size: cover;
+}
+
+.navbar {
+  border-bottom: 1px solid green;
 }
 
 .border-white {
