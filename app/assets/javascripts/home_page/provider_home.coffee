@@ -5,22 +5,28 @@
 $ ->
   $("a[name='edit']").unbind("click").click (event) ->
     active_till = $("#active_till").val()
+    accept_offer = $("#offer_accept").val()
 
-    today = new Date
-    dd = today.getDate()
-    mm = today.getMonth() + 1
+    # today = new Date
+    # dd = today.getDate()
+    # mm = today.getMonth() + 1
+    #
+    # yyyy = today.getFullYear()
+    # if dd < 10
+    #   dd = '0' + dd
+    # if mm < 10
+    #   mm = '0' + mm
+    # today = mm + '/' + dd + '/' + yyyy
 
-    yyyy = today.getFullYear()
-    if dd < 10
-      dd = '0' + dd
-    if mm < 10
-      mm = '0' + mm
-    today = mm + '/' + dd + '/' + yyyy
-
-    if today > active_till
-      alert 'You can not edit! The offer has expired!'
+    if accept_offer is "accepted"
+      alert 'This offer is accepted!'
       event.preventDefault()
       return
+
+    # if today > active_till
+    #   alert 'You can not edit! The offer has expired!'
+    #   event.preventDefault()
+    #   return
 
   $(document).on "click", "#create_offer", create_offer
   $(document).on "click", "#edit_offer", edit_offer
@@ -46,12 +52,11 @@ create_offer = ->
 
   $("tbody > tr").each (key, value) ->
     price = $("##{value.id} > td > input#price")[0].value
-
     prices[value.id] = price
+
   $.post "/offers", { offer_items: prices, order_id: $("#order_id")[0].value, delivery_time: $('#offer_time').val() }, (data) ->
     $('#offer_time').val()
     console.log(data)
-
 
 edit_offer = ->
   from = $("#active_from").val()

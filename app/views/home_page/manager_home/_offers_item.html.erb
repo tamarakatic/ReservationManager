@@ -8,18 +8,18 @@
     </tr>
   </thead>
   <tbody>
-    <% offer.order_items.each do |item| %>
+    <% offer.offer_items.each do |item| %>
       <td>
-        <%= item.item %>
+        <%= item.order_item.item %>
       </td>
       <td>
-        <%= item.quantity %>
+        <%= item.order_item.quantity %>
       </td>
       <td>
-        <%= item.unit_of_measure %>
+        <%= item.order_item.unit_of_measure %>
       </td>
       <td>
-        <%= number_field_tag :price, offer_item_price(item.id), :readonly => true %>
+        <%= number_field_tag :price, offer_item_price(item.price), :readonly => true %>
       </td>
     </tr>
     <% end %>

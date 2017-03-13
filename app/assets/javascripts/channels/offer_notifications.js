@@ -3,7 +3,7 @@ $(document).on("ready turbolinks:load", function() {
 
     App.offer_notifications = App.cable.subscriptions.create("OfferNotificationsChannel", {
       received: function (notification) {
-        $("#manager-notifications").removeClass('hidden')
+        $("#manager-notifications").removeClass("hidden");
         return $("#manager-notifications").html(this.renderNotification(notification));
       },
       renderNotification: function (data) {

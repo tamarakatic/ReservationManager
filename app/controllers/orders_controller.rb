@@ -14,20 +14,35 @@ class OrdersController < ApplicationController
   end
 
   def accept_offer
-    offer = params[:offer_id]
+    @offer = Offer.find(params[:offer_id])
     provider = Provider.find(params[:id])
+    @order = Order.find(@offer.order_id)
     @restaurant = Restaurant.where(:manager_id => current_manager.id).first
-    provider_reject = RestaurantProvider.where(:restaurant_id => @restaurant.id).map { |e| e.provider_id }
-    @provider_all = Provider.find(provider_reject)
-    reject_providers = @provider_all.reject { |e| e.id == provider.id }.map { |p| p.id }
-    @rejected_providers = reject_providers
+    rejected_providers = RestaurantProvider.where(:restaurant_id => @restaurant.id)
+                                           .where.not(:provider_id => provider.id)
 
-    ActionCable.server.broadcast 'accept_offers',
-      :confirmed_offer => offer,
-      :confirmed_provider => provider.id,
-      :message_confirmed => 'This offer is confirmed!!!',
-      :rejected_providers => reject_providers,
-      :message_rejected => 'Your offer is rejected!!!'
+    @offer_rejected = Offer.where.not(:id => @offer.id)
+
+    ActiveRecord::Base.transaction do
+      @order.order_active = true
+      @order.save!
+      @offer.offer_state = "accepted"
+      @offer.save!
+
+      @offer_rejected.each do |offer_reject|
+        unless offer_reject.offer_state == "accepted"
+          offer_reject.offer_state = "rejected"
+          offer_reject.save!
+        end
+      end
+
+      ActionCable.server.broadcast 'accept_offers',
+        :confirmed_offer    => @offer.id,
+        :confirmed_provider => provider.id,
+        :message_confirmed  => 'This offer is confirmed!!!',
+        :rejected_providers => rejected_providers.map { |p| p.id },
+        :message_rejected   => 'Your offer is rejected!!!'
+    end
 
     respond_to do |format|
       format.html { redirect_to root_path }
