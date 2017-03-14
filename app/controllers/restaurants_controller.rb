@@ -1,8 +1,6 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
 
-  before_action :authenticate_system_manager!
-
   layout 'restaurant_home'
 
   # GET /restaurants
@@ -47,6 +45,18 @@ class RestaurantsController < ApplicationController
   def visit_chart
     respond_to do |format|
       format.html { render :charts }
+    end
+  end
+
+  def review_mark
+    respond_to do |format|
+      format.html { render :marks }
+    end
+  end
+
+  def income
+    respond_to do |format|
+      format.html { render :incomes }
     end
   end
   # POST /restaurants

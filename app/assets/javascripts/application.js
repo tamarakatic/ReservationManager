@@ -25,6 +25,7 @@
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require pickadate/picker.time
+//= require filterrific/filterrific-jquery
 //= require turbolinks
 //
 //= require persist.js
@@ -32,6 +33,7 @@
 //= require profiles/employee_calendar
 //= require customers/friends
 //= require home_page/employee_home
+//= require home_page/customer_home
 //= require home_page/provider_home
 //= require employee_shift
 //= require profiles/employee_reon

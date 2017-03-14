@@ -1,1 +1,15 @@
-<h1> Manageeer! </h1>
+<div class='container'>
+  <h1 style="font-family: Ayres Serif"> <%= current_manager.firstname %> <%= current_manager.lastname %> </h1>
+  <br/>
+  <br/>
+  <%= button_to root_path, :class => "btn btn-lg", method: :get do %>
+  <%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+  <% end %>
+  <br /><br />
+  <div>
+    <%= button_to 'Change', edit_manager_registration_path, method: "get",
+      form: {style: 'display:inline-block;'} %>
+   <span style="font-family: Century Gothic;"> basic informations </span>
+  </div>
+  <br/>
+</div>

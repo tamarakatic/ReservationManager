@@ -3,24 +3,42 @@
     <h1 class="display-3 text-center">Welcome, <%= current_customer.firstname %>! </h1>
     <hr class="my-4">
     <p class="lead text-center">Ooops! Looks like we don't have any registered restaurants yet. Come by later</p>
-    <a class="btn btn-lg btn-success" href="#" role="button">More</a>
   </div>
 <% else %>
-  <div class="jumbotron w-100 text-white restaurant-search">
-    <h1 class="display-3 text-center text-weight-bold">Find your perfect restaurant!</h1>
-    <hr class="my-5 w-50 border-white">
+  <%= form_for_filterrific @filterrific do |f| %>
 
-    <div class="input-group w-50 container">
-      <%= search_field_tag "search", params[:search], :class => "form-control", :placeholder => "Restaurant name or type..." %>
-      <%= button_tag :class => "btn btn-success my-2 my-sm-0" do %>
-        <%= fa_icon "search", :class => "fa-sm fa-fw" %>
-      <% end %>
+    <div class="mt-5">
+      &nbsp;
     </div>
-  </div>
 
-  <div class="container">
-    <div class="card-columns">
-      <%= render :partial => "restaurant", :collection => @restaurants, :as => :restaurant %>
+    <h1 class="display-2 text-center text-success text-weight-bold mt-2">Find your perfect restaurant</h1>
+    <hr class="my-5 w-75">
+
+    <div class="container gray-panel mb-5">
+
+      <div class="row form-inline mt-4">
+        <div class="col-6 input-group">
+          <%= f.search_field :search_query, :class => "filterrific-periodically-observed form-control", :placeholder => "Restaurant name or type..." %>
+          <%= button_tag :class => "btn btn-success my-2 my-sm-0" do %>
+            <%= fa_icon "search", :class => "fa-sm fa-fw" %>
+          <% end %>
+        </div>
+
+        <div class="col-4 form-group">
+          <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { :class => "form-control"} %>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="card-columns mb-5" id="restaurants">
+        <%= render :partial => "restaurant", :collection => @restaurants, :as => :restaurant %>
+      </div>
     </div>
-  </div>
+
+    <div class="mt-5">
+      &nbsp;
+    </div>
+
+  <% end %>
 <% end %>

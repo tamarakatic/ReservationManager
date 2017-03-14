@@ -13,6 +13,8 @@ ready = ->
   storeData("guest-ordered-foods", [])
   storeData("guest-ordered-drinks", [])
 
+  window.seatMap = null
+
   initializeDatetimePicker()
   bindHandlers()
 
@@ -242,6 +244,11 @@ bindHandlers = ->
         console.log data
 
   $("#create-reservation").unbind("click").click (e) ->
+    if _.isEmpty(loadData("tables"))
+      alert("You must select a table!")
+      e.preventDefault()
+      return
+
     dates = getReservationDates()
 
     $.ajax "/customers/reservations/create",
@@ -359,8 +366,9 @@ updateAvailableSeats = (event) ->
       reservation_end:   dates.end.valueOf()
     },
     success: (response) ->
-      areas = {}
-      reserved = []
+      areas     = {}
+      reserved  = []
+      available = []
 
       putTable = (areas, table) ->
         if table.area_id of areas
@@ -373,6 +381,7 @@ updateAvailableSeats = (event) ->
           }
 
       for table in response.available
+        available.push("#{table.area_id}_#{table.id}")
         table.symbol = 'a'
         putTable(areas, table)
 
@@ -385,6 +394,7 @@ updateAvailableSeats = (event) ->
         createSeatsMap(_.values(areas))
       else
         window.seatMap.status(reserved, "unavailable")
+        window.seatMap.status(available, "available")
 
   event.preventDefault()
 

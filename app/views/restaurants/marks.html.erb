@@ -1,0 +1,58 @@
+<br /><br />
+<div class="container">
+  <h1>Restaurants <%= current_manager.restaurant.title %> has review:
+<div class="acidjs-rating-stars acidjs-rating-disabled">
+    <form>
+        <input disabled="disabled" type="radio" name="group-3" id="group-3-0" value="5" /><label for="group-3-0"></label><!--
+        --><input disabled="disabled" type="radio" checked="checked" name="group-3" id="group-3-1" value="4" /><label for="group-3-1"></label><!--
+        --><input disabled="disabled" type="radio" name="group-3" id="group-3-2" value="3" /><label for="group-3-2"></label><!--
+        --><input disabled="disabled" type="radio" name="group-3" id="group-3-3" value="2" /><label for="group-3-3"></label><!--
+        --><input disabled="disabled" type="radio" name="group-3" id="group-3-4"  value="1" /><label for="group-3-4"></label>
+    </form>
+</div>
+</h1>
+  <br /><br />
+  <h2>Foods review:</h1>
+    <ul>
+      <% current_manager.restaurant.foods.each do |food| %>
+        <li>
+        <%= food.name %>
+          <div class="acidjs-rating-stars acidjs-rating-disabled">
+              <form>
+                  <input disabled="disabled" type="radio" name="group-3" id="group-3-0" value="5" /><label for="group-3-0"></label><!--
+                  --><input disabled="disabled" type="radio" checked="checked" name="group-3" id="group-3-1" value="4" /><label for="group-3-1"></label><!--
+                  --><input disabled="disabled" type="radio" name="group-3" id="group-3-2" value="3" /><label for="group-3-2"></label><!--
+                  --><input disabled="disabled" type="radio" name="group-3" id="group-3-3" value="2" /><label for="group-3-3"></label><!--
+                  --><input disabled="disabled" type="radio" name="group-3" id="group-3-4"  value="1" /><label for="group-3-4"></label>
+              </form>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <br />
+  <h2>Waiters review:</h1>
+    <ul>
+      <% current_manager.employees.each do |employee| %>
+        <% if employee.type == "Waiter" %>
+          <li>
+              <%= employee.firstname %>
+              <div class="acidjs-rating-stars acidjs-rating-disabled">
+                  <form>
+                      <input disabled="disabled" type="radio" name="group-3" id="group-3-0" value="5" /><label for="group-3-0"></label><!--
+                      --><input disabled="disabled" type="radio" name="group-3" id="group-3-1" value="4" /><label for="group-3-1"></label><!--
+                      --><input disabled="disabled" type="radio" checked="checked" name="group-3" id="group-3-2" value="3" /><label for="group-3-2"></label><!--
+                      --><input disabled="disabled" type="radio" name="group-3" id="group-3-3" value="2" /><label for="group-3-3"></label><!--
+                      --><input disabled="disabled" type="radio" name="group-3" id="group-3-4"  value="1" /><label for="group-3-4"></label>
+                  </form>
+              </div>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+</div>
+<br />
+<div class="alert alert clearfix">
+  <%= button_to edit_restaurant_path(current_manager.restaurant), :class => "btn btn-lg pull-left", method: :get do %>
+  <%= fa_icon "arrow-left", :class => "fa-lg fa-fw" %>
+  <% end %>
+<br /><br />

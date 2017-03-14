@@ -54,34 +54,22 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Use devise for user authentication
 gem 'devise'
-
-# Use validates_timeliness for date validations
 gem 'validates_timeliness', '~> 4.0'
-
-# Use date_validator to validate string value for the date
 gem 'date_validator'
-
-# Friendship model gem
 gem 'has_friendship'
-
-# Require Bootstrap 4
 gem 'bootstrap', '~> 4.0.0.alpha6'
-
 gem 'font-awesome-rails'
-
 gem 'cocoon'
 
 # FullCalendar support
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
-
 gem 'jquery-timepicker-rails', '~> 1.11', '>= 1.11.4'
-
 gem 'underscore-rails'
-
 gem 'pickadate-rails'
-
-
+gem 'gmaps4rails'
 gem 'chart-js-rails'
+gem 'filterrific'
+
+ruby '2.3.1'
