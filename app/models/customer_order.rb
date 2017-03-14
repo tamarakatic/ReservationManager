@@ -1,5 +1,5 @@
 class CustomerOrder < ApplicationRecord
-  enum status: %w(Active Pending ProgressDrinks ProgressFoods Progress ReadyFoods ReadyDrinks ProgressFoodsWithReadyDrinks ProgressDrinksWithReadyFoods Ready Finished)
+  enum status: %w(Active Pending ProgressDrinks ProgressFoods Progress ReadyFoods ReadyDrinks Ready Finished)
 
   has_many :customer_order_foods
   has_many :customer_order_drinks

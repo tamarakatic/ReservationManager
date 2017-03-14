@@ -3,11 +3,18 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
 
   before_action :authenticate_customer!
 
+  layout "home_page"
+
   def index
     @reservation = Reservation.find(params[:reservation])
     @drinks = Set[]
     @foods = Set[]
+    @waiters = Set[]
+    @restHelper = false
+    @foodHelper = false
+    @drinkHelper = false
     customer_orders = @reservation.customer_orders
+
     customer_orders.each do |order|
       order.drinks.each do |drink|
         @drinks << drink
@@ -15,16 +22,36 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
       order.foods.each do |food|
         @foods << food
       end
+      order.serving_times.each do |time|
+        @waiters << Employee.find(time.employee_id)
+      end
+    end
+
+    restaurant = Restaurant.find(@reservation.restaurant_id)
+    temp = RestaurantReview.where(:customer_id => current_customer.id, :restaurant_id => restaurant.id).first
+    unless temp.nil?
+      @restHelper = true
+    end
+
+    temp = FoodReview.where(:customer_id => current_customer.id, :food_id => @foods.to_a[0]).first
+    unless temp.nil?
+      @foodHelper = true
+    end
+
+    temp = DrinkReview.where(:customer_id => current_customer.id, :drink_id => @drinks.to_a[0]).first
+    unless temp.nil?
+      @drinkHelper = true
     end
   end
 
   def restaurant_review
     review = Review.create(:rating => params[:id][:review])
     RestaurantReview.create(:restaurant_id => params[:id][:resId],
-                            :review_id => review.id)
+                            :review_id => review.id,
+                            :customer_id => current_customer.id)
 
     respond_to do |format|
-      format.html {redirect_to root_path}
+      format.html {redirect_to restaurant_reviews_path}
     end
   end
 
@@ -32,11 +59,12 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
     review = Review.create(:rating => params[:id][:review])
     params[:id][:arr].each do |food|
       FoodReview.create(:food_id => food,
-                        :review_id => review.id)
+                        :review_id => review.id,
+                        :customer_id => current_customer.id)
 
     end
     respond_to do |format|
-      format.html { redirect_to root_path}
+      format.html { redirect_to restaurant_reviews_path}
     end
   end
 
@@ -44,11 +72,12 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
     review = Review.create(:rating => params[:id][:review])
     params[:id][:arr].each do |drink|
       DrinkReview.create(:drink_id => drink,
-                        :review_id => review.id)
+                        :review_id => review.id,
+                        :customer_id => current_customer.id)
 
     end
     respond_to do |format|
-      format.html { redirect_to root_path}
+      format.html { redirect_to restaurant_reviews_path}
     end
   end
 

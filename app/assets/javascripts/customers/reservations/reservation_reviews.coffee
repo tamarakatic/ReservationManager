@@ -8,7 +8,6 @@ $ ->
     $('#restaurantReview').unbind('click').click (e) ->
       review = $('#restaurantCombo option:selected').text()
       resId = $('#restaurantId').val()
-      $(this).atrr('disable',true)
       $.ajax
         url: '/reservation_reviews/restaurant'
         type: 'POST'
@@ -20,7 +19,6 @@ $ ->
         arr.push($(this).val())
 
       review = $('#foodsCombo option:selected').text()
-      $(this).attr('disable',true)
       $.ajax
        url: '/reservation_reviews/foods'
        type: 'POST'

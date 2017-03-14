@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312230506) do
+ActiveRecord::Schema.define(version: 20170314013241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,10 +110,12 @@ ActiveRecord::Schema.define(version: 20170312230506) do
   end
 
   create_table "drink_reviews", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "drink_id"
     t.integer  "review_id"
+    t.integer  "customer_id"
+    t.index ["customer_id"], name: "index_drink_reviews_on_customer_id", using: :btree
     t.index ["drink_id"], name: "index_drink_reviews_on_drink_id", using: :btree
     t.index ["review_id"], name: "index_drink_reviews_on_review_id", using: :btree
   end
@@ -181,10 +183,12 @@ ActiveRecord::Schema.define(version: 20170312230506) do
   end
 
   create_table "food_reviews", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "food_id"
     t.integer  "review_id"
+    t.integer  "customer_id"
+    t.index ["customer_id"], name: "index_food_reviews_on_customer_id", using: :btree
     t.index ["food_id"], name: "index_food_reviews_on_food_id", using: :btree
     t.index ["review_id"], name: "index_food_reviews_on_review_id", using: :btree
   end
@@ -360,6 +364,8 @@ ActiveRecord::Schema.define(version: 20170312230506) do
     t.datetime "updated_at",    null: false
     t.integer  "review_id"
     t.integer  "restaurant_id"
+    t.integer  "customer_id"
+    t.index ["customer_id"], name: "index_restaurant_reviews_on_customer_id", using: :btree
     t.index ["restaurant_id"], name: "index_restaurant_reviews_on_restaurant_id", using: :btree
     t.index ["review_id"], name: "index_restaurant_reviews_on_review_id", using: :btree
   end
@@ -370,7 +376,6 @@ ActiveRecord::Schema.define(version: 20170312230506) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "manager_id"
-    t.string   "type"
     t.string   "category"
     t.index ["manager_id"], name: "index_restaurants_on_manager_id", using: :btree
   end
@@ -442,6 +447,7 @@ ActiveRecord::Schema.define(version: 20170312230506) do
   add_foreign_key "customer_order_seats", "customer_orders"
   add_foreign_key "customer_order_seats", "number_of_seats"
   add_foreign_key "customer_orders", "customers"
+  add_foreign_key "drink_reviews", "customers"
   add_foreign_key "drink_reviews", "drinks"
   add_foreign_key "drink_reviews", "reviews"
   add_foreign_key "drinks", "restaurants"
@@ -451,6 +457,7 @@ ActiveRecord::Schema.define(version: 20170312230506) do
   add_foreign_key "employee_shifts", "seats"
   add_foreign_key "employee_shifts", "shifts"
   add_foreign_key "employees", "managers"
+  add_foreign_key "food_reviews", "customers"
   add_foreign_key "food_reviews", "foods"
   add_foreign_key "food_reviews", "reviews"
   add_foreign_key "foods", "restaurants"
@@ -471,6 +478,7 @@ ActiveRecord::Schema.define(version: 20170312230506) do
   add_foreign_key "reserved_tables", "reservations"
   add_foreign_key "restaurant_providers", "providers"
   add_foreign_key "restaurant_providers", "restaurants"
+  add_foreign_key "restaurant_reviews", "customers"
   add_foreign_key "restaurant_reviews", "restaurants"
   add_foreign_key "restaurant_reviews", "reviews"
   add_foreign_key "restaurants", "managers"
