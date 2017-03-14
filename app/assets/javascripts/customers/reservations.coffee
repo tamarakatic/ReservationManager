@@ -13,6 +13,8 @@ ready = ->
   storeData("guest-ordered-foods", [])
   storeData("guest-ordered-drinks", [])
 
+  window.seatMap = null
+
   initializeDatetimePicker()
   bindHandlers()
 
@@ -364,8 +366,9 @@ updateAvailableSeats = (event) ->
       reservation_end:   dates.end.valueOf()
     },
     success: (response) ->
-      areas = {}
-      reserved = []
+      areas     = {}
+      reserved  = []
+      available = []
 
       putTable = (areas, table) ->
         if table.area_id of areas
@@ -378,6 +381,7 @@ updateAvailableSeats = (event) ->
           }
 
       for table in response.available
+        available.push("#{table.area_id}_#{table.id}")
         table.symbol = 'a'
         putTable(areas, table)
 
@@ -390,6 +394,7 @@ updateAvailableSeats = (event) ->
         createSeatsMap(_.values(areas))
       else
         window.seatMap.status(reserved, "unavailable")
+        window.seatMap.status(available, "available")
 
   event.preventDefault()
 

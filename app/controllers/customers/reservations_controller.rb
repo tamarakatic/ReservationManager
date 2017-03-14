@@ -22,20 +22,16 @@ class Customers::ReservationsController < ApplicationController
   def available_tables
     @restaurant = Restaurant.find(params[:restaurant_id])
 
-    new_reservation_start = to_date_time(params[:reservation_start])
-    new_reservation_end   = to_date_time(params[:reservation_end])
+    reservation_start = to_date_time(params[:reservation_start])
+    reservation_end   = to_date_time(params[:reservation_end])
 
     tables = { :available => [], :reserved => [] }
 
     @restaurant.tables.each do |table|
-      reserved = table.reservations.any? do |reservation|
-        interval_overlaps?(reservation.reserved_from, reservation.reserved_to,
-                           new_reservation_start, new_reservation_end)
-      end
-
       table_hash = table.as_json.merge(:area_name => table.seat.area,
                                        :area_id   => table.seat.id)
-      if reserved
+
+      if table.reserved?(reservation_start, reservation_end)
         tables[:reserved] << table_hash
       else
         tables[:available] << table_hash
@@ -49,45 +45,43 @@ class Customers::ReservationsController < ApplicationController
 
   # POST /customers/reservations/create
   def create
-    reservation = Reservation.new
-
-    restaurant        = Restaurant.find(params[:restaurant])
     reservation_start = to_date_time(params[:start])
     reservation_end   = to_date_time(params[:end])
 
-    reservation.restaurant    = Restaurant.find(params[:restaurant])
-    reservation.owner         = current_customer
-    reservation.reserved_from = reservation_start
-    reservation.reserved_to   = reservation_end
+    reservation = Reservation.new(:restaurant_id => params[:restaurant],
+                                  :owner         => current_customer,
+                                  :reserved_from => reservation_start,
+                                  :reserved_to   => reservation_end)
 
-    if reservation.save!
-      params[:tables].each do |table|
-        reservation.reserved_tables.create(:table => NumberOfSeat.find(table))
+    if params[:tables].empty?
+      redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
+        :alert => "You must select table." and return
+    end
+
+    ActiveRecord::Base.transaction do
+      params[:tables].each do |table_id|
+        table = NumberOfSeat.lock.find(table_id)
+
+        if table.reserved?(reservation_start, reservation_end)
+          redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
+            :alert => "One of the selected tables is already reserved." and return
+        end
+
+        reservation.reserved_tables.build(:table => table)
       end
 
       unless params[:friends].nil?
         params[:friends].each do |friend|
-          reservation.invitations.create(:customer => Customer.find(friend), :status => :pending)
+          reservation.invitations.build(:customer_id => friend, :status => :pending)
         end
       end
 
-      unless params[:orders].nil? or (params[:orders][:foods].nil? and params[:orders][:drinks].nil?)
-        customer_order = CustomerOrder.create(:customer => current_customer)
-
-        params[:orders][:foods].each do |order|
-          customer_order.customer_order_foods.create(:food => Food.find(order))
-        end
-
-        params[:orders][:drinks].each do |order|
-          customer_order.customer_order_drinks.create(:drink => Drink.find(order))
-        end
-
-        reservation.reservation_orders.create(:customer_order => customer_order)
+      if reservation.save!
+        redirect_to root_path
+      else
+        redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
+          :alert => "Reservation cannot be made! Please try again."
       end
-    end
-
-    respond_to do |format|
-      format.html { redirect_to root_path }
     end
   end
 
@@ -107,40 +101,30 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def history
-    @reservations = Reservation.where(:owner => current_customer).to_a
+    @reservations = Reservation.where(:owner => current_customer)
 
-    if @reservations.first.nil?
-      ReservationInvitation.where(:customer => current_customer, :status => :accepted).each do |inv|
-        @reservations << inv.reservation
-      end
+    if @reservations.empty?
+      @reservations = Reservation.joins(:reservation_invitations)
+                                 .where(:reservation_invitations => { :customer => current_customer,
+                                                                      :status => "accepted" })
     end
   end
 
   def cancel
   end
 
-  # GET /customers/reservations/orders
+  # GET|POST /customers/reservations/orders
   def orders
     @reservation = Reservation.find(params[:reservation])
 
-    respond_to do |format|
-      if request.post?
-        customer_order = CustomerOrder.create(:customer => current_customer)
+    if request.post?
+      create_order(@reservation)
 
-        params[:orders][:foods].each do |order|
-          customer_order.customer_order_foods.create(:food => Food.find(order))
-        end
-
-        params[:orders][:drinks].each do |order|
-          customer_order.customer_order_drinks.create(:drink => Drink.find(order))
-        end
-
-        @reservation.reservation_orders.create(:customer_order => customer_order)
-
-        format.js { render :inline => "alert('Ordered successfully')" }
+      if @reservation.save!
+        redirect_to root_path
+      else
+        render :inline => "alert('Error! Please try again.')"
       end
-
-      format.html
     end
   end
 
@@ -150,8 +134,20 @@ class Customers::ReservationsController < ApplicationController
     Time.at(ms.to_f / 1000)
   end
 
-  def interval_overlaps?(first_start, first_end, second_start, second_end)
-    (first_start - second_end) * (second_start - first_end) >= 0
+  def create_order(reservation)
+    unless params[:orders].nil? or (params[:orders][:foods].nil? and params[:orders][:drinks].nil?)
+      customer_order = CustomerOrder.new(:customer => current_customer)
+
+      params[:orders][:foods].each do |food|
+        customer_order.customer_order_foods.build(:food_id => food)
+      end
+
+      params[:orders][:drinks].each do |drink|
+        customer_order.customer_order_drinks.build(:drink_id => drink)
+      end
+
+      reservation.reservation_orders.build(:customer_order => customer_order)
+    end
   end
 
 end
