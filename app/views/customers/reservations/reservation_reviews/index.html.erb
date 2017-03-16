@@ -1,11 +1,14 @@
 <div style='background: transparent !important;' class='jumbotron'>
+  <% if @waiters.empty? and @foods.empty? and @drinks.empty? %>
+    <h3><i>No finished orders yet</i></h3>
+  <% else %>
   <h3><i>Review this visit</i></h3>
   <hr>
   <div>
     <span>Restaurant:</span>
     <span><%= @reservation.restaurant.title %> </span> <br/>
     <input type="hidden" id="restaurantId" value=<%=@reservation.restaurant.id %> />
-    <% if @rest == false %>
+    <% if @restHelper == false %>
       <button type="button" id='restaurantReview' class="btn btn-info btn-sm">Review restaurant</button>
       <select id="restaurantCombo">
         <option>1</option>
@@ -111,4 +114,5 @@
       <span><i>Already reviewed</i></span>
     <% end %>
   </div>
+  <% end %>
 </div>

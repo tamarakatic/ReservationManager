@@ -13,7 +13,7 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
     @restHelper = false
     @foodHelper = false
     @drinkHelper = false
-    customer_orders = @reservation.customer_orders
+    customer_orders = @reservation.customer_orders.select{ |order| order.status == 'Finished' }
 
     customer_orders.each do |order|
       order.drinks.each do |drink|
