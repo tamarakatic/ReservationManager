@@ -7,7 +7,7 @@ class Profiles::WaiterOrdersController < ApplicationController
     customer_orders = ServingTime.where(employee_id: current_employee.id)
     @customer_order = []
     customer_orders.each do |c|
-      temp = CustomerOrder.where(:status => ['Active','Pending','ProgressFoods','ProgressDrinks','Ready','ReadyFoods','ReadyDrinks'], id: c.id).first
+      temp = CustomerOrder.where(:status => ['Active','Pending','ProgressFoods','ProgressDrinks','Ready','ReadyFoods','ReadyDrinks'], id: c.customer_order_id).first
       unless temp.nil?
         @customer_order << temp
       end

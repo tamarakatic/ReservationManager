@@ -7,5 +7,5 @@ class CustomerOrderPart < ApplicationRecord
   has_many :customer_order_part_foods
   has_many :foods, :through => :customer_order_part_foods
   has_many :customer_order_part_drinks
-  has_many :drinks, :through => :customer_order_part_foods
+  has_many :drinks, :through => :customer_order_part_drinks
 end

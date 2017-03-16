@@ -5,12 +5,12 @@ pera = Manager.create!(:firstname             => "Pera",
                        :password_confirmation => "peraperic",
                        :confirmed_at          => Time.now)
 
-pera.create_restaurant!(:title       => "Black Swan",
-                        :category    => "French",
-                        :description => "Our impressive menu of nationally renowned dry aged " +
-                                        "steaks and the freshest of seafood will ignite your " +
-                                        "culinary imagination as our award-winning wine list " +
-                                        "of more than 5,000 bottles awakens your inner sommelier")
+swan = pera.create_restaurant!(:title       => "Black Swan",
+                               :category    => "French",
+                               :description => "Our impressive menu of nationally renowned dry aged " +
+                                               "steaks and the freshest of seafood will ignite your " +
+                                               "culinary imagination as our award-winning wine list " +
+                                               "of more than 5,000 bottles awakens your inner sommelier")
 
 steak = pera.restaurant.foods.create!(:name        => "Steak Tartare",
                                       :description => "Dry aged steak with avocado.",
@@ -76,6 +76,13 @@ milos = pera.employees.create!(:firstname             => "Milos",
                        :shoe_size             => 44,
                        :type                  => 'Waiter')
 
+mica = Customer.create!(:firstname => "Mica",
+                       :lastname => "Micic",
+                       :email => "mica@gmail.com",
+                       :password => "micamica",
+                       :password_confirmation => "micamica",
+                       :confirmed_at => Time.now)
+
 pera.restaurant.seats.create!(:area => "Garden I")
 pera.restaurant.seats.create!(:area => "Garden II")
 garden = pera.restaurant.seats.create!(:area => "Garden III")
@@ -123,6 +130,13 @@ ServingTime.create!(:employee_id => ana.id,
 
 ServingTime.create!(:employee_id => milos.id,
                     :customer_order_id => customer_order_again.id)
+
+reservation = Reservation.create!(:customer_id   => mica.id,
+                                  :restaurant_id => swan.id,
+                                  :reserved_from => DateTime.new(2017, 3, 16, 10, 0, 0, Rational(-0, 24)),
+                                  :reserved_to   => DateTime.new(2017, 3, 16, 12, 10, 0, Rational(-0, 24)))
+
+reservation.customer_orders << customer_order_again
 
 # 'Central' restaurant
 nick = Manager.create!(:firstname             => "Nick",

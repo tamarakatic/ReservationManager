@@ -46,7 +46,7 @@ $ ->
           $('#drinkModal').modal 'hide'
 
 
-    $('#foodList').unbind('click').on 'click', '#deleteFood', ->
+    $('body').unbind('click').on 'click', '#deleteFood', ->
       food_id = $(this).prev().val()
       customer_id = $('#orderFood').val()
       $.ajax
@@ -55,7 +55,7 @@ $ ->
         data: id: {food_id, customer_id}
 
 
-    $('#drinkList').unbind('click').on 'click','#deleteDrink', ->
+    $('body').unbind('click').on 'click','#deleteDrink', ->
       drink_id = $(this).prev().val()
       customer_id = $('#orderFood').val()
       $.ajax
@@ -83,10 +83,27 @@ $ ->
       customer_id = $('#orderFood').val()
       if(cook_id == "" || food_id == "" || customer_id == "")
         return
+      $(this).attr('disabled',true)
+      $(this).prev().prev().attr('disable',true)
+      $(this).prev().prev().prev().attr('disable',true)
       $.ajax
         url: 'table_orders/notify_cook'
         type: 'POST'
         data: id:{cook_id, food_id, customer_id}
+
+    $('#drinkList').unbind('click').on 'click', '#sendBartenders', ->
+      bart_id = $(this).prev().find('option:selected').val()
+      drink_id = $(this).prev().prev().prev().prev().val()
+      customer_id = $('#orderFood').val()
+      if(bart_id == "" || drink_id == "" || customer_id == "")
+        return
+      $(this).attr('disabled',true)
+      $(this).prev().prev().attr('disable',true)
+      $(this).prev().prev().prev().attr('disable',true)
+      $.ajax
+        url: 'table_orders/notify_bartender'
+        type: 'POST'
+        data: id:{bart_id, drink_id, customer_id}
 
 
   exchangeFood = (food_id) ->
