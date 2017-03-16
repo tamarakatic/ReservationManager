@@ -12,6 +12,7 @@ class TableOrdersController < ApplicationController
     @restaurant = Restaurant.find(current_employee.manager_id)
   end
 
+  # PUT /table_orders/foods
   def add_foods
     food = Food.find(params[:id][:food_id])
     customer_order = CustomerOrder.find(params[:id][:customer_order])
@@ -23,6 +24,7 @@ class TableOrdersController < ApplicationController
     end
   end
 
+  # DELETE /table_orders
   def delete_food
     food = Food.find(params[:id][:food_id])
     customer_order = CustomerOrder.find(params[:id][:customer_id])
@@ -33,6 +35,7 @@ class TableOrdersController < ApplicationController
     end
   end
 
+  # PUT /table_orders/exchange
   def exchange_food
     food = Food.find(params[:id][:food_id])
     food_ex = Food.find(params[:id][:food_id_to_exchange])
@@ -45,6 +48,7 @@ class TableOrdersController < ApplicationController
     end
   end
 
+  # PUT /table_orders/drinks
   def add_drinks
     drink = Drink.find(params[:id][:drink_id])
     customer_order = CustomerOrder.find(params[:id][:customer_order])
@@ -56,6 +60,7 @@ class TableOrdersController < ApplicationController
     end
   end
 
+  # DELETE /table_orders/remove_drinks
   def delete_drink
     drink = Drink.find(params[:id][:drink_id])
     customer_order = CustomerOrder.find(params[:id][:customer_id])
@@ -66,6 +71,7 @@ class TableOrdersController < ApplicationController
     end
   end
 
+  # PUT /table_orders/exchange_drink
   def exchange_drink
     drink = Drink.find(params[:id][:drink_id])
     drink_ex = Drink.find(params[:id][:drink_id_to_exchange])
@@ -78,6 +84,7 @@ class TableOrdersController < ApplicationController
     end
   end
 
+  # POST /table_orders/notify_cook
   def notify_cook
     food = Food.find(params[:id][:food_id])
     employee = Employee.find(params[:id][:cook_id])
@@ -115,6 +122,7 @@ class TableOrdersController < ApplicationController
     redirect_to table_orders_path(:customer_order => customer.id)
   end
 
+  # POST /table_orders/notify_bartender
   def notify_bartender
     drink = Drink.find(params[:id][:drink_id])
     employee = Employee.find(params[:id][:bart_id])

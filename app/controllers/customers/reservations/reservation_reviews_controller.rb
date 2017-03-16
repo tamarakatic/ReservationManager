@@ -5,6 +5,7 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
 
   layout "home_page"
 
+  # GET /reservation_reviews/1
   def index
     @reservation = Reservation.find(params[:reservation])
     @drinks = Set[]
@@ -42,8 +43,10 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
     unless temp.nil?
       @drinkHelper = true
     end
+
   end
 
+  # POST /reservation_reviews/restaurant
   def restaurant_review
     review = Review.create(:rating => params[:id][:review])
     RestaurantReview.create(:restaurant_id => params[:id][:resId],
@@ -51,10 +54,11 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
                             :customer_id => current_customer.id)
 
     respond_to do |format|
-      format.html {redirect_to restaurant_reviews_path}
+      format.html { redirect_to reservation_reviews_path(:reservation => params[:id][:reservationId]) }
     end
   end
 
+  # POST /reservation_reviews/foods
   def foods_review
     review = Review.create(:rating => params[:id][:review])
     params[:id][:arr].each do |food|
@@ -64,10 +68,11 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
 
     end
     respond_to do |format|
-      format.html { redirect_to restaurant_reviews_path}
+      format.html { redirect_to reservation_reviews_path(:reservation => params[:id][:reservationId]) }
     end
   end
 
+  # POST /reservation_reviews/drinks
   def drinks_review
     review = Review.create(:rating => params[:id][:review])
     params[:id][:arr].each do |drink|
@@ -77,7 +82,19 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
 
     end
     respond_to do |format|
-      format.html { redirect_to restaurant_reviews_path}
+      format.html { redirect_to reservation_reviews_path(:reservation => params[:id][:reservationId]) }
+    end
+  end
+
+  # POST /reservation_reviews/waiters
+  def waiters_review
+    review = Review.create(:rating => params[:id][:review])
+    EmployeeReview.create(:employee_id => params[:id][:waiterId],
+                          :review_id   => review.id,
+                          :customer_id => current_customer.id)
+
+    respond_to do |format|
+      format.html { redirect_to reservation_reviews_path(:reservation => params[:id][:reservationId]) }
     end
   end
 

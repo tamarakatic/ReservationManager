@@ -111,10 +111,11 @@ Rails.application.routes.draw do
 
   get 'employee/notifications'     => 'home_page/employee_home#notifications'
 
-  get 'customers/reservations/reservation_reviews' => 'customers/reservations/reservation_reviews#index', :as => 'reservation_reviews'
+  get 'customers/reservations/reservation_reviews' => 'customers/reservations/reservation_reviews#index',  :as => 'reservation_reviews'
   post 'reservation_reviews/restaurant' => 'customers/reservations/reservation_reviews#restaurant_review', :as => 'reservation_reviews/restaurant'
-  post 'reservation_reviews/foods' => 'customers/reservations/reservation_reviews#foods_review', :as => 'reservation_reviews/foods'
-  post 'reservation_reviews/drinks' => 'customers/reservations/reservation_reviews#drinks_review', :as => 'reservation_reviews/drinks'
+  post 'reservation_reviews/foods' => 'customers/reservations/reservation_reviews#foods_review',           :as => 'reservation_reviews/foods'
+  post 'reservation_reviews/drinks' => 'customers/reservations/reservation_reviews#drinks_review',         :as => 'reservation_reviews/drinks'
+  post 'reservation_reviews/waiters' => 'customers/reservations/reservation_reviews#waiters_review',       :as => 'reservation_reviews/waiters'
 
   authenticated :customer do
     root 'home_page/customer_home#index'

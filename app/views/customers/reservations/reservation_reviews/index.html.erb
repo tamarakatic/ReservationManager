@@ -8,6 +8,7 @@
     <span>Restaurant:</span>
     <span><%= @reservation.restaurant.title %> </span> <br/>
     <input type="hidden" id="restaurantId" value=<%=@reservation.restaurant.id %> />
+    <input type="hidden" id="reservationId" value=<%=@reservation.id %> />
     <% if @restHelper == false %>
       <button type="button" id='restaurantReview' class="btn btn-info btn-sm">Review restaurant</button>
       <select id="restaurantCombo">

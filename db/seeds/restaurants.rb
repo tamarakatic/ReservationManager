@@ -136,7 +136,7 @@ reservation = Reservation.create!(:customer_id   => mica.id,
                                   :reserved_from => DateTime.new(2017, 3, 16, 10, 0, 0, Rational(-0, 24)),
                                   :reserved_to   => DateTime.new(2017, 3, 16, 12, 10, 0, Rational(-0, 24)))
 
-reservation.customer_orders << customer_order
+reservation.customer_orders << customer_order_again
 
 # 'Central' restaurant
 nick = Manager.create!(:firstname             => "Nick",

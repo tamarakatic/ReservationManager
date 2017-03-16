@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314013241) do
+ActiveRecord::Schema.define(version: 20170316160004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,8 @@ ActiveRecord::Schema.define(version: 20170314013241) do
     t.datetime "updated_at",  null: false
     t.integer  "employee_id"
     t.integer  "review_id"
+    t.integer  "customer_id"
+    t.index ["customer_id"], name: "index_employee_reviews_on_customer_id", using: :btree
     t.index ["employee_id"], name: "index_employee_reviews_on_employee_id", using: :btree
     t.index ["review_id"], name: "index_employee_reviews_on_review_id", using: :btree
   end
@@ -451,6 +453,7 @@ ActiveRecord::Schema.define(version: 20170314013241) do
   add_foreign_key "drink_reviews", "drinks"
   add_foreign_key "drink_reviews", "reviews"
   add_foreign_key "drinks", "restaurants"
+  add_foreign_key "employee_reviews", "customers"
   add_foreign_key "employee_reviews", "employees"
   add_foreign_key "employee_reviews", "reviews"
   add_foreign_key "employee_shifts", "employees"
