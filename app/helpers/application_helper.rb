@@ -50,4 +50,27 @@ module ApplicationHelper
     end
   end
 
+  BOOTSTRAP_FLASH_TYPE = {
+    :success => "alert-success",
+    :error   => "alert-danger",
+    :alert   => "alert-warning",
+    :notice  => "alert-info"
+  }
+
+  def bootstrap_class_for(flash_type)
+    BOOTSTRAP_FLASH_TYPE.fetch(flash_type, flash_type.to_s)
+  end
+
+  def flash_messages
+    flash.each do |type, message|
+      concat(
+        content_tag(:div, :class => "alert #{bootstrap_class_for(type.to_sym)} alert-dismissable text-center container mt-5 mb-2 rounded fade show") do
+          concat content_tag(:button, "&times;".html_safe, :class => "close", :data => { :dismiss => "alert" })
+          concat content_tag(:strong, message)
+        end
+      )
+    end
+
+    nil
+  end
 end

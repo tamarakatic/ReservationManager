@@ -12,8 +12,9 @@
   </head>
 
   <body class="customer-home">
-	 	<%= render "layouts/customer_header" %>
+    <%= render "layouts/customer_header" %>
     <div>
+      <%= flash_messages %>
       <%= yield %>
     </div>
   </body>
