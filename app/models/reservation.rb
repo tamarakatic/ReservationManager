@@ -9,7 +9,7 @@ class Reservation < ApplicationRecord
   has_many :reservation_orders
   has_many :customer_orders, :through => :reservation_orders
 
-  alias_attribute :owner, :customer
+  alias_attribute :host, :customer
   alias_attribute :invitations, :reservation_invitations
   alias_attribute :tables, :number_of_seats
 
