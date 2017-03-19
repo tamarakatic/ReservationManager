@@ -18,13 +18,13 @@ class Customer < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   def host_reservations
-    Reservation.where(:host => self)
+    Reservation.where(:host => self).reverse
   end
 
   def guest_reservations
     Reservation.joins(:reservation_invitations)
-               .where(:reservation_invitations => { :guest => self,
-                                                    :status => "accepted" })
+               .where(:reservation_invitations => { :customer => self,
+                                                    :status => "accepted" }).reverse
   end
 
   def search_friends(params, type)

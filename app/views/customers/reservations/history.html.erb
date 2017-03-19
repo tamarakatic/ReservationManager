@@ -1,5 +1,4 @@
-<div>
-  &nbsp;
+<div class="mt-5">
   &nbsp;
 </div>
 
@@ -7,13 +6,32 @@
   <div class="mt-5 container">
     <div>
       <h1 class="text-center display-4">Reservations history</h1>
-
       <hr>
     </div>
   </div>
-  <div class="container">
-    <div class="card-columns">
-      <%= render :partial => "reservation_history", :collection => @reservations, :as => :reservation %>
+
+  <% if @host_reservations.present? %>
+    <h1 class="display-4">Host</h1>
+    <%= render :partial => "reservations_table",
+               :locals => { :reservations => @host_reservations } %>
+  <% end %>
+
+  <% if @guest_reservations.present? %>
+    <hr>
+
+    <h1 class="display-4">Guest</h1>
+    <%= render :partial => "reservations_table",
+               :locals => { :reservations => @guest_reservations } %>
+  <% end %>
+
+  <% if @guest_reservations.empty? and @host_reservations.empty? %>
+    <div class="text-center alert alert-info mt-4 mb-4">
+      <strong>You do not have any reservations yet.</strong>
     </div>
-  </div>
+  <% end %>
+
+</div>
+
+<div class="mt-5">
+  &nbsp;
 </div>

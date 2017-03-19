@@ -21,6 +21,14 @@ class Reservation < ApplicationRecord
 
   validate :reservation_date
 
+  def active?
+    reserved_from >= Time.now
+  end
+
+  def duration_in_hours
+    (reserved_to - reserved_from).round / 3600.0
+  end
+
   private
 
   def reservation_date
