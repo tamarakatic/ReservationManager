@@ -17,6 +17,14 @@ class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  scope :host_reservations, lambda { Reservation.where(:host => current_customer) }
+
+  scope :guest_reservations, lambda {
+    Reservation.joins(:reservation_invitations)
+               .where(:reservation_invitations => { :customer => current_customer,
+                                                    :status => "accepted" })
+  }
+
   def search_friends(params, type)
     friends = type == :old_friends ? self.friends : self.friendables
 

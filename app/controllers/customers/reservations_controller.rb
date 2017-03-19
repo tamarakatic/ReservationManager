@@ -49,7 +49,7 @@ class Customers::ReservationsController < ApplicationController
     reservation_end   = to_date_time(params[:end])
 
     reservation = Reservation.new(:restaurant_id => params[:restaurant],
-                                  :owner         => current_customer,
+                                  :host          => current_customer,
                                   :reserved_from => reservation_start,
                                   :reserved_to   => reservation_end)
 
@@ -101,13 +101,8 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def history
-    @reservations = Reservation.where(:owner => current_customer)
-
-    if @reservations.empty?
-      @reservations = Reservation.joins(:reservation_invitations)
-                                 .where(:reservation_invitations => { :customer => current_customer,
-                                                                      :status => "accepted" })
-    end
+    @host_reservations  = current_customer.host_reservations
+    @guest_reservations = current_customer.guest_reservations
   end
 
   def cancel
