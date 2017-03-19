@@ -77,7 +77,7 @@ class Customers::ReservationsController < ApplicationController
       end
 
       if reservation.save!
-        redirect_to root_path
+        redirect_to customers_reservations_history_path, :flash => { :success => "Reservation successful." }
       else
         redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
           :alert => "Reservation cannot be made! Please try again."
