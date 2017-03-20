@@ -83,12 +83,12 @@ class Customers::ReservationsController < ApplicationController
 
       create_order(reservation)
 
-      if reservation.save!
+      if reservation.save
         redirect_to customers_reservations_history_path,
           :flash => { :success => "Reservation successful." }
       else
         redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
-          :alert => "Reservation cannot be made! Please try again."
+          :flash => { :error => reservation.errors.messages.values.join("\n").html_safe }
       end
     end
   end
@@ -146,15 +146,19 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def create_order(reservation)
-    unless params[:orders].nil? or (params[:orders][:foods].nil? and params[:orders][:drinks].nil?)
+    if params[:orders].present?
       customer_order = CustomerOrder.new(:customer => current_customer)
 
-      params[:orders][:foods].each do |food|
-        customer_order.customer_order_foods.build(:food_id => food)
+      if params[:orders][:foods].present?
+        params[:orders][:foods].each do |food|
+          customer_order.customer_order_foods.build(:food_id => food)
+        end
       end
 
-      params[:orders][:drinks].each do |drink|
-        customer_order.customer_order_drinks.build(:drink_id => drink)
+      if params[:orders][:drinks].present?
+        params[:orders][:drinks].each do |drink|
+          customer_order.customer_order_drinks.build(:drink_id => drink)
+        end
       end
 
       reservation.reservation_orders.build(:customer_order => customer_order)

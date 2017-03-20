@@ -39,7 +39,11 @@ class Reservation < ApplicationRecord
 
   def reservation_date
     if reserved_to <= reserved_from
-      errors.add(:reserved_to, "Reservation duration is invalid")
+      errors.add(:reserved_to, "Reservation duration is invalid.")
+    end
+
+    if reserved_from < Time.now
+      errors.add(:reserved_from, "Reservation date is invalid.")
     end
   end
 
