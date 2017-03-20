@@ -89,13 +89,11 @@
           <%= render :partial => "order_item",
             :collection => order.foods,
             :as => :item,
-            :locals => { :order => order.id, :reservation_active => @reservation.active? }
-          %>
-        <%= render :partial => "order_item",
-          :collection => order.drinks,
-          :as => :item,
-          :locals => { :order => order.id, :reservation_active => @reservation.active? }
-        %>
+            :locals => { :order => order } %>
+          <%= render :partial => "order_item",
+            :collection => order.drinks,
+            :as => :item,
+            :locals => { :order => order } %>
         <% end %>
       </ul>
     </div>

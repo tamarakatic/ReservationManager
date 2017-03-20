@@ -13,7 +13,7 @@ class Reservation < ApplicationRecord
   alias_attribute :invitations, :reservation_invitations
   alias_attribute :tables, :number_of_seats
 
-  before_destroy :check_reservation_date
+  before_destroy :cancelable?
 
   validates :reserved_from, :presence => true,
                             :timeliness => { :on_or_after => lambda { Date.current }, :type => :date }
@@ -25,6 +25,10 @@ class Reservation < ApplicationRecord
 
   def active?
     reserved_from >= Time.now
+  end
+
+  def cancelable?
+    (reserved_from - Time.now).round / 60.0 > 30
   end
 
   def orders_for(customer)
@@ -45,10 +49,6 @@ class Reservation < ApplicationRecord
     if reserved_from < Time.now
       errors.add(:reserved_from, "Reservation date is invalid.")
     end
-  end
-
-  def check_reservation_date
-    (reserved_from - Time.now).round / 60.0 > 30
   end
 
 end
