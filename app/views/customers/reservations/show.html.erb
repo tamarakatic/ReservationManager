@@ -97,8 +97,10 @@
 
   <div class="mt-3 mb-3 clearfix">
     <%= link_to "Back", customers_reservations_history_path, :class => "btn btn-default pull-right" %>
-    <%= button_to "Cancel", root_path, :data => { :confirm => "Are you sure?" },
-      :class => "btn btn-danger pull-right" if @reservation.active? %>
+    <%= link_to "Cancel", customers_reservations_cancel_path(:id => @reservation.id),
+      :method => :delete,
+      :data => { :confirm => "Are you sure?" },
+      :class => "btn btn-danger pull-right active" if @reservation.active? %>
   </div>
 
 </div>

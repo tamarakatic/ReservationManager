@@ -23,9 +23,13 @@
   </td>
   <td width="30">
     <% if reservation.active? %>
-      <%= link_to "Cancel", "#", :class => "btn btn-danger btn-sm" %>
+      <%= link_to "Cancel", customers_reservations_cancel_path(:id => reservation.id),
+        :method => :delete,
+        :data => { :confirm => "Are you sure?" },
+        :class => "btn btn-danger btn-sm active" %>
     <% else %>
-      <%= link_to "Review", reservation_reviews_path(:reservation => reservation.id), :class => "btn btn-primary btn-sm" %>
+      <%= link_to "Review", reservation_reviews_path(:reservation => reservation.id),
+        :class => "btn btn-primary btn-sm active" %>
     <% end %>
   </td>
 </tr>

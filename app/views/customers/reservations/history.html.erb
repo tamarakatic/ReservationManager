@@ -14,20 +14,24 @@
     <h1 class="display-4">Host</h1>
     <%= render :partial => "reservations_table",
                :locals => { :reservations => @host_reservations } %>
+
+    <hr>
   <% end %>
 
   <% if @guest_reservations.present? %>
-    <hr>
-
     <h1 class="display-4">Guest</h1>
     <%= render :partial => "reservations_table",
                :locals => { :reservations => @guest_reservations } %>
+
+    <hr>
   <% end %>
 
   <% if @guest_reservations.empty? and @host_reservations.empty? %>
     <div class="text-center alert alert-info mt-4 mb-4">
       <strong>You do not have any reservations yet.</strong>
     </div>
+
+    <hr>
   <% end %>
 
 </div>

@@ -81,8 +81,11 @@ class Customers::ReservationsController < ApplicationController
         end
       end
 
+      create_order(reservation)
+
       if reservation.save!
-        redirect_to customers_reservations_history_path, :flash => { :success => "Reservation successful." }
+        redirect_to customers_reservations_history_path,
+          :flash => { :success => "Reservation successful." }
       else
         redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
           :alert => "Reservation cannot be made! Please try again."
@@ -110,7 +113,15 @@ class Customers::ReservationsController < ApplicationController
     @guest_reservations = current_customer.guest_reservations
   end
 
+  # POST /customers/reservations/cancel
   def cancel
+    if Reservation.destroy(params[:id])
+      redirect_to customers_reservations_history_path,
+        :flash => { :success => "Reservation canceled." }
+    else
+      redirect_to customers_reservations_show_path(:id => params[:id]),
+        :alert => "Reservation can not be cancelled in this moment."
+    end
   end
 
   # GET|POST /customers/reservations/orders
