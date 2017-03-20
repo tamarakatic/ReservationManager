@@ -86,8 +86,16 @@
     <div class="row justify-content-center">
       <ul class="list-group w-50 container">
         <% @reservation.orders_for(current_customer).each do |order| %>
-          <%= render :partial => "order_item", :collection => order.foods, :as => :item %>
-          <%= render :partial => "order_item", :collection => order.drinks, :as => :item %>
+          <%= render :partial => "order_item",
+            :collection => order.foods,
+            :as => :item,
+            :locals => { :order => order.id, :reservation_active => @reservation.active? }
+          %>
+        <%= render :partial => "order_item",
+          :collection => order.drinks,
+          :as => :item,
+          :locals => { :order => order.id, :reservation_active => @reservation.active? }
+        %>
         <% end %>
       </ul>
     </div>

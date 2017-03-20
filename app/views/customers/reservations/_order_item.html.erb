@@ -1,5 +1,8 @@
 <li class="list-group-item justify-content-between">
   <span class="badge badge-success badge-pill">$<%= item.price %></span>
   <%= item.name %>
-  <%= link_to "Cancel", "#", :class => "btn btn-danger btn-sm" %>
+  <%= link_to "Cancel", customer_orders_cancel_order_path(:order => order, :item => item.id, :class_name => item.class.name),
+    :method => :delete,
+    :data => { :confirm => "Are you sure?" },
+    :class => "btn btn-danger btn-sm" if reservation_active %>
 </li>
