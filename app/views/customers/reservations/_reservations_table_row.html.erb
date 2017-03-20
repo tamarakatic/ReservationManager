@@ -19,7 +19,7 @@
     <%= reservation.duration_in_hours %> hours
   </td>
   <td >
-    <%= link_to "Details", "#", :class => "btn btn-success btn-sm" %>
+    <%= link_to "Details", customers_reservations_show_path(:id => reservation.id), :class => "btn btn-success btn-sm" %>
   </td>
   <td width="30">
     <% if reservation.active? %>

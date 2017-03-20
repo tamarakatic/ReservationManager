@@ -11,6 +11,11 @@ class Customers::ReservationsController < ApplicationController
     end
   end
 
+  # GET /custoemrs/reservations/show/1
+  def show
+    @reservation = Reservation.find(params[:id])
+  end
+
   # GET /customers/reservations/new
   def new
     @friends     = current_customer.friends

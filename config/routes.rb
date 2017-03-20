@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     get    "reservations/index"
     get    "reservations/orders"
     get    "reservations/new"
+    get    "reservations/show"
     get    "reservations/available_tables"
     post   "reservations/create"
     post   "reservations/orders"

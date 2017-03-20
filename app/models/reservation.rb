@@ -25,6 +25,10 @@ class Reservation < ApplicationRecord
     reserved_from >= Time.now
   end
 
+  def orders_for(customer)
+    customer_orders.where(:customer => customer)
+  end
+
   def duration_in_hours
     (reserved_to - reserved_from).round / 3600.0
   end
