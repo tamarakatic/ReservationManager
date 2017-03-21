@@ -11,6 +11,11 @@ class Customers::ReservationsController < ApplicationController
     end
   end
 
+  # GET /custoemrs/reservations/show/1
+  def show
+    @reservation = Reservation.find(params[:id])
+  end
+
   # GET /customers/reservations/new
   def new
     @friends     = current_customer.friends
@@ -49,7 +54,7 @@ class Customers::ReservationsController < ApplicationController
     reservation_end   = to_date_time(params[:end])
 
     reservation = Reservation.new(:restaurant_id => params[:restaurant],
-                                  :owner         => current_customer,
+                                  :host          => current_customer,
                                   :reserved_from => reservation_start,
                                   :reserved_to   => reservation_end)
 
@@ -76,11 +81,14 @@ class Customers::ReservationsController < ApplicationController
         end
       end
 
-      if reservation.save!
-        redirect_to customers_reservations_history_path, :flash => { :success => "Reservation successful." }
+      create_order(reservation)
+
+      if reservation.save
+        redirect_to customers_reservations_history_path,
+          :flash => { :success => "Reservation successful." }
       else
         redirect_to customers_reservations_new_path(:restaurant_id => params[:restaurant]),
-          :alert => "Reservation cannot be made! Please try again."
+          :flash => { :error => reservation.errors.messages.values.join("\n").html_safe }
       end
     end
   end
@@ -101,16 +109,19 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def history
-    @reservations = Reservation.where(:owner => current_customer)
-
-    if @reservations.empty?
-      @reservations = Reservation.joins(:reservation_invitations)
-                                 .where(:reservation_invitations => { :customer => current_customer,
-                                                                      :status => "accepted" })
-    end
+    @host_reservations  = current_customer.host_reservations
+    @guest_reservations = current_customer.guest_reservations
   end
 
+  # POST /customers/reservations/cancel
   def cancel
+    if Reservation.destroy(params[:id])
+      redirect_to customers_reservations_history_path,
+        :flash => { :success => "Reservation canceled." }
+    else
+      redirect_to customers_reservations_show_path(:id => params[:id]),
+        :alert => "Reservation can not be cancelled in this moment."
+    end
   end
 
   # GET|POST /customers/reservations/orders
@@ -135,15 +146,19 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def create_order(reservation)
-    unless params[:orders].nil? or (params[:orders][:foods].nil? and params[:orders][:drinks].nil?)
+    if params[:orders].present?
       customer_order = CustomerOrder.new(:customer => current_customer)
 
-      params[:orders][:foods].each do |food|
-        customer_order.customer_order_foods.build(:food_id => food)
+      if params[:orders][:foods].present?
+        params[:orders][:foods].each do |food|
+          customer_order.customer_order_foods.build(:food_id => food)
+        end
       end
 
-      params[:orders][:drinks].each do |drink|
-        customer_order.customer_order_drinks.build(:drink_id => drink)
+      if params[:orders][:drinks].present?
+        params[:orders][:drinks].each do |drink|
+          customer_order.customer_order_drinks.build(:drink_id => drink)
+        end
       end
 
       reservation.reservation_orders.build(:customer_order => customer_order)

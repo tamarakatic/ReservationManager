@@ -1,0 +1,17 @@
+<table class="mt-4 mb-3 table">
+  <thead class="thead-inverse">
+    <th width="30"></th>
+    <th>Restaurant</th>
+    <th>Date</th>
+    <th>From</th>
+    <th>Duration</th>
+    <th width="30"></th>
+    <th width="30"></th>
+  </thead>
+
+  <tbody>
+    <%= render :partial => "reservations_table_row",
+               :collection => reservations,
+               :as => :reservation %>
+  </tbody>
+</table>

@@ -1,0 +1,35 @@
+<tr class="table-active">
+  <td>
+    <% if reservation.active? %>
+      <span class="badge badge-pill badge-success">Active</span>
+    <% else %>
+      <span class="badge badge-pill badge-warning">Finished</span>
+    <% end %>
+  </td>
+  <td>
+    <%= reservation.restaurant.title %>
+  </td>
+  <td>
+    <%= reservation.reserved_from.to_date %>
+  </td>
+  <td>
+    <%= reservation.reserved_from.to_s(:time) %>
+  </td>
+  <td>
+    <%= reservation.duration_in_hours %> hours
+  </td>
+  <td >
+    <%= link_to "Details", customers_reservations_show_path(:id => reservation.id), :class => "btn btn-success btn-sm" %>
+  </td>
+  <td width="30">
+    <% if reservation.active? %>
+      <%= link_to "Cancel", customers_reservations_cancel_path(:id => reservation.id),
+        :method => :delete,
+        :data => { :confirm => "Are you sure?" },
+        :class => "btn btn-danger btn-sm active" %>
+    <% else %>
+      <%= link_to "Review", reservation_reviews_path(:reservation => reservation.id),
+        :class => "btn btn-primary btn-sm active" %>
+    <% end %>
+  </td>
+</tr>

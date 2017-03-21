@@ -4,6 +4,8 @@ class ReservationInvitation < ApplicationRecord
 
   enum :status => [:pending, :accepted, :canceled, :declined]
 
+  alias_attribute :guest, :customer
+
   after_create :send_email
 
   private
