@@ -13,6 +13,13 @@ class CustomerOrdersController < ApplicationController
     begin
       cancel_food_order  if params[:class_name] == "Food"
       cancel_drink_order if params[:class_name] == "Drink"
+
+      order = CustomerOrder.find(params[:order])
+
+      unless order.any_orders_left?
+        order.destroy!
+      end
+
     rescue
       redirect_to customers_reservations_show_path(:id => params[:reservation]),
         :alert => "Order can not be canceled." and return

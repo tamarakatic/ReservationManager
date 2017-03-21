@@ -16,4 +16,9 @@ class CustomerOrder < ApplicationRecord
   has_many :reservations, :through => :reservation_orders
 
   belongs_to :customer, :optional => true
+
+  def any_orders_left?
+    customer_order_foods.exists? or customer_order_drinks.exists?
+  end
+
 end
