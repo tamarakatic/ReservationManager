@@ -94,18 +94,23 @@ class Customers::ReservationsController < ApplicationController
   end
 
   def accept
-    @reservation = Reservation.find(params[:reservation_id])
-    invitation = ReservationInvitation.where(:reservation_id => @reservation.id,
+    invitation = ReservationInvitation.where(:reservation_id => params[:reservation_id],
                                              :customer_id => current_customer.id).first
+
     invitation.accepted!
-    redirect_to customers_reservations_orders_path(:reservation => @reservation.id)
+
+    redirect_to customers_reservations_orders_path(:reservation => params[:reservation_id]),
+      :flash => { :success => "Invitation accepted." }
   end
 
   def decline
     invitation = ReservationInvitation.where(:reservation_id => params[:reservation_id],
                                              :customer_id => current_customer.id).first
+
     invitation.declined!
-    redirect_to root_path
+
+    redirect_to customers_reservations_history_path,
+      :flash => { :success => "Invitation declined." }
   end
 
   def history
@@ -132,9 +137,11 @@ class Customers::ReservationsController < ApplicationController
       create_order(@reservation)
 
       if @reservation.save!
-        redirect_to root_path
+        redirect_to customers_reservations_history_path,
+          :flash => { :success => "Orders placed successfully." }
       else
-        render :inline => "alert('Error! Please try again.')"
+        redirect_to customers_reservations_orders_path(:reservation => params[:reservation]),
+          :flash => { :error => "Can not place order at this moment. Try again, please." }
       end
     end
   end

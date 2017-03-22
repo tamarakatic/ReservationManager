@@ -28,6 +28,7 @@
 //= require filterrific/filterrific-jquery
 //= require turbolinks
 //
+//= require alerts
 //= require persist.js
 //= require_tree ./channels
 //= require profiles/employee_calendar
