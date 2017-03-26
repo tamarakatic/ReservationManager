@@ -71,5 +71,4 @@ gem 'pickadate-rails'
 gem 'gmaps4rails'
 gem 'chart-js-rails'
 gem 'filterrific'
-
-ruby '2.3.1'
+gem 'geokit-rails'

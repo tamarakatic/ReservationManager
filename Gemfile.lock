@@ -84,6 +84,10 @@ GEM
     fullcalendar-rails (2.4.0.1)
       jquery-rails (>= 4.0.5, < 5.0.0)
       momentjs-rails (>= 2.9.0)
+    geokit (1.11.0)
+    geokit-rails (2.2.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
@@ -244,6 +248,7 @@ DEPENDENCIES
   filterrific
   font-awesome-rails
   fullcalendar-rails
+  geokit-rails
   gmaps4rails
   has_friendship
   jbuilder (~> 2.5)

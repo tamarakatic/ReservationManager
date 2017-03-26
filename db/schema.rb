@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316160004) do
+ActiveRecord::Schema.define(version: 20170326221419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,6 +216,13 @@ ActiveRecord::Schema.define(version: 20170316160004) do
     t.integer  "status"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.decimal  "longitude"
+    t.decimal  "latitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "managers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -352,6 +359,15 @@ ActiveRecord::Schema.define(version: 20170316160004) do
     t.index ["reservation_id"], name: "index_reserved_tables_on_reservation_id", using: :btree
   end
 
+  create_table "restaurant_locations", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "restaurant_id"
+    t.integer  "location_id"
+    t.index ["location_id"], name: "index_restaurant_locations_on_location_id", using: :btree
+    t.index ["restaurant_id"], name: "index_restaurant_locations_on_restaurant_id", using: :btree
+  end
+
   create_table "restaurant_providers", force: :cascade do |t|
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -379,6 +395,8 @@ ActiveRecord::Schema.define(version: 20170316160004) do
     t.datetime "updated_at",  null: false
     t.integer  "manager_id"
     t.string   "category"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
     t.index ["manager_id"], name: "index_restaurants_on_manager_id", using: :btree
   end
 
@@ -479,6 +497,8 @@ ActiveRecord::Schema.define(version: 20170316160004) do
   add_foreign_key "reservations", "restaurants"
   add_foreign_key "reserved_tables", "number_of_seats"
   add_foreign_key "reserved_tables", "reservations"
+  add_foreign_key "restaurant_locations", "locations"
+  add_foreign_key "restaurant_locations", "restaurants"
   add_foreign_key "restaurant_providers", "providers"
   add_foreign_key "restaurant_providers", "restaurants"
   add_foreign_key "restaurant_reviews", "customers"
