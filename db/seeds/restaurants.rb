@@ -6,6 +6,8 @@ pera = Manager.create!(:firstname             => "Pera",
                        :confirmed_at          => Time.now)
 
 swan = pera.create_restaurant!(:title       => "Black Swan",
+                               :longitude   => 19.85,
+                               :latitude    => 45.25,
                                :category    => "French",
                                :description => "Our impressive menu of nationally renowned dry aged " +
                                                "steaks and the freshest of seafood will ignite your " +
@@ -147,6 +149,8 @@ nick = Manager.create!(:firstname             => "Nick",
                        :confirmed_at          => Time.now)
 
 nick.create_restaurant!(:title       => "Central",
+                        :longitude   => 19.8502,
+                        :latitude    => 45.251,
                         :category    => "Peruvian",
                         :description => "A gastronomic exploration of altitude and Peru’s ecosystem")
 
@@ -159,6 +163,8 @@ jean = Manager.create!(:firstname             => "Jean",
                        :confirmed_at          => Time.now)
 
 jean.create_restaurant!(:title       => "Mirazur",
+                        :longitude   => 19.8362,
+                        :latitude    => 45.2517,
                         :category    => "Italian",
                         :description => "The cuisine of the sun interpreted anew by a passionate son of Italy and Argentina")
 
@@ -171,6 +177,8 @@ roca = Manager.create!(:firstname             => "Roco",
                        :confirmed_at          => Time.now)
 
 roca.create_restaurant!(:title       => "El Celler de Can Roca",
+                        :longitude   => 19.8512,
+                        :latitude    => 45.241,
                         :category    => "Modern freestyle",
                         :description => "It’s a haven of tranquillity boasting a wine-lover’s fantasy cellar, a triangular glass-walled " +
                                         "modernist dining room and a contemporary tasting menu that draws extensively from the Catalan terroir")
@@ -184,6 +192,8 @@ chris = Manager.create!(:firstname             => "Chris",
                         :confirmed_at          => Time.now)
 
 chris.create_restaurant!(:title       => "Eleven Madison Park",
+                         :longitude   => 19.8522,
+                         :latitude    => 45.255,
                          :category    => "Modern European",
                          :description => "Creative fine dining in the Big Apple with hospitality at its heart")
 
@@ -196,5 +206,7 @@ yoshi = Manager.create!(:firstname             => "Yoshihiro",
                         :confirmed_at          => Time.now)
 
 yoshi.create_restaurant!(:title       => "Narisawa",
+                         :longitude   => 19.8502,
+                         :latitude    => 45.2514,
                          :category    => "Japanese",
                          :description => "Japanese Satoyama and wisdom of the ancestors from chef Yoshihiro Narisawa")
