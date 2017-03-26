@@ -29,6 +29,8 @@ class Restaurant < ApplicationRecord
   validates :category, :length => { :maximum => 30 },
                        :allow_blank => false
 
+  validates :longitude, :latitude, :presence => true
+
   def self.sort_options
     [
       ["Name (A-Z)", "title_asc"],

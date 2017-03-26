@@ -14,6 +14,9 @@ RSpec.describe Restaurant, type: :model do
   describe 'Validations' do
     let!(:restaurant) { create(:restaurant, title: 'Black Swan') }
 
+    it { should validate_presence_of(:longitude) }
+    it { should validate_presence_of(:latitude) }
+
     context 'with valid attributes' do
       it 'is valid' do
         expect(restaurant).to be_valid
