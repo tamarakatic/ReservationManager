@@ -73,4 +73,19 @@ module ApplicationHelper
 
     nil
   end
+
+  def render_page_data
+    @page_data.html_safe if @page_data.present?
+  end
+
+  def page_data(options = {})
+    @page_data = ""
+
+    options.each do |key, value|
+      @page_data << "data-#{key.to_s.tr("_", "-")}=\"#{value}\" "
+    end
+
+    @page_data
+  end
+
 end
