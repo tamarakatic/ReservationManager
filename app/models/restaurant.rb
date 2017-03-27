@@ -36,7 +36,9 @@ class Restaurant < ApplicationRecord
       ["Name (A-Z)", "title_asc"],
       ["Name (Z-A)", "title_desc"],
       ["Category (A-Z)", "category_asc"],
-      ["Category (Z-A)", "category_desc"]
+      ["Category (Z-A)", "category_desc"],
+      ["Closest", "distance_asc"],
+      ["Farthest", "distance_desc"]
     ]
   end
 
@@ -60,6 +62,10 @@ class Restaurant < ApplicationRecord
       order("LOWER(restaurants.title) #{direction}")
     when /^category/
       order("LOWER(restaurants.category) #{direction}")
+    when /^distance_asc/
+      by_distance(:origin => [45.251, 19.8402])
+    when /^distance_desc/
+      by_distance(:origin => [45.251, 19.8402], :reverse => true)
     end
   }
 
