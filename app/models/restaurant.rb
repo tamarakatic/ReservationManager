@@ -11,6 +11,12 @@ class Restaurant < ApplicationRecord
   has_many :reservations
   has_many :tables, :through => :seats, :source => :number_of_seats
 
+  acts_as_mappable :default_units => :kms,
+                   :default_formula => :sphere,
+                   :distance_field_name => :distance,
+                   :lat_column_name => :latitude,
+                   :lng_column_name => :longitude
+
   validates :title, :uniqueness => true,
                     :length => { :in => 2..30 },
                     :presence => true,
@@ -23,12 +29,16 @@ class Restaurant < ApplicationRecord
   validates :category, :length => { :maximum => 30 },
                        :allow_blank => false
 
+  validates :longitude, :latitude, :presence => true
+
   def self.sort_options
     [
       ["Name (A-Z)", "title_asc"],
       ["Name (Z-A)", "title_desc"],
       ["Category (A-Z)", "category_asc"],
-      ["Category (Z-A)", "category_desc"]
+      ["Category (Z-A)", "category_desc"],
+      ["Closest", "distance_asc"],
+      ["Farthest", "distance_desc"]
     ]
   end
 
@@ -52,6 +62,10 @@ class Restaurant < ApplicationRecord
       order("LOWER(restaurants.title) #{direction}")
     when /^category/
       order("LOWER(restaurants.category) #{direction}")
+    when /^distance_asc/
+      by_distance(:origin => [45.251, 19.8402])
+    when /^distance_desc/
+      by_distance(:origin => [45.251, 19.8402], :reverse => true)
     end
   }
 

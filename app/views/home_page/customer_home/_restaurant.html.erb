@@ -8,6 +8,14 @@
   <div class="card-footer">
     <div class="input-group">
       <%= link_to "Reserve", customers_reservations_new_path(:restaurant_id => restaurant.id), :class => "btn btn-success btn-sm" %>
+
+      <div class="container-fluid">&nbsp;</div>
+
+      <span class="text-success">
+        <%= restaurant.distance_from([45.251, 19.8402], :units => :kms).round(2) %> kms away
+      </span>
     </div>
+
   </div>
 </div>
+

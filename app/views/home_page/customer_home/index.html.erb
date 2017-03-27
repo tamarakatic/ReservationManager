@@ -5,6 +5,8 @@
     <p class="lead text-center">Ooops! Looks like we don't have any registered restaurants yet. Come by later</p>
   </div>
 <% else %>
+  <%= restaurant_markers %>
+
   <%= form_for_filterrific @filterrific do |f| %>
 
     <div class="mt-5">
@@ -34,6 +36,11 @@
       <div class="card-columns mb-5" id="restaurants">
         <%= render :partial => "restaurant", :collection => @restaurants, :as => :restaurant %>
       </div>
+
+      <hr>
+
+      <div id="google-map"></div>
+
     </div>
 
     <div class="mt-5">
@@ -41,4 +48,5 @@
     </div>
 
   <% end %>
+
 <% end %>
