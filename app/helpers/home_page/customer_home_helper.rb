@@ -1,7 +1,7 @@
 module HomePage::CustomerHomeHelper
 
-  def blocked_friend?(friend_id)
-    current_customer.blocked_friends.any? { |friend| friend.id == id}
+  def restaurant_markers
+    content_tag(:div, "", :id => "restaurant-markers", :data => { :markers => @markers })
   end
 
 end

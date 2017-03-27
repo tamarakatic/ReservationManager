@@ -14,6 +14,12 @@ class HomePage::CustomerHomeController < ApplicationController
 
     @restaurants = @filterrific.find
 
+    @markers = Gmaps4rails.build_markers(@restaurants) do |restaurant, marker|
+      marker.lat restaurant.latitude
+      marker.lng restaurant.longitude
+      marker.title restaurant.title
+    end
+
     respond_to do |format|
       format.html
       format.js
