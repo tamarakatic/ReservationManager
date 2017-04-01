@@ -8,7 +8,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body <%= render_page_data %> >
     <%= render partial: "layouts/employee_profile_header", :locals => { :cont => controller_name } %>
     <div class="container">
       <%= yield %>
