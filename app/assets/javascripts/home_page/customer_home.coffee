@@ -38,4 +38,3 @@ $(document).on "ready turbolinks:load", ->
 
         handler.bounds.extendWith markers
         handler.fitMapToBounds()
-
