@@ -1,4 +1,4 @@
-$(function() {
+$(document).on("ready turbolinks:load", function() {
   if ($(document.body).data("page-name") === "manager_home") {
 
     App.offer_notifications = App.cable.subscriptions.create("OfferNotificationsChannel", {

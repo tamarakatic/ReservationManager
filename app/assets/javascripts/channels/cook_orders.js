@@ -1,4 +1,4 @@
-$(function() {
+$(document).on("ready turbolinks:load", function() {
   if ($(document.body).data("employee-type") === "cook") {
 
     App.cook_orders = App.cable.subscriptions.create("CookOrdersChannel", {

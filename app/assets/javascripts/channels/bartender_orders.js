@@ -1,4 +1,4 @@
-$(function() {
+$(document).on("ready turbolinks:load", function() {
   if ($(document.body).data("employee-type") === "bartender") {
 
     App.bartender_notify = App.cable.subscriptions.create("BartenderOrdersChannel", {
