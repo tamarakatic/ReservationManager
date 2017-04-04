@@ -42,41 +42,44 @@ ana = pera.employees.create!(:firstname             => "Ana",
                              :clothing_size         => "S",
                              :birth_date            => Date.new(1994, 5, 5),
                              :shoe_size             => 42,
-                             :type                  => 'Waiter')
+                             :type                  => "Waiter")
 
 pera.employees.create!(:firstname             => "Djole",
                        :lastname              => "Djokic",
                        :email                 => "djole@gmail.com",
                        :password              => "djoledjokic",
                        :password_confirmation => "djoledjokic",
+                       :password_changed      => true,
                        :confirmed_at          => Time.now,
                        :clothing_size         => "S",
                        :birth_date            => Date.new(1989, 3, 7),
                        :shoe_size             => 43,
                        :speciality            => "RoastMeal",
-                       :type                  => 'Cook')
+                       :type                  => "Cook")
 
 pera.employees.create!(:firstname             => "Misa",
                        :lastname              => "Macak",
                        :email                 => "somi@gmail.com",
                        :password              => "somimacak",
                        :password_confirmation => "somimacak",
+                       :password_changed      => true,
                        :confirmed_at          => Time.now,
                        :clothing_size         => "S",
                        :birth_date            => Date.new(1989, 3, 7),
                        :shoe_size             => 41,
-                       :type                  => 'Bartender')
+                       :type                  => "Bartender")
 
 milos = pera.employees.create!(:firstname             => "Milos",
                                :lastname              => "Ivic",
                                :email                 => "milos@gmail.com",
                                :password              => "milosivic",
                                :password_confirmation => "milosivic",
+                               :password_changed      => true,
                                :confirmed_at          => Time.now,
                                :clothing_size         => "M",
                                :birth_date            => Date.new(1989, 3, 7),
                                :shoe_size             => 44,
-                               :type                  => 'Waiter')
+                               :type                  => "Waiter")
 
 mica = Customer.create!(:firstname => "Mica",
                         :lastname => "Micic",

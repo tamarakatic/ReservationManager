@@ -5,6 +5,8 @@
     <p class="lead text-center">Ooops! Looks like we don't have any registered restaurants yet. Come by later</p>
   </div>
 <% else %>
+  <% page_data :prefix => "customer", :page_name => "customer_home" %>
+
   <%= restaurant_markers %>
 
   <%= form_for_filterrific @filterrific do |f| %>

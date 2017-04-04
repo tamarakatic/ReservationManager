@@ -9,7 +9,7 @@
     <%= action_cable_meta_tag %>
   </head>
 
-  <body>
+  <body <%= render_page_data %> >
     <%= render partial: "layouts/restaurant_home_header", :locals => { :cont => controller_name } %>
     <div class="container">
       <%= yield %>

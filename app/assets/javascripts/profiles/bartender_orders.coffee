@@ -2,20 +2,18 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
-  $(document).on 'ready turbolinks:load', ->
+$(document).on 'ready turbolinks:load', ->
 
-    $("#preparingDrink").unbind('click').click (e) ->
-      id = $('#orderId').val()
-      $.ajax
-        url: 'bartender_orders/prepare'
-        type: 'PUT'
-        data: id: {id}
+  $("#preparingdrink").unbind('click').click (e) ->
+    id = $('#orderid').val()
+    $.ajax
+      url: 'bartender_orders/prepare'
+      type: 'put'
+      data: id: {id}
 
-
-    $('#readyDrinks').unbind('click').click (e) ->
-      order_id = $('#orderId').val()
-      $.ajax
-        url: 'bartender_orders/finish'
-        type: 'PUT'
-        data: id: {order_id}
+  $('#readydrinks').unbind('click').click (e) ->
+    order_id = $('#orderid').val()
+    $.ajax
+      url: 'bartender_orders/finish'
+      type: 'put'
+      data: id: {order_id}

@@ -11,7 +11,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="customer-home">
+  <body class="customer-home" <%= render_page_data %> >
     <%= render "layouts/customer_header" %>
     <div>
       <%= flash_messages %>
