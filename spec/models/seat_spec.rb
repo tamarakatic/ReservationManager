@@ -1,75 +1,26 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Seat, type: :model do
-  describe 'Associations' do
+  describe "Associations" do
     it { should belong_to(:restaurant) }
-    it { should have_many(:customer_order_seats).dependent(:destroy) }
-    it { should have_many(:customer_orders).through(:customer_order_seats) }
+    it { should have_many(:number_of_seats) }
+    it { should have_many(:employee_shifts) }
   end
 
-  describe 'Validations' do
-    let!(:seat) { build(:seat, number: 2) }
+  describe "Attributes" do
+    it { should validate_presence_of(:area) }
+    it { should_not allow_value("", " ", nil).for(:area) }
+    it { should validate_length_of(:area).is_at_least(2) }
+    it { should validate_length_of(:area).is_at_most(30) }
+  end
 
-    context 'with valid attributes' do
-      it 'is valid' do
-        expect(seat).to be_valid
-      end
-    end
+  describe "#as_json" do
+    subject { FactoryGirl.create(:seat).as_json }
 
-    context 'with number already taken' do
-      it 'is invalid' do
-        expect { create(:seat, number: 2) }.to raise_error ActiveRecord::RecordInvalid
-      end
-    end
-
-    context 'with missing number' do
-      it 'is invalid' do
-        seat.number = nil
-        expect(seat).to_not be_valid
-      end
-    end
-
-    context 'with missing area' do
-      it 'is invalid' do
-        seat.area = nil
-        expect(seat).to_not be_valid
-      end
-    end
-
-    context 'with number less than 1' do
-      it 'is invalid' do
-        seat.number = -1
-        expect(seat).to_not be_valid
-      end
-    end
-
-    context 'with number bigger than 100' do
-      it 'is invalid' do
-        seat.number = 102
-        expect(seat).to_not be_valid
-      end
-    end
-
-    context 'with area length less than 2' do
-      it 'is invalid' do
-        seat.area = 'A'
-        expect(seat).to_not be_valid
-      end
-    end
-
-    context 'with area length more than 30' do
-      it 'is invalid' do
-        seat.area = 'Abcd' * 8
-        expect(seat).to_not be_valid
-      end
-    end
-
-    context 'with blank area' do
-      it 'is invalid' do
-        seat.area = '    '
-        expect(seat).to_not be_valid
-        expect(seat.errors[:area]).to include("can't be blank")
-      end
-    end
+    it { should be_instance_of(Hash) }
+    it { should include "id" }
+    it { should include "tables" }
+    it { should include "area" }
+    it { should include "created_at" }
   end
 end
