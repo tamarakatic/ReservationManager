@@ -1,15 +1,25 @@
-require 'rails_helper'
+require "rails_helper"
 
-# Specs in this file have access to a helper object that includes
-# the OffersHelper. For example:
-#
-# describe OffersHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe OffersHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe ".offer_price" do
+    let(:offer_item) { double "offer_item" }
+
+    before do
+      allow(OfferItem).to receive_message_chain(:where, :first) { offer_item }
+      allow(offer_item).to receive(:price) { 23 }
+    end
+
+    it "returns offer item price" do
+      expect(offer_price(42)).to eql 23
+    end
+  end
+
+  describe ".datepicker_time" do
+    it "returns time formated for jquery datepicker" do
+      formatted_date = DateTime.now.noon.utc.iso8601.gsub("Z", "")
+
+      expect(datepicker_time(DateTime.now.noon)).to eql formated_date
+    end
+  end
 end
