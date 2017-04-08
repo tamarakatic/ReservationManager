@@ -20,7 +20,8 @@ Rails.application.routes.draw do
     put 'system_managers' => 'devise/registrations#update', :as => 'system_manager_registration'
   end
 
-  devise_for :customers
+  devise_for :customers, :controllers => { :sessions => "customers/sessions",
+                                          :registrations => "customers/registrations" }
   as :customer do
     get    "friends"          => "customers/friends#index"
     get    "search_friends"   => "customers/friends#search"
