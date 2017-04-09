@@ -13,29 +13,28 @@
     </tr>
   </thead>
   <tbody>
-    <% @order_items.each do |item| %>
-    <tr id="<%= item.id %>">
-      <td>
-        <%= item.item %>
-      </td>
-      <td>
-        <%= item.quantity %>
-      </td>
-      <td>
-        <%= item.unit_of_measure %>
-      </td>
-      <td>
-        <%= number_field_tag :price, offer_price(item.id) %>
-      </td>
-    </tr>
+    <% @offer.offer_items.each do |offer_item| %>
+      <tr id="<%= offer_item.order_item.id %>">
+        <td>
+          <%= offer_item.order_item.item %>
+        </td>
+        <td>
+          <%= offer_item.order_item.quantity %>
+        </td>
+        <td>
+          <%= offer_item.order_item.unit_of_measure %>
+        </td>
+        <td>
+          <%= number_field_tag :price, offer_item.price %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= hidden_field_tag :active_from, @active_from %>
-<%= hidden_field_tag :active_till, @active_till %>
-
-<%= hidden_field_tag :order_id, @order_items.first.order_id %>
+<%= hidden_field_tag :active_from, @offer.offer_items.first.order_item.order.active_from %>
+<%= hidden_field_tag :active_till, @offer.offer_items.first.order_item.order.active_till %>
+<%= hidden_field_tag :order_id, @offer.offer_items.first.order_item.order.id %>
 
 <div class = "form-group row col-sm-10">
   <label for = "example-datetime-local-input" class = "col-2 col-form-label">Date and time</label>

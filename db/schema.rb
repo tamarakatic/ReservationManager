@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20170326221419) do
 
-  # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "bartenders", force: :cascade do |t|
@@ -272,6 +271,7 @@ ActiveRecord::Schema.define(version: 20170326221419) do
     t.integer  "provider_id"
     t.integer  "order_id"
     t.datetime "delivery_time"
+    t.integer  "offer_state"
     t.index ["order_id"], name: "index_offers_on_order_id", using: :btree
     t.index ["provider_id"], name: "index_offers_on_provider_id", using: :btree
   end
@@ -292,6 +292,7 @@ ActiveRecord::Schema.define(version: 20170326221419) do
     t.integer  "restaurant_id"
     t.datetime "active_from"
     t.datetime "active_till"
+    t.boolean  "order_active"
     t.index ["restaurant_id"], name: "index_orders_on_restaurant_id", using: :btree
   end
 

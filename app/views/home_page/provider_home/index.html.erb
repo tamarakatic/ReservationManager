@@ -20,13 +20,24 @@
       <ul>
         <% restaurant.orders.each do |order| %>
           <li>
-            <b>Active:</b> <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %>
+            <b>Active:</b>
+            <%= "#{order.active_from.strftime("%d-%m-%Y")} - #{order.active_till.strftime("%d-%m-%Y")}" %>
             <% if offer_exists?(order.id, current_provider.id) %>
-              <%= hidden_field_tag :active_from, order.active_from.strftime("%m/%d/%Y") %>
-              <%= hidden_field_tag :active_till, order.active_till.strftime("%m/%d/%Y") %>
-              <%= link_to 'Edit', edit_offer_path(offer_id(order.id), :order_id => order.id), :name => "edit", class: "btn btn-warning btn-sm active" %>
+              <%= content_tag :div, :id => order.id,
+                                    :data => { :offer_accept => offer_id(order.id).offer_state,
+                                               :active_till  => order.active_till.strftime("%m/%d/%Y") } do %>
+              <% end %>
+              <% unless offer_id(order.id).offer_state == "active" %>
+                <%= link_to 'Edit', edit_offer_path(offer_id(order.id), :order_id => order.id), :name => "edit", class: "btn btn-danger btn-sm disabled" %>
+              <% else %>
+                <%= link_to 'Edit', edit_offer_path(offer_id(order.id), :order_id => order.id), :name => "edit", class: "btn btn-warning btn-sm active" %>
+              <% end %>
             <% else %>
-                <%= link_to 'Add', new_offer_path(:order_id => order.id), class: "btn btn-success btn-sm" %>
+                <% if order.order_active %>
+                  <%= link_to 'Add', new_offer_path(:order_id => order.id), class: "btn btn-danger btn-sm disabled" %>
+                <% else %>
+                  <%= link_to 'Add', new_offer_path(:order_id => order.id), class: "btn btn-success btn-sm active" %>
+                <% end %>
             <% end %>
           </li>
         <% end %>

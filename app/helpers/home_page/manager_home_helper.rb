@@ -8,12 +8,14 @@ module HomePage::ManagerHomeHelper
     order_item
   end
 
-  def offer_item_price(order_item_id)
-    offer = OfferItem.where(:order_item_id => order_item_id).first
+  def offer_item_price(price)
+      return '' if price.nil?
 
-    return '' if offer.nil?
+    price
+  end
 
-    offer.price
+  def current_order(order_id)
+    order = Order.find(order_id)
   end
 
 end
