@@ -1,4 +1,4 @@
-<div class="login-form gray-panel d-flex justify-content-center">
+<div class="form gray-panel d-flex justify-content-center">
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
@@ -7,12 +7,12 @@
 
     <div class="field mb-3">
       <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true %>
+      <%= f.email_field :email, autofocus: true, :class => "form-control" %>
     </div>
 
     <div class="field mb-3">
       <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "off" %>
+      <%= f.password_field :password, autocomplete: "off", :class => "form-control" %>
     </div>
 
     <% if devise_mapping.rememberable? %>
@@ -22,7 +22,8 @@
       </div>
     <% end %>
 
-    <div class="d-flex justify-content-center">
+    <hr>
+    <div class="actions d-flex justify-content-center">
       <%= f.submit "Sign in", :class => "btn btn-success btn-sm" %>
 
       <% if resource.class.to_s == "Customer" %>
