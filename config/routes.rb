@@ -93,7 +93,7 @@ Rails.application.routes.draw do
   put 'profiles/waiter_orders'     => 'profiles/waiter_orders#finish'
 
   get 'profiles/cook_orders'       => 'profiles/cook_orders#index',       :as => 'cook_orders'
-  put 'profiles/cook_orders/prepare' => 'profiles/cook_orders#setPrepare'
+  put 'profiles/cook_orders/prepare' => 'profiles/cook_orders#set_prepare'
   put 'profiles/cook_orders/finish'  => 'profiles/cook_orders#finish'
 
   get 'profiles/bartender_orders'  => 'profiles/bartender_orders#index',  :as => 'bartender_orders'

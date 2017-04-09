@@ -6,8 +6,10 @@ class Profiles::WaiterOrdersController < ApplicationController
   def index
     customer_orders = ServingTime.where(employee_id: current_employee.id)
     @customer_order = []
+
     customer_orders.each do |c|
-      temp = CustomerOrder.where(:status => ['Active','Pending','ProgressFoods','ProgressDrinks','Ready','ReadyFoods','ReadyDrinks'], id: c.customer_order_id).first
+      temp = CustomerOrder.where(:status => ['Active','Pending','ProgressFoods','ProgressDrinks','Ready','ReadyFoods','ReadyDrinks'],
+                                 :id => c.customer_order_id).first
       unless temp.nil?
         @customer_order << temp
       end
@@ -17,6 +19,7 @@ class Profiles::WaiterOrdersController < ApplicationController
   def finish
     customer_order = CustomerOrder.find(params[:id][:order_id])
     customer_order.update(:status => 'Finished')
+
     respond_to do |format|
       format.html {redirect_to employee_profile_path }
     end

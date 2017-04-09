@@ -6,6 +6,7 @@ class Profiles::OrderHistoriesController < ApplicationController
   def index
     customer_orders = ServingTime.where(employee_id: current_employee.id)
     @customer_order = []
+
     customer_orders.each do |c|
       temp = CustomerOrder.where(status: 'Finished',
                                  id: c.id).first

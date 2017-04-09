@@ -7,13 +7,13 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
 
   # GET /reservation_reviews/1
   def index
-    @reservation = Reservation.find(params[:reservation])
-    @drinks = Set[]
-    @foods = Set[]
-    @waiters = Set[]
-    @restHelper = false
-    @foodHelper = false
-    @drinkHelper = false
+    @reservation    = Reservation.find(params[:reservation])
+    @drinks         = Set[]
+    @foods          = Set[]
+    @waiters        = Set[]
+    @restHelper     = false
+    @foodHelper     = false
+    @drinkHelper    = false
     customer_orders = @reservation.customer_orders.select{ |order| order.status == 'Finished' }
 
     customer_orders.each do |order|
@@ -29,21 +29,16 @@ class Customers::Reservations::ReservationReviewsController < ApplicationControl
     end
 
     restaurant = Restaurant.find(@reservation.restaurant_id)
-    temp = RestaurantReview.where(:customer_id => current_customer.id, :restaurant_id => restaurant.id).first
-    unless temp.nil?
-      @restHelper = true
-    end
+    temp_rest  = RestaurantReview.where(:customer_id => current_customer.id,
+                                        :restaurant_id => restaurant.id).first
+    temp_food  = FoodReview.where(:customer_id => current_customer.id,
+                                  :food_id => @foods.to_a[0]).first
+    temp_drink = DrinkReview.where(:customer_id => current_customer.id,
+                                   :drink_id => @drinks.to_a[0]).first
 
-    temp = FoodReview.where(:customer_id => current_customer.id, :food_id => @foods.to_a[0]).first
-    unless temp.nil?
-      @foodHelper = true
-    end
-
-    temp = DrinkReview.where(:customer_id => current_customer.id, :drink_id => @drinks.to_a[0]).first
-    unless temp.nil?
-      @drinkHelper = true
-    end
-
+    @restHelper  = true unless temp_rest.nil?
+    @foodHelper  = true unless temp_food.nil?
+    @drinkHelper = true unless temp_drink.nil?
   end
 
   # POST /reservation_reviews/restaurant
