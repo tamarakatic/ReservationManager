@@ -12,6 +12,7 @@
   <body <%= render_page_data %> >
     <%= render partial: "layouts/manager_profile_header", :locals => { :cont => controller_name } %>
     <div class="container">
+      <%= flash_messages %>
       <%= yield %>
     </div>
   </body>
