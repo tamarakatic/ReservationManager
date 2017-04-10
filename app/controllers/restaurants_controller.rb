@@ -49,6 +49,13 @@ class RestaurantsController < ApplicationController
   end
 
   def review_mark
+    restaurant_review = Review.find(RestaurantReview.where(:restaurant_id => current_manager.restaurant.id).map {|e| e.restaurant_id })
+    @restaurant_reviews = restaurant_review.collect(&:rating).sum.to_f/restaurant_review.length if restaurant_review.length > 0
+
+    @foods = Food.where(:restaurant_id => current_manager.restaurant.id)
+
+    @waiters = Employee.where(:manager_id => current_manager.id, :type => "Waiter")
+
     respond_to do |format|
       format.html { render :marks }
     end
@@ -59,6 +66,7 @@ class RestaurantsController < ApplicationController
       format.html { render :incomes }
     end
   end
+
   # POST /restaurants
   # POST /restaurants.json
   def create

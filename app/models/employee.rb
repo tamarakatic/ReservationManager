@@ -2,8 +2,10 @@ class Employee < ApplicationRecord
   belongs_to :manager
   has_many :employee_shifts
   has_many :serving_times
+
   has_many :employee_reviews
-  has_many :emplyees, :through => :employee_reviews
+  has_many :reviews, :through => :employee_reviews
+  
   has_many :customer_order_parts
 
   enum clothing_size: %w(XS S M L XL XXL)

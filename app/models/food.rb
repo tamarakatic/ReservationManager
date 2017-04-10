@@ -4,7 +4,7 @@ class Food < ApplicationRecord
   has_many :customer_orders, :through => :customer_order_foods
 
   has_many :food_reviews
-  has_many :foods, :through => :food_reviews
+  has_many :reviews, :through => :food_reviews
 
   has_many :customer_order_part_foods
   has_many :customer_order_parts, :through => :customer_order_part_foods

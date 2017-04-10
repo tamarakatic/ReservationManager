@@ -1,9 +1,11 @@
 <br /><br />
 <div class="container">
   <h1>Restaurants <%= current_manager.restaurant.title %> has incomes:</h1>
-  <b><p>11.01.2017. - 12.02.2017</p></b>
-  <span class="input-group-addon"><i class="fa fa-usd fa-fw"></i>
-  <input class="form-control" type="text" readonly="true" placeholder="<%= current_manager.restaurant.id * 1000 %>"></span>
+  <p><input id="pick_date_from" type="date" placeholder="Pick date..."/>  <input id="pick_date_to" type="date" placeholder="Pick date..."/> <input id="showDiv" type="button" class="btn-primary" value="Income..."></p>
+  <div id = "show_income" style="display:none;">
+    <span class="input-group-addon"><i class="fa fa-usd fa-fw"></i>
+    <input class="form-control" type="text" readonly="true" placeholder="<%= restaurant_income %>"></span>
+  </div>
   <br /><br />
 
   <h2>Waiters incomes:</h1>
@@ -13,7 +15,7 @@
           <li>
             <%= employee.firstname %>
              <span class="input-group-addon"><i class="fa fa-usd fa-fw"></i>
-             <input class="form-control" type="text" readonly="true" placeholder="<%= employee.id * 300 %>"></span>
+             <input class="form-control" type="text" readonly="true" placeholder="<%= employee_income(current_manager.restaurant) %>"></span>
           </li>
         <% end %>
       <% end %>

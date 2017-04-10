@@ -1,53 +1,27 @@
 <br /><br />
 <div class="container">
   <h1>Restaurants <%= current_manager.restaurant.title %> has review:
-<div class="acidjs-rating-stars acidjs-rating-disabled">
-    <form>
-        <input disabled="disabled" type="radio" name="group-3" id="group-3-0" value="5" /><label for="group-3-0"></label><!--
-        --><input disabled="disabled" type="radio" checked="checked" name="group-3" id="group-3-1" value="4" /><label for="group-3-1"></label><!--
-        --><input disabled="disabled" type="radio" name="group-3" id="group-3-2" value="3" /><label for="group-3-2"></label><!--
-        --><input disabled="disabled" type="radio" name="group-3" id="group-3-3" value="2" /><label for="group-3-3"></label><!--
-        --><input disabled="disabled" type="radio" name="group-3" id="group-3-4"  value="1" /><label for="group-3-4"></label>
-    </form>
-</div>
+  <div class="acidjs-rating-stars acidjs-rating-disabled">
+    <p><%= render_stars(@restaurant_reviews) %></p>
+  </div>
 </h1>
   <br /><br />
   <h2>Foods review:</h1>
     <ul>
-      <% current_manager.restaurant.foods.each do |food| %>
-        <li>
-        <%= food.name %>
-          <div class="acidjs-rating-stars acidjs-rating-disabled">
-              <form>
-                  <input disabled="disabled" type="radio" name="group-3" id="group-3-0" value="5" /><label for="group-3-0"></label><!--
-                  --><input disabled="disabled" type="radio" checked="checked" name="group-3" id="group-3-1" value="4" /><label for="group-3-1"></label><!--
-                  --><input disabled="disabled" type="radio" name="group-3" id="group-3-2" value="3" /><label for="group-3-2"></label><!--
-                  --><input disabled="disabled" type="radio" name="group-3" id="group-3-3" value="2" /><label for="group-3-3"></label><!--
-                  --><input disabled="disabled" type="radio" name="group-3" id="group-3-4"  value="1" /><label for="group-3-4"></label>
-              </form>
-          </div>
-        </li>
-      <% end %>
+      <select name="food_id">
+        <%= @foods.each do |food| %>
+          <option value="<%= food.id %>"><%= food.name %> <%= render_stars(render_food_stars(food.id)) %></option>
+        <% end %>
+      </select>
     </ul>
   <br />
   <h2>Waiters review:</h1>
     <ul>
-      <% current_manager.employees.each do |employee| %>
-        <% if employee.type == "Waiter" %>
-          <li>
-              <%= employee.firstname %>
-              <div class="acidjs-rating-stars acidjs-rating-disabled">
-                  <form>
-                      <input disabled="disabled" type="radio" name="group-3" id="group-3-0" value="5" /><label for="group-3-0"></label><!--
-                      --><input disabled="disabled" type="radio" name="group-3" id="group-3-1" value="4" /><label for="group-3-1"></label><!--
-                      --><input disabled="disabled" type="radio" checked="checked" name="group-3" id="group-3-2" value="3" /><label for="group-3-2"></label><!--
-                      --><input disabled="disabled" type="radio" name="group-3" id="group-3-3" value="2" /><label for="group-3-3"></label><!--
-                      --><input disabled="disabled" type="radio" name="group-3" id="group-3-4"  value="1" /><label for="group-3-4"></label>
-                  </form>
-              </div>
-          </li>
+      <select name="waiter_id">
+        <%= @waiters.each do |waiter| %>
+          <option value="<%= waiter.id %>"><%= waiter.firstname %> <%= waiter.lastname %> <%= render_stars(render_waiter_stars(waiter.id)) %></option>
         <% end %>
-      <% end %>
+      </select>
     </ul>
 </div>
 <br />

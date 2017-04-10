@@ -24,6 +24,10 @@ becka = pera.restaurant.foods.create!(:name        => "Becka snicla",
                                       :price       => 5.0,
                                       :food_type   => "RoastMeal")
 
+pera.restaurant.foods.each do |food|
+  food.reviews.create!(:rating => rand(1..5))
+end
+
 rakija = pera.restaurant.drinks.create!(:name        => "Rakija",
                                         :description => "Strong alcholic beverage",
                                         :price       => 10.0)
@@ -31,6 +35,10 @@ rakija = pera.restaurant.drinks.create!(:name        => "Rakija",
 viski = pera.restaurant.drinks.create!(:name        => "Jack Daniels",
                                        :description => "Top notch scotch",
                                        :price       => 50.0)
+
+pera.restaurant.drinks.each do |drink|
+ drink.reviews.create!(:rating => rand(1..5))
+end
 
 ana = pera.employees.create!(:firstname             => "Ana",
                              :lastname              => "Spasic",
@@ -81,6 +89,10 @@ milos = pera.employees.create!(:firstname             => "Milos",
                                :shoe_size             => 44,
                                :type                  => "Waiter")
 
+pera.employees.each do |employee|
+  employee.reviews.create!(:rating => rand(1..5))
+end
+
 mica = Customer.create!(:firstname => "Mica",
                         :lastname => "Micic",
                         :email => "mica@gmail.com",
@@ -97,6 +109,8 @@ pera.restaurant.seats.each.with_index(1) do |seat, iteration|
     seat.number_of_seats.create!(:number => number + iteration * 5, :seatstable => seats)
   end
 end
+
+pera.restaurant.reviews.create!(:rating => 4)
 
 pera.restaurant.providers.create!(:firstname             => "Misa",
                                   :lastname              => "Misic",
@@ -116,6 +130,7 @@ pera.restaurant.providers.create!(:firstname             => "Slade",
 
 customer_order = CustomerOrder.create!(:status           => "Active",
                                        :order_time       => DateTime.new(2017, 2, 2, 10, 10, 0, Rational(-0, 24)))
+
 customer_order.foods  << steak
 customer_order.foods  << becka
 customer_order.drinks << rakija
@@ -157,6 +172,8 @@ nick.create_restaurant!(:title       => "Central",
                         :category    => "Peruvian",
                         :description => "A gastronomic exploration of altitude and Peru’s ecosystem")
 
+nick.restaurant.reviews.create!(:rating => 5)
+
 # 'Mirazur' restaurant
 jean = Manager.create!(:firstname             => "Jean",
                        :lastname              => "Reno",
@@ -170,7 +187,7 @@ jean.create_restaurant!(:title       => "Mirazur",
                         :latitude    => 45.2517,
                         :category    => "Italian",
                         :description => "The cuisine of the sun interpreted anew by a passionate son of Italy and Argentina")
-
+jean.restaurant.reviews.create!(:rating => 1)
 # 'El Celler de Can Roca' restaurant
 roca = Manager.create!(:firstname             => "Roco",
                        :lastname              => "Celler",
@@ -185,7 +202,7 @@ roca.create_restaurant!(:title       => "El Celler de Can Roca",
                         :category    => "Modern freestyle",
                         :description => "It’s a haven of tranquillity boasting a wine-lover’s fantasy cellar, a triangular glass-walled " +
                                         "modernist dining room and a contemporary tasting menu that draws extensively from the Catalan terroir")
-
+roca.restaurant.reviews.create!(:rating => 5)
 # 'Eleven Madison Park' restaurant
 chris = Manager.create!(:firstname             => "Chris",
                         :lastname              => "Flint",
@@ -200,7 +217,8 @@ chris.create_restaurant!(:title       => "Eleven Madison Park",
                          :category    => "Modern European",
                          :description => "Creative fine dining in the Big Apple with hospitality at its heart")
 
-# 'Narisawa' restaurant
+chris.restaurant.reviews.create!(:rating => 2)
+
 yoshi = Manager.create!(:firstname             => "Yoshihiro",
                         :lastname              => "Narisawa",
                         :email                 => "yoshi@gmail.com",
@@ -213,3 +231,5 @@ yoshi.create_restaurant!(:title       => "Narisawa",
                          :latitude    => 45.2514,
                          :category    => "Japanese",
                          :description => "Japanese Satoyama and wisdom of the ancestors from chef Yoshihiro Narisawa")
+
+yoshi.restaurant.reviews.create!(:rating => 3)

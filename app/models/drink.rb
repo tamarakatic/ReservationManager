@@ -4,7 +4,7 @@ class Drink < ApplicationRecord
   has_many :customer_orders, :through => :customer_order_drinks
 
   has_many :drink_reviews
-  has_many :drinks, :through => :drink_reviews
+  has_many :reviews, :through => :drink_reviews
 
   has_many :customer_order_part_drinks
   has_many :customer_order_parts, :through => :customer_order_part_drinks

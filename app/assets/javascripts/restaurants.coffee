@@ -9,6 +9,22 @@ $ ->
   $('#week_chart').click ->
     week_visits()
 
+  $('#pick_date_from').pickadate({
+    min: new Date(2016,3,20),
+    max: new Date(Date.now)
+  })
+
+  $('#pick_date_to').pickadate({
+    min: new Date(2016,3,20),
+    max: new Date(Date.now)
+  })
+
+  $('#showDiv').click ->
+    showDiv()
+
+showDiv = ->
+  document.getElementById('show_income').style.display = 'block'
+
 days_visits = ->
   ctx = document.getElementById('canvas')
   a = 0.05
