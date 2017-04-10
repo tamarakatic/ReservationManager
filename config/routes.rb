@@ -1,27 +1,27 @@
 Rails.application.routes.draw do
 
   namespace :profiles do
-    get 'bartender_orders/index'
+    get "bartender_orders/index"
   end
 
-  get 'employee_shift/index'
+  get "employee_shift/index"
 
-  mount ActionCable.server => '/cable'
+  mount ActionCable.server => "/cable"
 
-  devise_for :employees, controllers: { sessions: 'employees/sessions',
-                                        registrations: 'employees/registrations' }
+  devise_for :employees, controllers: { sessions: "employees/sessions",
+                                        registrations: "employees/registrations" }
 
-  devise_for :managers, controllers: { sessions: 'managers/sessions',
-                                       registrations: 'managers/registrations' }
+  devise_for :managers, controllers: { sessions: "managers/sessions",
+                                       registrations: "managers/registrations" }
 
-  devise_for :system_managers, controllers: { sessions: 'managers/sessions'}
+  devise_for :system_managers, controllers: { sessions: "managers/sessions"}
   as :system_manager do
-    get 'system_managers/edit' => 'devise/registrations#edit', :as => 'edit_system_manager_registration'
-    put 'system_managers' => 'devise/registrations#update', :as => 'system_manager_registration'
+    get "system_managers/edit" => "devise/registrations#edit", :as => "edit_system_manager_registration"
+    put "system_managers" => "devise/registrations#update", :as => "system_manager_registration"
   end
 
   devise_for :customers, :controllers => { :sessions => "customers/sessions",
-                                          :registrations => "customers/registrations" }
+                                           :registrations => "customers/registrations" }
   as :customer do
     get    "friends"          => "customers/friends#index"
     get    "search_friends"   => "customers/friends#search"
@@ -49,8 +49,8 @@ Rails.application.routes.draw do
 
   delete "customer_orders/cancel_order"
 
-  devise_for :providers, controllers: { sessions: 'providers/sessions',
-                                        registrations: 'providers/registrations' }
+  devise_for :providers, controllers: { sessions: "providers/sessions",
+                                        registrations: "providers/registrations" }
 
   resources :seats
   resources :drinks
