@@ -9,11 +9,11 @@ module ApplicationHelper
   end
 
   def current_user_logout_path
-    destroy_customer_session_path ||
-    destroy_manager_session_path  ||
-    destroy_employee_session_path ||
-    destroy_provider_session_path ||
-    destroy_system_manager_session_path
+    return destroy_system_manager_session_path if current_system_manager.present?
+    return destroy_customer_session_path       if current_customer.present?
+    return destroy_manager_session_path        if current_manager.present?
+    return destroy_employee_session_path       if current_employee.present?
+    return destroy_provider_session_path       if current_provider.present?
   end
 
   def user_profile_path(controller)
