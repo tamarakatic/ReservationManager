@@ -11,9 +11,7 @@
 
       <div class="container-fluid">&nbsp;</div>
 
-      <span class="text-success">
-        <%= restaurant.distance_from([45.251, 19.8402], :units => :kms).round(2) %> kms away
-      </span>
+      <span id="<%= restaurant.id %>" class="text-success"></span>
     </div>
 
   </div>

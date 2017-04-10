@@ -69,4 +69,7 @@ class Restaurant < ApplicationRecord
     end
   }
 
+  def distance_in_kms_from(location)
+    distance_from(location, :units => :kms).round(2)
+  end
 end

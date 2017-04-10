@@ -2,99 +2,97 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
-  $(document).on 'ready turbolinks:load', ->
-    $('#calendar_employee').fullCalendar({
-      editable: false,
-      slotEventOverlap: false,
-      buttonText: {
-        today: 'Today',
-        month: 'Month',
-        week: 'Week',
-        day: 'Day'
-      },
-      events: (start, end, timezone, callback) ->
-        employee_shift_load(callback)
-      minTime: "06:00:00",
-      maxTime: "23:30:00",
-      dayClick: (date, element, view) ->
-        saveShift(date)
-        $('#eventModal').modal 'show'
-      header: {
-        left: 'prev,next, today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      },
-      eventClick: (event, element) ->
-        fillModal(event)
-        updateShift(event)
-        $('#eventModalUpdate').modal 'show'
-      timeFormat: 'h:mm a',
-      dragOpacity: "0.5"
-    });
+$(document).on 'ready turbolinks:load', ->
+  $('#calendar_employee').fullCalendar({
+    editable: false,
+    slotEventOverlap: false,
+    buttonText: {
+      today: 'Today',
+      month: 'Month',
+      week: 'Week',
+      day: 'Day'
+    },
+    events: (start, end, timezone, callback) ->
+      employee_shift_load(callback)
+    minTime: "06:00:00",
+    maxTime: "23:30:00",
+    dayClick: (date, element, view) ->
+      saveShift(date)
+      $('#eventModal').modal 'show'
+    header: {
+      left: 'prev,next, today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    eventClick: (event, element) ->
+      fillModal(event)
+      updateShift(event)
+      $('#eventModalUpdate').modal 'show'
+    timeFormat: 'h:mm a',
+    dragOpacity: "0.5"
+  })
 
-    $('#employee').change ->
-      employee = document.getElementById('employee')
-      employee_type = employee.options[employee.selectedIndex].text.split(' ')[2]
-      if employee_type == 'Waiter'
-        $('#role').show()
-        $('#area').show()
-      else
-        $('#role').hide()
-        $('#area').hide()
-        $('#role').filter(->
-          $(this).text() == ''
-        ).prop 'selected', true
+  $('#employee').change ->
+    employee = document.getElementById('employee')
+    employee_type = employee.options[employee.selectedIndex].text.split(' ')[2]
+    if employee_type == 'Waiter'
+      $('#role').show()
+      $('#area').show()
+    else
+      $('#role').hide()
+      $('#area').hide()
+      $('#role').filter(->
+        $(this).text() == ''
+      ).prop 'selected', true
 
-    $('#employeeUpdate').change ->
-      employee = document.getElementById('employeeUpdate')
-      employee_type = employee.options[employee.selectedIndex].text.split(' ')[2]
-      if employee_type == 'Waiter'
-        $('#areaUpdate').show()
-        $('#roleUpdate').show()
-      else
-        $('#areaUpdate').hide()
-        $('#roleUpdate').hide()
-        $('#roleUpdate').filter(->
-          $(this).text() == ''
-        ).prop 'selected', true
+  $('#employeeUpdate').change ->
+    employee = document.getElementById('employeeUpdate')
+    employee_type = employee.options[employee.selectedIndex].text.split(' ')[2]
+    if employee_type == 'Waiter'
+      $('#areaUpdate').show()
+      $('#roleUpdate').show()
+    else
+      $('#areaUpdate').hide()
+      $('#roleUpdate').hide()
+      $('#roleUpdate').filter(->
+        $(this).text() == ''
+      ).prop 'selected', true
 
+  $('#startTime').timepicker({
+    minTime: '06:00am',
+    maxTime: '23:30pm',
+    interval: 5,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+  })
 
-    $('#startTime').timepicker({
-      minTime: '06:00am',
-      maxTime: '23:30pm',
-      interval: 5,
-      dynamic: false,
-      dropdown: true,
-      scrollbar: true
-    })
+  $('#endTime').timepicker({
+    minTime: '06:00am',
+    maxTime: '23:30pm',
+    interval: 5,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+  })
 
-    $('#endTime').timepicker({
-      minTime: '06:00am',
-      maxTime: '23:30pm',
-      interval: 5,
-      dynamic: false,
-      dropdown: true,
-      scrollbar: true
-    })
+  $('#startTimeUpdate').timepicker({
+    minTime: '06:00am',
+    maxTime: '23:30pm',
+    interval: 5,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+  })
 
-    $('#startTimeUpdate').timepicker({
-      minTime: '06:00am',
-      maxTime: '23:30pm',
-      interval: 5,
-      dynamic: false,
-      dropdown: true,
-      scrollbar: true
-    })
-
-    $('#endTimeUpdate').timepicker({
-      minTime: '06:00am',
-      maxTime: '23:30pm',
-      interval: 5,
-      dynamic: false,
-      dropdown: true,
-      scrollbar: true
-    })
+  $('#endTimeUpdate').timepicker({
+    minTime: '06:00am',
+    maxTime: '23:30pm',
+    interval: 5,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+  })
 
 saveShift = (date) ->
   $('#SaveShift').unbind("click").click (e) ->

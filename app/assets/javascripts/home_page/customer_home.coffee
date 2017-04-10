@@ -1,6 +1,6 @@
-$(document).on "ready turbolinks:load", ->
+$(document).on "turbolinks:load", ->
   if $(document.body).data("page-name") == "customer_home"
-    handler = Gmaps.build('Google')
+    handler = Gmaps.build("Google")
 
     restaurant_markers = $("#restaurant-markers").data("markers")
 
@@ -16,8 +16,22 @@ $(document).on "ready turbolinks:load", ->
       navigator.geolocation.getCurrentPosition (position) ->
         myLocation.lat          = position.coords.latitude
         myLocation.lng          = position.coords.longitude
-        myLocation.marker_title = "Your location"
 
+        $.ajax "/restaurant_distances",
+          type: "GET",
+          data: {
+            latitude: myLocation.lat,
+            longitude: myLocation.lng,
+            restaurants: _.map(restaurant_markers, (marker) ->
+              marker.marker_title
+            )
+          },
+          success: (distances) ->
+            _.each(distances, (distance, restaurant) ->
+              $("span##{restaurant}").text("#{distance} kms away")
+            )
+
+        myLocation.marker_title = "Your location"
         restaurant_markers.push(myLocation)
     else
       console.error "Can not get current position"

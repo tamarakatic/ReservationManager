@@ -15,8 +15,8 @@ class HomePage::CustomerHomeController < ApplicationController
     @restaurants = @filterrific.find
 
     @markers = Gmaps4rails.build_markers(@restaurants) do |restaurant, marker|
-      marker.lat restaurant.latitude
-      marker.lng restaurant.longitude
+      marker.lat   restaurant.latitude
+      marker.lng   restaurant.longitude
       marker.title restaurant.title
     end
 
@@ -24,6 +24,23 @@ class HomePage::CustomerHomeController < ApplicationController
       format.html
       format.js
     end
+  end
+
+  # GET /restaurant_distances
+  def restaurant_distances
+    restaurants = Restaurant.where(:title => params[:restaurants])
+
+    distances = restaurants.each_with_object({}) do |restaurant, hash|
+      hash[restaurant.id] = restaurant.distance_in_kms_from(user_location)
+    end
+
+    render :json => distances
+  end
+
+  private
+
+  def user_location
+    [ params[:latitude], params[:longitude] ]
   end
 
 end
