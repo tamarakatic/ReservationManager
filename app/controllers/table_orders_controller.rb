@@ -25,16 +25,18 @@ class TableOrdersController < ApplicationController
 
   # DELETE /table_orders
   def delete_food
-    food           = Food.find(params[:id][:food_id])
-    customer_order = CustomerOrder.find(params[:id][:customer_id])
+    food           = Food.find(params[:food_id])
+    customer_order = CustomerOrder.find(params[:customer_order_id])
 
     respond_to do |format|
       if customer_order.delete_food_order(food)
         format.html { redirect_to table_orders_path(:customer_order => customer_order.id),
           :flash => { :success => "#{food.name} deleted." } }
       else
-        format.html { redirect_to table_orders_path(:customer_order => customer_order.id),
-          :error => "#{food.name} cannot be deleted." }
+        format.html {
+          redirect_to table_orders_path(:customer_order => customer_order.id),
+            :flash => { :error => "#{food.name} cannot be deleted." }
+        }
       end
     end
   end
@@ -110,7 +112,8 @@ class TableOrdersController < ApplicationController
                                       lastname: current_employee.lastname,
                                       employee: employee.id
         respond_to do |format|
-          format.html {redirect_to table_orders_path(:customer_order => customer.id) }
+          format.html { redirect_to table_orders_path(:customer_order => customer.id) }
+          return
         end
       end
     else
@@ -124,9 +127,11 @@ class TableOrdersController < ApplicationController
                                     lastname: current_employee.lastname,
                                     employee: employee.id
       respond_to do |format|
-        format.html {redirect_to table_orders_path(:customer_order => customer.id) }
+        format.html { redirect_to table_orders_path(:customer_order => customer.id) }
+        return
       end
     end
+
     redirect_to table_orders_path(:customer_order => customer.id)
   end
 

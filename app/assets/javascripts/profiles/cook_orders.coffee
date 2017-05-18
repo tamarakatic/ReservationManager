@@ -1,11 +1,16 @@
 $(document).on 'ready turbolinks:load', ->
 
   $('#preparing').unbind('click').click (e) ->
-    id = $('#orderId').val()
+    orderId = $('#orderId').val()
+    foodIds = $('#foods').data('food-ids')
+
     $.ajax
       url: 'cook_orders/prepare'
       type: 'PUT'
-      data: id: {id}
+      data: {
+        order_id: orderId,
+        food_ids: foodIds
+      }
 
 
   $('#readyFood').unbind('click').click (e) ->

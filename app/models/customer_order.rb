@@ -28,6 +28,7 @@ class CustomerOrder < ApplicationRecord
       delete_food(food)
     else
       order_part.with_lock("FOR SHARE") do
+        debugger
         delete_food(food) if order_part.status == "Pending"
       end
     end

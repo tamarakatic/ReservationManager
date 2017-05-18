@@ -9,28 +9,27 @@ class Profiles::CookOrdersController < ApplicationController
   end
 
   def set_prepare
-    ActiveRecord::Base.transaction do
-      order_part = CustomerOrderPart.where(:customer_order_id => params[:id][:id],
-                                           :employee_id => current_employee.id).first
+    order_part = CustomerOrderPart.where(:customer_order_id => params[:order_id],
+                                         :employee_id => current_employee.id).first
 
-      order = CustomerOrder.find(params[:id][:id])
+    order = CustomerOrder.find(params[:order_id])
 
-      respond_to do |format|
-        if order_part.nil? || order_part.locked?
-          format.html {redirect_to cook_orders_path, :flash => { :error => "Order cannot be changed!"} }
+    respond_to do |format|
+      order_part.with_lock("FOR SHARE") do
+
+        if order_part.food_deleted?(params[:food_ids])
+          redirect_to cook_orders_path, :flash => { :error => "Order cannot be changed!"}
           return
         end
 
-        order_part.lock!
         order_part.update(:status => "ProgressFoods")
         order.update(:status => "Progress")
 
         broadcast_message "Food is preparing for order #{order.id}"
 
-        format.html {redirect_to cook_orders_path, :flash => { :success => "Something is cooking."} }
-        # else
-        #   format.html {redirect_to cook_orders_path, :flash => { :error => "Order deleted!"} }
-        # end
+        format.html {
+          redirect_to cook_orders_path, :flash => { :success => "Something is cooking."}
+        }
       end
     end
   end

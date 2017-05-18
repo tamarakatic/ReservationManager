@@ -18,6 +18,10 @@
       <hr>
     <% end %>
     <% if current_employee.type == 'Waiter' or current_employee.type == 'Cook' %>
+
+      <%= content_tag :div, :id => :foods, :data => { :food_ids => order.foods.map { |f| f.id } } do %>
+      <% end %>
+
       <h6><i>Foods:</i></h6>
       <ul>
         <% order.foods.each do |food| %>

@@ -65,9 +65,9 @@
       <ul id="foodList">
         <% @customer_order.foods.each do |food| %>
           <li> <%= food.name %>
-          <input type="hidden" value=<%= food.id %> />
 
-          <button type="button" id="deleteFood" class="btn btn-danger btn-sm">Delete</button>
+          <%= link_to "Delete", "#", :id => food.id, :class => "delete-btn btn btn-danger btn-sm" %>
+
             <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange</button>
             <select class="form-control col-sm-6" id="cookSelect">
               <option disabled selected value></option>

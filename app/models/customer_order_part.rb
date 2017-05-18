@@ -17,4 +17,8 @@ class CustomerOrderPart < ApplicationRecord
     customer_order_part_foods.create!(:food => food)
     touch(:updated_at)
   end
+
+  def food_deleted?(food_ids)
+    food_ids.count > foods.where(:id => food_ids).count
+  end
 end
