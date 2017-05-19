@@ -43,9 +43,9 @@ class Restaurant < ApplicationRecord
   end
 
   filterrific :default_filter_params => { :sorted_by => "title_asc" },
-              :available_filters => %w[
-                sorted_by
-                search_query
+              :available_filters => [
+                :sorted_by,
+                :search_query
               ]
 
   scope :search_query, lambda { |query|
@@ -54,19 +54,22 @@ class Restaurant < ApplicationRecord
     where("title ILIKE ? or category ILIKE ?", "%#{query}%", "%#{query}%")
   }
 
-  scope :sorted_by, lambda { |option|
-    direction = (option =~ /desc$/) ? "desc" : "asc"
+  scope :sorted_by, lambda { |sorted|
+    direction = (sorted.option =~ /desc$/) ? "desc" : "asc"
 
-    case option.to_s
+    case sorted.option
     when /^title/
       order("LOWER(restaurants.title) #{direction}")
     when /^category/
       order("LOWER(restaurants.category) #{direction}")
     when /^distance_asc/
-      by_distance(:origin => [45.251, 19.8402])
+      by_distance(:origin => [sorted.latitude, sorted.longitude])
     when /^distance_desc/
-      by_distance(:origin => [45.251, 19.8402], :reverse => true)
+      by_distance(:origin => [sorted.latitude, sorted.longitude], :reverse => true)
     end
   }
 
+  def distance_in_kms_from(location)
+    distance_from(location, :units => :kms).round(2)
+  end
 end

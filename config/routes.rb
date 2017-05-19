@@ -61,6 +61,8 @@ Rails.application.routes.draw do
   resources :number_of_seats
   resources :employee_shifts
 
+  get "restaurant_distances" => "home_page/customer_home#restaurant_distances"
+
   get 'profiles/employee_profile'  => 'profiles/employee_profile#index',  :as => 'employee_profile'
   get 'profiles/manager_profile'   => 'profiles/manager_profile#index',   :as => 'manager_profile'
 

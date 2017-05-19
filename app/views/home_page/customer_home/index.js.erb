@@ -1,1 +1,5 @@
 $("#restaurants").html("<%= j render :partial => "restaurant", :collection => @restaurants, :as => :restaurant %>")
+
+<% @distances.each do |restaurant, distance| %>
+  $("span#<%= restaurant %>").text("<%= distance %> kms away")
+<% end %>
