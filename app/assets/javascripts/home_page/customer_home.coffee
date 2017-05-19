@@ -42,9 +42,8 @@ $(document).on "turbolinks:load", ->
         minZoom: 3
       },
       internal: { id: "google-map" }
-      },
-      () ->
-        markers = handler.addMarkers restaurant_markers
-
-        handler.bounds.extendWith markers
-        handler.fitMapToBounds()
+    },
+    () ->
+      markers = handler.addMarkers restaurant_markers
+      handler.bounds.extendWith markers
+      handler.fitMapToBounds()

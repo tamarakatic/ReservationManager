@@ -6,7 +6,7 @@ class HomePage::CustomerHomeController < ApplicationController
   def index
     @filterrific = initialize_filterrific(
       Restaurant,
-      params[:filterrific],
+      filterrific_params,
       :select_options => {
         :sorted_by => Restaurant.sort_options
       }
@@ -20,6 +20,8 @@ class HomePage::CustomerHomeController < ApplicationController
       marker.title restaurant.title
     end
 
+    @distances = distances_for(@restaurants.map(&:title)) if request.xhr?
+
     respond_to do |format|
       format.html
       format.js
@@ -28,19 +30,39 @@ class HomePage::CustomerHomeController < ApplicationController
 
   # GET /restaurant_distances
   def restaurant_distances
-    restaurants = Restaurant.where(:title => params[:restaurants])
-
-    distances = restaurants.each_with_object({}) do |restaurant, hash|
-      hash[restaurant.id] = restaurant.distance_in_kms_from(user_location)
-    end
-
-    render :json => distances
+    render :json => distances_for(params[:restaurants])
   end
 
   private
 
+  def distances_for(restaurant_titles)
+    Restaurant.where(:title => restaurant_titles).each_with_object({}) do |restaurant, hash|
+      hash[restaurant.id] = restaurant.distance_in_kms_from(user_location)
+    end
+  end
+
   def user_location
-    [ params[:latitude], params[:longitude] ]
+    return session[:location] if session[:location].present?
+
+    if params[:latitude].present? && params[:longitude].present?
+      session[:location] = [ params[:latitude], params[:longitude] ]
+    end
+
+    session[:location]
+  end
+
+  def filterrific_params
+    return nil if params[:filterrific].nil?
+
+    option = params[:filterrific][:sorted_by]
+
+    params[:filterrific][:sorted_by] = {
+      :option => option,
+      :latitude => session[:location].first,
+      :longitude => session[:location].second
+    }
+
+    params[:filterrific]
   end
 
 end
