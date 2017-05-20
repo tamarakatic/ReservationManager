@@ -5,11 +5,15 @@
 $(document).on 'ready turbolinks:load', ->
 
   $("#preparingdrink").unbind('click').click (e) ->
-    id = $('#orderid').val()
+    customerOrderId = $('#orderid').val()
+    drinkIds = $('#drinks').data('drink-ids')
     $.ajax
       url: 'bartender_orders/prepare'
       type: 'put'
-      data: id: {id}
+      data: {
+        customer_order_id: customerOrderId,
+        drink_ids: drinkIds
+      }
 
   $('#readydrinks').unbind('click').click (e) ->
     order_id = $('#orderid').val()

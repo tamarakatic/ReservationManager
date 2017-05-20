@@ -53,13 +53,16 @@ $(document).on 'ready turbolinks:load', ->
         customer_order_id: customerOrderId
       }
 
-  $('body').unbind('click').on 'click','#deleteDrink', ->
-    drink_id = $(this).prev().val()
-    customer_id = $('#orderFood').val()
+  $(document).unbind('click').on 'click','.delete-drink-btn', ->
+    drinkId = $(this).attr('id')
+    customerOrderId = $('#orderFood').val()
     $.ajax
       url: '/table_orders/remove_drinks.html'
       type: 'DELETE'
-      data: id: {drink_id, customer_id}
+      data: {
+        drink_id: drinkId,
+        customer_order_id: customerOrderId
+      }
 
   $('#foodDiv').unbind('click').on 'click','#exchangeFood', ->
     $('#food').hide()
@@ -76,28 +79,34 @@ $(document).on 'ready turbolinks:load', ->
     exchangeDrink(drink_id)
 
   $('#foodList').unbind('click').on 'click', '#sendCooks', ->
-    cook_id = $(this).prev().find('option:selected').val()
-    food_id = $(this).prev().prev().prev().attr('id')
+    cook_id     = $(this).prev().find('option:selected').val()
+    food_id     = $(this).prev().prev().prev().attr('id')
     customer_id = $('#orderFood').val()
-    if(cook_id == "" || food_id == "" || customer_id == "")
+
+    if(cook_id === "" || food_id === "" || customer_id === "")
       return
+
     $(this).attr('disabled',true)
     $(this).prev().prev().attr('disable',true)
     $(this).prev().prev().prev().attr('disable',true)
+
     $.ajax
       url: 'table_orders/notify_cook'
       type: 'POST'
       data: id:{cook_id, food_id, customer_id}
 
   $('#drinkList').unbind('click').on 'click', '#sendBartenders', ->
-    bart_id = $(this).prev().find('option:selected').val()
-    drink_id = $(this).prev().prev().prev().prev().val()
+    bart_id     = $(this).prev().find('option:selected').val()
+    drink_id    = $(this).prev().prev().prev().prev().val()
     customer_id = $('#orderFood').val()
-    if(bart_id == "" || drink_id == "" || customer_id == "")
+
+    if(bart_id === "" || drink_id === "" || customer_id === "")
       return
+
     $(this).attr('disabled',true)
     $(this).prev().prev().attr('disable',true)
     $(this).prev().prev().prev().attr('disable',true)
+
     $.ajax
       url: 'table_orders/notify_bartender'
       type: 'POST'

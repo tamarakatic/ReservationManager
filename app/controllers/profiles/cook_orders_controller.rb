@@ -18,7 +18,7 @@ class Profiles::CookOrdersController < ApplicationController
       order_part.with_lock("FOR SHARE") do
 
         if order_part.food_deleted?(params[:food_ids])
-          redirect_to cook_orders_path, :flash => { :error => "Order cannot be changed!"}
+          redirect_to cook_orders_path, :flash => { :error => "Order cannot be changed!" }
           return
         end
 
@@ -28,7 +28,7 @@ class Profiles::CookOrdersController < ApplicationController
         broadcast_message "Food is preparing for order #{order.id}"
 
         format.html {
-          redirect_to cook_orders_path, :flash => { :success => "Something is cooking."}
+          redirect_to cook_orders_path, :flash => { :success => "Something is cooking." }
         }
       end
     end

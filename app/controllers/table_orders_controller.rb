@@ -71,12 +71,17 @@ class TableOrdersController < ApplicationController
 
   # DELETE /table_orders/remove_drinks
   def delete_drink
-    drink          = Drink.find(params[:id][:drink_id])
-    customer_order = CustomerOrder.find(params[:id][:customer_id])
-    customer_order.drinks.delete(drink)
+    drink          = Drink.find(params[:drink_id])
+    customer_order = CustomerOrder.find(params[:customer_order_id])
 
     respond_to do |format|
-      format.html { redirect_to table_orders_path(:customer_order => customer_order.id)}
+      if customer_order.delete_drink(drink)
+        format.html { redirect_to table_orders_path(:customer_order => customer_order.id),
+          :flash => { :success => "#{drink.name} deleted." } }
+      else
+        format.html { redirect_to table_orders_path(:customer_order => customer_order.id),
+          :flash => { :error => "#{drink.name} cannot be deleted." } }
+      end
     end
   end
 

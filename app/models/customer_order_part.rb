@@ -21,4 +21,12 @@ class CustomerOrderPart < ApplicationRecord
   def food_deleted?(food_ids)
     food_ids.count > foods.where(:id => food_ids).count
   end
+
+  def delete_drink(drink)
+    customer_order_part_drinks.where(:drink => drink).delete_all
+  end
+
+  def drink_deleted?(drink_ids)
+    drink_ids.count > drinks.where(:id => drink_ids).count
+  end
 end
