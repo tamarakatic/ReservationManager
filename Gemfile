@@ -72,3 +72,5 @@ gem 'chart-js-rails'
 gem 'filterrific', git: 'https://github.com/ayaman/filterrific.git', branch: 'master'
 gem 'geokit-rails'
 gem 'gmaps4rails'
+
+ruby '2.3.1'
