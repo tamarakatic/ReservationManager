@@ -55,9 +55,11 @@ class Restaurant < ApplicationRecord
   }
 
   scope :sorted_by, lambda { |sorted|
-    direction = (sorted.option =~ /desc$/) ? "desc" : "asc"
+    option = sorted.try(:option) || sorted
 
-    case sorted.option
+    direction = (option =~ /desc$/) ? "desc" : "asc"
+
+    case option
     when /^title/
       order("LOWER(restaurants.title) #{direction}")
     when /^category/
