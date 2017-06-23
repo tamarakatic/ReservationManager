@@ -79,11 +79,11 @@ $(document).on 'ready turbolinks:load', ->
     exchangeDrink(drink_id)
 
   $('#foodList').unbind('click').on 'click', '#sendCooks', ->
-    cook_id     = $(this).prev().find('option:selected').val()
-    food_id     = $(this).prev().prev().prev().attr('id')
+    cook_id = $(this).prev().find('option:selected').val()
+    food_id = $(this).prev().prev().prev().attr('id')
     customer_id = $('#orderFood').val()
 
-    if(cook_id === "" || food_id === "" || customer_id === "")
+    if(cook_id == "" || food_id == "" || customer_id == "")
       return
 
     $(this).attr('disabled',true)
@@ -100,7 +100,7 @@ $(document).on 'ready turbolinks:load', ->
     drink_id    = $(this).prev().prev().prev().prev().val()
     customer_id = $('#orderFood').val()
 
-    if(bart_id === "" || drink_id === "" || customer_id === "")
+    if(bart_id == "" || drink_id == "" || customer_id == "")
       return
 
     $(this).attr('disabled',true)
