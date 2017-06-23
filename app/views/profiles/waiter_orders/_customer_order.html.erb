@@ -2,11 +2,11 @@
   <div class="card-block">
     <h4 style="text-align: left; font-family: Wildera Regular;"class="card-title">Order</h4>
     <h6><i>Status: <%= order.status %></i></h6>
-    <%if current_employee.type == 'Cook' or current_employee.type == 'Bartender' %>
-    <input type="hidden" id="orderId" value=<%= order.customer_order_id %> />
-    <%else %>
-    <input type="hidden" id="orderId" value=<%= order.id %> />
-    <%end %>
+    <% if current_employee.type == 'Cook' || current_employee.type == 'Bartender' %>
+      <input type="hidden" id="orderId" value=<%= order.customer_order_id %> />
+    <% else %>
+      <input type="hidden" id="orderId" value=<%= order.id %> />
+    <% end %>
     <hr>
     <% if current_employee.type == 'Waiter' %>
       <% order.number_of_seats.each do |table| %>
@@ -17,7 +17,11 @@
       <% end %>
       <hr>
     <% end %>
-    <% if current_employee.type == 'Waiter' or current_employee.type == 'Cook' %>
+    <% if current_employee.type == 'Waiter' || current_employee.type == 'Cook' %>
+
+      <%= content_tag :div, :id => :foods, :data => { :food_ids => order.foods.map { |f| f.id } } do %>
+      <% end %>
+
       <h6><i>Foods:</i></h6>
       <ul>
         <% order.foods.each do |food| %>
@@ -26,7 +30,11 @@
       </ul>
       <hr>
     <% end %>
-    <% if current_employee.type == 'Waiter' or current_employee.type == 'Bartender' %>
+    <% if current_employee.type == 'Waiter' || current_employee.type == 'Bartender' %>
+
+      <%= content_tag :div, :id => :drinks, :data => { :drink_ids => order.drinks.map { |el| el.id } } do %>
+      <% end %>
+
       <h6><i>Drinks:</i></h6>
       <ul>
         <% order.drinks.each do |drink| %>
@@ -36,20 +44,20 @@
     <% end %>
   </div>
   <div class="card-footer">
-   <% if order.status == 'Ready' and current_employee.type == 'Waiter' %>
+   <% if order.status == 'Ready' && current_employee.type == 'Waiter' %>
     <button type="button" id="finishButton" class="btn btn-info">Serve and create bill</button>
-   <%elsif order.status == 'Finished' %>
+   <% elsif order.status == 'Finished' %>
       <span>Total price: </span> <%= getPrice(order) %> <span>$</span>
-   <%elsif current_employee.type == 'Cook' and (order.status == 'Pending' or order.status == 'ProgressDrinks')%>
+   <% elsif current_employee.type == 'Cook' && (order.status == 'Pending' or order.status == 'ProgressDrinks')%>
     <button id ="preparing" class="btn btn-success btn-sm">Prepare</button>
-   <%elsif current_employee.type == 'Bartender' and (order.status == 'Pending' or order.status == 'ProgressFoods')%>
+   <% elsif current_employee.type == 'Bartender' && (order.status == 'Pending' or order.status == 'ProgressFoods') %>
     <button id ="preparingDrink" class="btn btn-success btn-sm">Prepare</button>
-   <%elsif current_employee.type =='Cook' and (order.status == 'ProgressFoods' or order.status == 'ProgressFoodWithReadyDrinks') %>
+   <% elsif current_employee.type =='Cook' && order.status == 'ProgressFoods' %>
     <button id ="readyFood" class="btn btn-success btn-sm">Finished</button>
-   <%elsif current_employee.type =='Bartender' and (order.status == 'ProgressDrinks' or order.status == 'ProgressDrinksWithReadyFoods') %>
+   <% elsif current_employee.type == 'Bartender' && order.status == 'ProgressDrinks' %>
     <button id ="readyDrinks" class="btn btn-success btn-sm">Finished</button>
-   <%elsif current_employee.type == 'Waiter' %>
-    <%= link_to "Details", table_orders_path(:customer_order => order.id) , :class => "btn btn-success btn-sm" %>
+   <% elsif current_employee.type == 'Waiter' %>
+    <%= link_to "Details", table_orders_path(:customer_order => order.id), :class => "btn btn-success btn-sm" %>
    <% end %>
   </div>
 </div>

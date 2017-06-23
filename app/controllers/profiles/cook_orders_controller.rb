@@ -4,100 +4,63 @@ class Profiles::CookOrdersController < ApplicationController
   layout "home_page"
 
   def index
-    customer = CustomerOrderPart.where(:status => ['Pending','ProgressFoods'],:employee_id => current_employee.id).to_a
-    @customer_order = []
-    customer.each do |c|
-        @customer_order << c
-      end
+    @customer_order = CustomerOrderPart.where(:status => ['Pending','ProgressFoods'],
+                                              :employee_id => current_employee.id)
   end
 
-  def setPrepare
-    customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:id], :employee_id => current_employee.id).first
-    waiter = ServingTime.find(customer_order.customer_order_id)
-    customer = CustomerOrder.find(params[:id][:id])
-    unless customer_order.nil? and waiter.nil?
-      customer_order.update(:status => 'ProgressFoods')
-        customer.customer_order_parts.each do |part|
-          if part.status == 'ProgressDrinks'
-            customer.update(:status => 'Progress')
-            break
-          end
+  def set_prepare
+    order_part = CustomerOrderPart.where(:customer_order_id => params[:order_id],
+                                         :employee_id => current_employee.id).first
+
+    order = CustomerOrder.find(params[:order_id])
+
+    respond_to do |format|
+      order_part.with_lock("FOR SHARE") do
+
+        if order_part.food_deleted?(params[:food_ids])
+          redirect_to cook_orders_path, :flash => { :error => "Order cannot be changed!" }
+          return
         end
 
-      ActionCable.server.broadcast 'cook_orders',
-                                    content: "Food is preparing for order #{customer_order.id}",
-                                    firstname: current_employee.firstname,
-                                    lastname: current_employee.lastname,
-                                    employee: waiter.id
+        order_part.update(:status => "ProgressFoods")
+        order.update(:status => "Progress")
 
-      respond_to do |format|
-        format.html {redirect_to cook_orders_path}
+        broadcast_message "Food is preparing for order #{order.id}"
+
+        format.html {
+          redirect_to cook_orders_path, :flash => { :success => "Something is cooking." }
+        }
       end
     end
   end
 
   def finish
-    customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:order_id],:employee_id => current_employee.id).first
-    waiter = ServingTime.find(customer_order.customer_order_id)
-    customer = CustomerOrder.find(params[:id][:order_id])
-    unless customer_order.nil? and waiter.nil?
-      customer_order.update(:status => 'ReadyFoods')
-      customer.customer_order_parts.each do |part|
-        if part.status == 'ReadyDrinks'
-          customer.update(:status => 'Ready')
-          break
-        end
-      end
+    customer_order = CustomerOrderPart.where(:customer_order_id => params[:id][:order_id],
+                                             :employee_id => current_employee.id).first
 
-      ActionCable.server.broadcast 'cook_orders',
-                                    content: "Food is finished for order #{customer_order.id}",
-                                    firstname: current_employee.firstname,
-                                    lastname: current_employee.lastname,
-                                    employee: waiter.id
+    customer       = CustomerOrder.find(params[:id][:order_id])
 
-      respond_to do |format|
-        format.html {redirect_to employee_profile_path}
+    respond_to do |format|
+      if customer_order.present?
+        customer_order.update(:status => 'ReadyFoods')
+        customer.update(:status => 'Ready')
+
+        broadcast_message "Food is finished for order #{customer_order.id}"
+
+        format.html {redirect_to cook_orders_path, :flash => { :success => "Cooking is finished."} }
+      else
+        format.html {redirect_to cook_orders_path, :flash => { :error => "Order deleted!"} }
       end
     end
   end
 
-  private
+  protected
 
-  private
-
-  def addCostumerOrder(costumer_order, c, shift)
-    date = c.order_time.strftime("%Y-%m-%d")
-    shift_date = shift.work_day.strftime("%Y-%m-%d")
-    if(date == shift_date)
-      timeHours, timeMinutes = formatEndTime(c.order_time.strftime("%I:%M:%p"))
-      start = formatTime(shift.start_at.strftime("%I:%p"))
-      endHours, endMinutes = formatEndTime(shift.end_at.strftime("%I:%M:%p"))
-      if(timeHours > start and timeHours == endHours)
-        if(timeMinutes <= endMinutes)
-          @customer_order << c
-        end
-      elsif(timeHours > start and timeHours < endHours)
-          @customer_order << c
-      end
-    end
-  end
-
-  def formatTime(time)
-    t = time.split(':')
-    finalTime = t[0].to_i
-    if(t[1] == "PM")
-      finalTime += 12
-    end
-    finalTime
-  end
-
-  def formatEndTime(time)
-    t = time.split(':')
-    hours = t[0].to_i
-    minutes = t[1].to_i
-    if(t[2] == "PM")
-      hours += 12
-    end
-    return hours, minutes
+  def broadcast_message(message)
+   ActionCable.server.broadcast 'cook_orders',
+                                 content: message,
+                                 firstname: current_employee.firstname,
+                                 lastname: current_employee.lastname,
+                                 employee: current_employee.id
   end
 end

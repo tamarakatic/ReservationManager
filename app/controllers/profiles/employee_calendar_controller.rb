@@ -5,10 +5,10 @@ class Profiles::EmployeeCalendarController < ApplicationController
 
   def index
     @employee_shifts = EmployeeShift.all
-    all_shifts = []
+    all_shifts       = []
 
     @employee_shifts.each do |iterator|
-      if(iterator.employee_id == current_employee.id)
+      if iterator.employee_id == current_employee.id
         shift = Shift.find(iterator.shift_id)
         all_shifts << shift
       end
@@ -19,7 +19,6 @@ class Profiles::EmployeeCalendarController < ApplicationController
         format.json { render :json => { :title => "#{current_employee.firstname} #{current_employee.lastname}",
                                         :shift => all_shifts} }
       end
-
       format.html
     end
   end

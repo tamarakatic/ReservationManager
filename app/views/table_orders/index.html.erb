@@ -1,5 +1,6 @@
 <div class='container'>
 
+<!-- Add food modal -->
 <div class="modal fade" id="foodModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -26,6 +27,7 @@
   </div>
 </div>
 
+<!-- Add drink modal -->
 <div class="modal fade" id="drinksModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -65,9 +67,9 @@
       <ul id="foodList">
         <% @customer_order.foods.each do |food| %>
           <li> <%= food.name %>
-          <input type="hidden" value=<%= food.id %> />
 
-          <button type="button" id="deleteFood" class="btn btn-danger btn-sm">Delete</button>
+          <%= link_to "Delete", "#", :id => food.id, :class => "delete-btn btn btn-danger btn-sm" %>
+
             <button type="button" id="exchangeFood" class="btn btn-danger btn-sm">Exchange</button>
             <select class="form-control col-sm-6" id="cookSelect">
               <option disabled selected value></option>
@@ -84,7 +86,7 @@
             </select>
                <button id="sendCooks" style="float:right;" type="button" class="btn btn-info btn-sm">Notify cooks</button>
             <ul>
-             <li><i> <%= food.description %></i></li>
+             <li><i><%= food.description %></i></li>
             </ul>
           </li>
         <% end %>
@@ -97,8 +99,8 @@
       <ul id="drinkList">
         <% @customer_order.drinks.each do |drink| %>
           <li> <%= drink.name %>
-          <input type="hidden" value=<%= drink.id %> />
-          <button type="button" id="deleteDrink" class="btn btn-danger btn-sm">Delete</button>
+
+          <%= link_to "Delete", "#", :id => drink.id, :class => "delete-drink-btn btn btn-danger btn-sm" %>
             <button type="button" id="exchangeDrink" class="btn btn-danger btn-sm">Exchange</button>
             <select class="form-control col-sm-6" id="barSelect">
               <option disabled selected value></option>
