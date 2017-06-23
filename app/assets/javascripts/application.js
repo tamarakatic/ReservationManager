@@ -22,7 +22,7 @@
 //= require fullcalendar
 //= require jquery.timepicker.js
 //= require underscore
-//= require gmaps/google 
+//= require gmaps/google
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require pickadate/picker.time
@@ -46,5 +46,5 @@
 //= require customers/reservations
 //= require home_page/manager_home
 //= require customers/reservations/reservation_reviews
-//= require Chart
+//= require Chart.min
 //= require restaurants

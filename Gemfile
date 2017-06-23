@@ -22,7 +22,6 @@ gem 'coffee-rails', '~> 4.2'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-# gem 'jquery-ui-sass-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -70,6 +69,6 @@ gem 'jquery-timepicker-rails', '~> 1.11', '>= 1.11.4'
 gem 'underscore-rails'
 gem 'pickadate-rails'
 gem 'chart-js-rails'
-gem 'filterrific', git: 'https://github.com/ayaman/filterrific.git'
+gem 'filterrific', git: 'https://github.com/ayaman/filterrific.git', branch: 'master'
 gem 'geokit-rails'
 gem 'gmaps4rails'
