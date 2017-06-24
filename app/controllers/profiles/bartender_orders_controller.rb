@@ -12,13 +12,13 @@ class Profiles::BartenderOrdersController < ApplicationController
     order_part = CustomerOrderPart.where(:customer_order_id => params[:customer_order_id],
                                          :employee_id => current_employee.id).first
 
-    order      = CustomerOrder.find(params[:customer_order_id)
-    waiter     = ServingTime.find(customer_order.customer_order_id)
+    order  = CustomerOrder.find(params[:customer_order_id])
+    waiter = ServingTime.find(customer_order.customer_order_id)
 
     respond_to do |format|
       order_part.with_lock("FOR SHARE") do
 
-        if order_part.drink_deleted?(params[:drink_ids]) do
+        if order_part.drink_deleted?(params[:drink_ids])
           redirect_to bartender_orders_path, :flash => { :error => "Order can't be changed!" }
           return
         end
@@ -65,7 +65,7 @@ class Profiles::BartenderOrdersController < ApplicationController
 
   def broadcast_message(message, waiter)
     ActionCable.server.broadcast 'bartender_orders',
-                                  content: , message,
+                                  content: message,
                                   firstname: current_employee.firstname,
                                   lastname: current_employee.lastname,
                                   employee: waiter.id
