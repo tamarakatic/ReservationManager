@@ -54,13 +54,15 @@ class HomePage::CustomerHomeController < ApplicationController
   def filterrific_params
     return nil if params[:filterrific].nil?
 
-    option = params[:filterrific][:sorted_by]
+    if session[:location]
+      option = params[:filterrific][:sorted_by]
 
-    params[:filterrific][:sorted_by] = {
-      :option => option,
-      :latitude => session[:location].first,
-      :longitude => session[:location].second
-    }
+      params[:filterrific][:sorted_by] = {
+        :option => option,
+        :latitude => session[:location].first,
+        :longitude => session[:location].second
+      }
+    end
 
     params[:filterrific]
   end
