@@ -44,7 +44,7 @@
 					<% end %>
 				</li>
 				<li class="nav-item active">
-					<%= link_to current_user_logout_path, :method => :delete, :class => "nav-link" do %>
+					<%= button_to current_user_logout_path, :method => :delete, :class => "btn btn-link nav-link" do %>
             <%= fa_icon "sign-out inverse", :text => "Sign out", :class => "fa-lg fa-fw" %>
 					<% end %>
 				</li>
