@@ -25,7 +25,6 @@ $(document).on 'ready turbolinks:load', ->
       complete: (data) ->
         $('#foodModal').modal 'hide'
 
-
   $('#drink').unbind('click').click (e) ->
     drink = document.getElementById('drinkSelect')
     drink_id = drink.options[drink.selectedIndex].value
@@ -40,8 +39,7 @@ $(document).on 'ready turbolinks:load', ->
       complete: (data) ->
         $('#drinkModal').modal 'hide'
 
-
-  $(document).unbind('click').on 'click', '.delete-btn', ->
+  $('.delete-btn').unbind('click').click (e) ->
     foodId = $(this).attr('id')
     customerOrderId = $('#orderFood').val()
 
@@ -53,7 +51,7 @@ $(document).on 'ready turbolinks:load', ->
         customer_order_id: customerOrderId
       }
 
-  $(document).unbind('click').on 'click','.delete-drink-btn', ->
+  $('.delete-drink-btn').unbind('click').click (e) ->
     drinkId = $(this).attr('id')
     customerOrderId = $('#orderFood').val()
     $.ajax
@@ -141,5 +139,3 @@ exchangeDrink = (drink_id) ->
         data: id: { drink_id, customer_order, drink_id_to_exchange }
         complete: (data) ->
           $('#foodModal').modal 'hide'
-
-
