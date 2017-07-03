@@ -59,8 +59,6 @@ class CustomerOrder < ApplicationRecord
     end
   end
 
-  private
-
   def delete_food(food)
     customer_order_foods.where(:food => food, :customer_order_id => id).delete_all
     order_part.delete_food(food)
